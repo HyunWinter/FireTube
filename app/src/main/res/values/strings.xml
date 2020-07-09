@@ -1,0 +1,16 @@
+<resources>
+    <!-- Default Language: English -->
+    <string name="app_name">Firetube</string>
+
+        <!-- Authentication Page -->
+        <string name="Auth_WelcomeText">Welcome To\nFireTube</string>
+        <string name="Auth_GoogleLoginText">Continue with Google</string>
+        <string name="Auth_LoginSuccessText">\nYou are\nLogged In!</string>
+        <string name="Auth_SignOutText">Sign Out</string>
+
+        <string name="Auth_SignedOutText">Signed Out</string>
+        <string name="Auth_GoogleLoginFailed">Google sign in failed</string>
+        <string name="Auth_FirebaseLoginFailed">Firebase sign in failed</string>
+        <string name="Auth_GoogleLogoutFailed">Google sign out failed</string>
+        <string name="Auth_FirebaseLogoutFailed">Firebase sign out failed</string>
+    </resources>

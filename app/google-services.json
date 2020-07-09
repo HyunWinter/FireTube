@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "41497590975",
+    "firebase_url": "https://firetube-65b59.firebaseio.com",
+    "project_id": "firetube-65b59",
+    "storage_bucket": "firetube-65b59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41497590975:android:40969b0e80714e07489a0a",
+        "android_client_info": {
+          "package_name": "com.hyun.firetube"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "41497590975-nu9nfqrg914t74q3mk83caek69k5pic3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hyun.firetube",
+            "certificate_hash": "e1d477001241ca1cd958f98420b21f05b30860fa"
+          }
+        },
+        {
+          "client_id": "41497590975-rnar06i0dtmres29nco1popaguusqf9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKcsqOsg8RwgM1Fj_0XGNAVvvauf77IQE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "41497590975-rnar06i0dtmres29nco1popaguusqf9e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

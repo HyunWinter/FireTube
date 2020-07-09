@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/auth_bg_anim"
+    android:id="@+id/Auth_Background"
+    tools:context=".auth.AuthActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/Auth_CenterLinear"
+        android:visibility="gone"
+        android:id="@+id/Auth_LoginLayout">
+
+        <!-- Title -->
+        <TextView
+            style="@style/Auth_HeaderTextView"
+            android:text="@string/Auth_WelcomeText"/>
+
+        <!-- Google Login -->
+        <Button
+            style="@style/Auth_Button"
+            android:drawableStart="@drawable/auth_google_icon"
+            android:text="@string/Auth_GoogleLoginText"
+            android:id="@+id/Auth_GoogleLogIn"/>
+    </LinearLayout>
+
+    <!-- Hidden Progress Bar (Hidden) -->
+    <ProgressBar
+        style="@style/ProgressBar"
+        android:id="@+id/Auth_ProgressBar"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
