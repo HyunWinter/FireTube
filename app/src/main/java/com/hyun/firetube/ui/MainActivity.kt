@@ -31,8 +31,7 @@ class MainActivity : BaseActivity() {
 
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            //.requestScopes(Scope(YouTubeScopes.YOUTUBE_READONLY))
-            //.requestIdToken(getString(R.string.server_client_id))
+            .requestIdToken(getString(R.string.server_client_id))
             .requestEmail()
             .build()
 

@@ -85,6 +85,7 @@ class AuthActivity : BaseActivity() {
 
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            //.requestScopes(Scope(YouTubeScopes.YOUTUBE_READONLY))
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
@@ -92,7 +93,7 @@ class AuthActivity : BaseActivity() {
         this.googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         Auth_GoogleLogIn.setOnClickListener{
-            val signInIntent = googleSignInClient.signInIntent
+            val signInIntent = this.googleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
     }
@@ -107,12 +108,12 @@ class AuthActivity : BaseActivity() {
 
             if (task.isSuccessful) {
                 val account = task.getResult(ApiException::class.java)!!
-                Log.w(TAG, "Google sign in success: " + account.id)
+                Log.w(TAG, "Google log in success: " + account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
             }
             else {
-                Log.w(TAG, "Google sign in failed: ", task.exception)
-                makeSnackbar(this.Auth_Background, task.exception.toString())
+                Log.w(TAG, "Google log in failed: ", task.exception)
+                makeSnackbar(this.Auth_Background, getString(R.string.Auth_GoogleLoginFailed))
             }
         }
     }

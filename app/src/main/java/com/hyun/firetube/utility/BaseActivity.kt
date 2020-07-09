@@ -10,7 +10,6 @@ import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity : AppCompatActivity() {
 
-
     fun makeSnackbar(background: CoordinatorLayout, text: String) {
 
         val snackbar = Snackbar.make(
