@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<string name="google_api_key">AIzaSyBxNEg-3l0IlIc4UHwhqsmSGEkb4zGjoo0</string>-->
-    <string name="server_client_id">41497590975-nu9nfqrg914t74q3mk83caek69k5pic3.apps.googleusercontent.com</string>
-    <!--<string name="server_client_secret">lRAx1k8eq5bJLiJ31fHnAbcv</string>-->
-
     <string name="key_username">username</string>
 </resources>
