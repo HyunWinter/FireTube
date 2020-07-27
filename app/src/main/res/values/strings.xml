@@ -13,4 +13,6 @@
     <string name="Auth_FirebaseLoginFailed">Firebase LogIn failed</string>
     <string name="Auth_GoogleLogoutFailed">Google LogIn failed</string>
     <string name="Auth_FirebaseLogoutFailed">Firebase LogIn failed</string>
-    </resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

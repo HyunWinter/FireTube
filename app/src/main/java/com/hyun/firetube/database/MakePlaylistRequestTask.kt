@@ -10,9 +10,10 @@ import com.google.api.client.json.JsonFactory
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.youtube.YouTube
 import com.hyun.firetube.R
+import com.hyun.firetube.fragment.PlaylistFragment
 import com.hyun.firetube.model.Playlist
-import com.hyun.firetube.ui.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.frag_playlist.*
+import kotlinx.android.synthetic.main.frag_playlist.view.*
 import java.util.*
 
 /************************************************************************
@@ -20,7 +21,7 @@ import java.util.*
  * Precondition:    Called from MainActivity
  * Postcondition:   Execute Youtube Service Asynchronously
  ************************************************************************/
-class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : MainActivity)
+class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : PlaylistFragment)
     : AsyncTask<Void?, Void?, ArrayList<Playlist>>() {
 
     companion object{
@@ -127,7 +128,7 @@ class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : M
      * Postcondition:   show ProgressBar
      ************************************************************************/
     override fun onPreExecute() {
-        this.mContext.showProgressBar(this.mContext.Main_ProgressBar)
+        this.mContext.showProgressBar(this.mContext.getRoot().Playlist_ProgressBar)
     }
 
     /************************************************************************
@@ -138,10 +139,10 @@ class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : M
      ************************************************************************/
     override fun onPostExecute(output : ArrayList<Playlist>) {
 
-        this.mContext.hideProgressBar(this.mContext.Main_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.getRoot().Playlist_ProgressBar)
 
         if (output.isEmpty()) {
-            this.mContext.makeSnackBar(this.mContext.Main_Background, "No results returned.")
+            this.mContext.makeSnackBar(this.mContext.getRoot().Playlist_Background, "No results returned.")
         }
         else {
             this.mContext.updatePlaylistAdapter(output)
@@ -155,7 +156,7 @@ class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : M
      ************************************************************************/
     override fun onCancelled() {
 
-        this.mContext.hideProgressBar(this.mContext.Main_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.getRoot().Playlist_ProgressBar)
 
         if (mLastError != null) {
 
@@ -168,18 +169,18 @@ class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : M
             else if (mLastError is UserRecoverableAuthIOException) {
                 this.mContext.startActivityForResult(
                     (mLastError as UserRecoverableAuthIOException).intent,
-                    MainActivity.REQUEST_AUTHORIZATION
+                    PlaylistFragment.REQUEST_AUTHORIZATION
                 )
             }
             else {
                 val errorStr = ("The following error occurred:"
                         + mLastError!!.message).trimIndent()
-                this.mContext.makeSnackBar(this.mContext.Main_Background, errorStr)
+                this.mContext.makeSnackBar(this.mContext.getRoot().Playlist_Background, errorStr)
             }
         }
         else {
 
-            this.mContext.makeSnackBar(this.mContext.Main_Background, "Request cancelled.")
+            this.mContext.makeSnackBar(this.mContext.getRoot().Playlist_Background, "Request cancelled.")
         }
     }
 }

@@ -5,9 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity"
-    android:id="@+id/Main_Background">
-    
+    tools:context=".ui.MainActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,20 +18,9 @@
             android:background="@color/colorPrimary"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            android:id="@+id/Main_Toolbar"/>
+            android:id="@+id/main_appbar_toolbar"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/playlist_item_list"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:id="@+id/Main_RecyclerView"/>
-
-    <!-- Hidden Progress Bar (Hidden) -->
-    <ProgressBar
-        style="@style/ProgressBar"
-        android:id="@+id/Main_ProgressBar"/>
+    <include layout="@layout/main_content" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

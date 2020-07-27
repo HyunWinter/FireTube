@@ -15,9 +15,9 @@ import com.hyun.firetube.model.Playlist
  * Purpose:         Recycler View Adapter For Playlist
  * Precondition:    .
  * Postcondition:   Initiate and Assign View Holders to
- *                  XML playlist_item_list
+ *                  XML frag_playlist_item
  ************************************************************************/
-class PlaylistAdapter(context : Context, playlists : ArrayList<Playlist>) :
+class PlaylistAdapter(context : Context?, playlists : ArrayList<Playlist>) :
     RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
 
     companion object {
@@ -31,7 +31,7 @@ class PlaylistAdapter(context : Context, playlists : ArrayList<Playlist>) :
 
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.playlist_item_list, parent, false)
+            .inflate(R.layout.frag_playlist_item, parent, false)
 
         return ViewHolder(view)
     }

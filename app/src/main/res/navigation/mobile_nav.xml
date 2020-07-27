@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_playlist">
+
+    <fragment
+        android:id="@+id/nav_video"
+        android:name="com.hyun.firetube.fragment.VideoFragment"
+        android:label="Videos"
+        tools:layout="@layout/frag_video"/>
+
+    <fragment
+        android:id="@+id/nav_playlist"
+        android:name="com.hyun.firetube.fragment.PlaylistFragment"
+        android:label="Playlists"
+        tools:layout="@layout/frag_playlist"/>
+</navigation>

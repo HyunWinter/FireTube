@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hyun.firetube.R
-import com.hyun.firetube.model.Playlist
 import com.hyun.firetube.model.Video
 
 class VideoAdapter(context : Context, videolist : ArrayList<Video>) :
@@ -26,7 +25,7 @@ class VideoAdapter(context : Context, videolist : ArrayList<Video>) :
 
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.playlist_item_list, parent, false)
+            .inflate(R.layout.frag_playlist_item, parent, false)
 
         return ViewHolder(view)
     }
