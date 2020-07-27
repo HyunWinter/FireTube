@@ -29,7 +29,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * Precondition:    From classes extend BaseActivity
      * Postcondition:   Show ProgressBar
      ************************************************************************/
-    open fun showProgressBar(progressBar: ProgressBar) {
+    fun showProgressBar(progressBar: ProgressBar) {
         if (progressBar.visibility == View.INVISIBLE) {
             progressBar.visibility = View.VISIBLE
         }
@@ -40,7 +40,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * Precondition:    From classes extend BaseActivity
      * Postcondition:   Hide ProgressBar
      ************************************************************************/
-    open fun hideProgressBar(progressBar: ProgressBar) {
+    fun hideProgressBar(progressBar: ProgressBar) {
         if (progressBar.visibility == View.VISIBLE) {
             progressBar.visibility = View.INVISIBLE
         }

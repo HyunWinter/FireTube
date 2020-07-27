@@ -10,24 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hyun.firetube.R
 import com.hyun.firetube.model.Playlist
+import com.hyun.firetube.model.Video
 
-/************************************************************************
- * Purpose:         Recycler View Adapter For Playlist
- * Precondition:    .
- * Postcondition:   Initiate and Assign View Holders to
- *                  XML playlist_item_list
- ************************************************************************/
-class PlaylistAdapter(context : Context, playlists : ArrayList<Playlist>) :
-    RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
+class VideoAdapter(context : Context, videolist : ArrayList<Video>) :
+    RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
 
     companion object {
-        private const val TAG = "ChannelAdapter"  // Logcat
+        private const val TAG = "VideoAdapter"  // Logcat
     }
 
-    private val mPlayLists : ArrayList<Playlist>? = playlists
+    private val mVideoLists : ArrayList<Video>? = videolist
     private val mContext : Context? = context
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoAdapter.ViewHolder {
 
         val view = LayoutInflater
             .from(parent.context)
@@ -36,17 +31,17 @@ class PlaylistAdapter(context : Context, playlists : ArrayList<Playlist>) :
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VideoAdapter.ViewHolder, position: Int) {
 
-        var playlist : Playlist = this.mPlayLists!![position]
+        var video : Video = this.mVideoLists!![position]
 
-        holder.title.text = playlist.title
-        Glide.with(mContext!!).load(playlist.thumbnail).into(holder.thumbnail)
+        holder.title.text = video.title
+        Glide.with(mContext!!).load(video.thumbnail).into(holder.thumbnail)
     }
 
     override fun getItemCount(): Int {
 
-        return this.mPlayLists!!.size
+        return this.mVideoLists!!.size
     }
 
     /************************************************************************
@@ -60,4 +55,3 @@ class PlaylistAdapter(context : Context, playlists : ArrayList<Playlist>) :
         var thumbnail = itemView.findViewById(R.id.Playlist_Thumbnail) as ImageView
     }
 }
-

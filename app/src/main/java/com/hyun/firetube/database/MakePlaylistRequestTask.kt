@@ -1,4 +1,4 @@
-package com.hyun.firetube.ui
+package com.hyun.firetube.database
 
 import android.os.AsyncTask
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
@@ -11,6 +11,7 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.youtube.YouTube
 import com.hyun.firetube.R
 import com.hyun.firetube.model.Playlist
+import com.hyun.firetube.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -19,7 +20,7 @@ import java.util.*
  * Precondition:    Called from MainActivity
  * Postcondition:   Execute Youtube Service Asynchronously
  ************************************************************************/
-class MakeRequestTask(credential : GoogleAccountCredential?, context : MainActivity)
+class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : MainActivity)
     : AsyncTask<Void?, Void?, ArrayList<Playlist>>() {
 
     companion object{

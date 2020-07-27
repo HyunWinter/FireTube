@@ -1,4 +1,4 @@
-package com.hyun.firetube.auth
+package com.hyun.firetube.ui
 
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
@@ -13,8 +13,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.GoogleAuthProvider
 import com.hyun.firetube.R
-import com.hyun.firetube.ui.MainActivity
-import com.hyun.firetube.ui.BaseActivity
 import kotlinx.android.synthetic.main.auth_main.*
 
 class AuthActivity : BaseActivity() {
@@ -96,7 +94,9 @@ class AuthActivity : BaseActivity() {
         Auth_GoogleLogIn.setOnClickListener{
             showProgressBar(Auth_ProgressBar)
             val signInIntent = this.googleSignInClient.signInIntent
-            startActivityForResult(signInIntent, RC_SIGN_IN)
+            startActivityForResult(signInIntent,
+                RC_SIGN_IN
+            )
         }
     }
 

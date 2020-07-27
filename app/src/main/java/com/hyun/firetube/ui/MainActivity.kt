@@ -15,6 +15,7 @@ import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.youtube.YouTubeScopes
 import com.hyun.firetube.R
 import com.hyun.firetube.adapter.PlaylistAdapter
+import com.hyun.firetube.database.MakePlaylistRequestTask
 import com.hyun.firetube.model.Playlist
 import kotlinx.android.synthetic.main.activity_main.*
 import pub.devrel.easypermissions.AfterPermissionGranted
@@ -89,7 +90,7 @@ class MainActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
             makeSnackBar(this.Main_Background, "No network connection available.")
         }
         else {
-            MakeRequestTask(mCredential, this).execute()
+            MakePlaylistRequestTask(mCredential, this).execute()
         }
     }
 
