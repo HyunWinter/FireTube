@@ -7,12 +7,18 @@
     <string name="Auth_GoogleLoginText">Continue with Google</string>
     <string name="Auth_LoginSuccessText">,\nYou are\nLogged In!</string>
     <string name="Auth_SignOutText">Log Out</string>
-
     <string name="Auth_SignedOutText">Logged Out</string>
     <string name="Auth_GoogleLoginFailed">Google LogIn failed</string>
     <string name="Auth_FirebaseLoginFailed">Firebase LogIn failed</string>
     <string name="Auth_GoogleLogoutFailed">Google LogIn failed</string>
     <string name="Auth_FirebaseLogoutFailed">Firebase LogIn failed</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Navigation Page -->
+    <string name="Nav_Username">UserName</string>
+    <string name="Nav_Playlist">Playlist</string>
+    <string name="Nav_Video">Video</string>
+
+    <!-- Playlist Page -->
+    <string name="Playlist_Thumbnail">Video Thumbnail</string>
+    <string name="Playlist_Default_Size">1</string>
 </resources>

@@ -8,12 +8,12 @@
     <fragment
         android:id="@+id/nav_video"
         android:name="com.hyun.firetube.fragment.VideoFragment"
-        android:label="Videos"
+        android:label="@string/Nav_Video"
         tools:layout="@layout/frag_video"/>
 
     <fragment
         android:id="@+id/nav_playlist"
         android:name="com.hyun.firetube.fragment.PlaylistFragment"
-        android:label="Playlists"
+        android:label="@string/Nav_Playlist"
         tools:layout="@layout/frag_playlist"/>
 </navigation>
