@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.GoogleAuthProvider
 import com.hyun.firetube.R
 import com.hyun.firetube.ui.MainActivity
-import com.hyun.firetube.utility.BaseActivity
+import com.hyun.firetube.ui.BaseActivity
 import kotlinx.android.synthetic.main.auth_main.*
 
 class AuthActivity : BaseActivity() {
@@ -52,13 +52,14 @@ class AuthActivity : BaseActivity() {
             val user = firebaseAuth.currentUser
 
             if (user != null) {
+                hideProgressBar(Auth_ProgressBar)
+
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
             else {
                 Log.d(TAG, "onAuthStateChanged: signed_out")
-                //makeSnackbar(this.Auth_Background, getString(R.string.Auth_SignedOutText))
                 this.showLoginLayout()
             }
         }
@@ -93,6 +94,7 @@ class AuthActivity : BaseActivity() {
         this.googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         Auth_GoogleLogIn.setOnClickListener{
+            showProgressBar(Auth_ProgressBar)
             val signInIntent = this.googleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
@@ -113,7 +115,8 @@ class AuthActivity : BaseActivity() {
             }
             else {
                 Log.w(TAG, "Google log in failed: ", task.exception)
-                makeSnackbar(this.Auth_Background, getString(R.string.Auth_GoogleLoginFailed))
+                makeSnackBar(this.Auth_Background, getString(R.string.Auth_GoogleLoginFailed))
+                hideProgressBar(Auth_ProgressBar)
             }
         }
     }
@@ -126,11 +129,12 @@ class AuthActivity : BaseActivity() {
 
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
-                    val user = authInstance.currentUser
+                    //val user = authInstance.currentUser
                 }
                 else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    makeSnackbar(this.Auth_Background, getString(R.string.Auth_FirebaseLoginFailed))
+                    makeSnackBar(this.Auth_Background, getString(R.string.Auth_FirebaseLoginFailed))
+                    hideProgressBar(Auth_ProgressBar)
                 }
             }
     }
@@ -144,12 +148,14 @@ class AuthActivity : BaseActivity() {
     private fun hideLoginLayout()
     {
         this.Auth_LoginLayout.visibility = View.GONE
+        this.Auth_LoginLayout.isEnabled = false
         this.showProgressBar(this.Auth_ProgressBar)
     }
 
     private fun showLoginLayout()
     {
         this.Auth_LoginLayout.visibility = View.VISIBLE
+        this.Auth_LoginLayout.isEnabled = true
         this.hideProgressBar(this.Auth_ProgressBar)
         this.startBGAnim()
     }

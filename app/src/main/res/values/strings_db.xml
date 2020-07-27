@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="key_username">username</string>
+
+    // URLs
+    <string name="Channel_URL_FrontKey">https://www.googleapis.com/youtube/v3/search?part=snippet&amp;order=date&amp;channelId=</string>
+    <string name="Channel_URL_RearKey">&amp;maxResults=20&amp;key=</string>
 </resources>
