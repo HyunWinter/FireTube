@@ -27,19 +27,35 @@
                 android:contentDescription="@string/Playlist_Thumbnail"
                 android:id="@+id/Playlist_Thumbnail" />
 
-            <!-- Item Count -->
-            <TextView
+            <!-- Item Count & Icon -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
                 android:layout_alignEnd="@+id/Playlist_Thumbnail"
-                android:paddingStart="50dp"
-                android:paddingEnd="50dp"
-                android:gravity="center"
-                android:background="@color/transparent3"
-                android:text="@string/Playlist_Default_Size"
-                android:textSize="30sp"
-                android:id="@+id/Playlist_ItemCount"/>
+                android:paddingStart="60dp"
+                android:paddingEnd="60dp"
+                android:background="@color/transparent4">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:id="@+id/Playlist_ItemCount"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:src="@drawable/playlist_icon"/>
+            </LinearLayout>
         </RelativeLayout>
 
         <!-- Title -->
@@ -49,6 +65,7 @@
             android:layout_margin="5dp"
             android:singleLine="true"
             android:textSize="22sp"
+            android:textColor="@color/black"
             android:id="@+id/Playlist_Title"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
