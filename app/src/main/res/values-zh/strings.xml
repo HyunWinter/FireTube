@@ -25,20 +25,13 @@
     <string name="Playlist_Default_Size">1</string>
 
     <!-- Settings -->
-    <string name="Settings_General">General</string>
-    <string name="Settings_Language">Language</string>
-    <string name="Settings_Theme">App Theme</string>
-    <string-array name="Settings_Theme_List">
-        <item>Light Theme</item>
-        <item>Dark Theme</item>
-        <item>System Theme</item>
-    </string-array>
-    <string name="Settings_Playlist">Playlist</string>
-    <string name="Settings_Tag">Search Tag</string>
-    <string name="Settings_About">About</string>
-    <string name="Settings_Version">Build Version</string>
-    <string name="Settings_Version_Default">Unknown</string>
-    <string name="Settings_Policy">Privacy Policy</string>
-    <string name="Settings_Terms">Terms &amp; Conditions</string>
-    <string name="Settings_Rights">© 2020 DNASC. All Rights Reserved</string>
+    <array name="Settings_Languages">
+        English
+        Deutsch
+        Français
+        日本語
+        汉语
+        한국어
+    </array>
+
 </resources>

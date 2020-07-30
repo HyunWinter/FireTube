@@ -1,4 +1,4 @@
-package com.hyun.firetube.ui
+package com.hyun.firetube.`interface`
 
 import android.view.View
 import android.widget.ProgressBar

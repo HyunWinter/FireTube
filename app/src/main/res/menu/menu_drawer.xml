@@ -4,14 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/main_navheader">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_video"
-            android:icon="@drawable/drawer_video"
-            android:title="@string/Nav_Video"/>
+            android:id="@+id/nav_videos"
+            android:icon="@drawable/drawer_videos"
+            android:title="@string/Nav_Videos"/>
         <item
-            android:id="@+id/nav_playlist"
-            android:icon="@drawable/drawer_playlist"
-            android:title="@string/Nav_Playlist"/>
+            android:id="@+id/nav_playlists"
+            android:icon="@drawable/drawer_playlists"
+            android:title="@string/Nav_Playlists"/>
+    </group>
+
+    <group
+        android:id="@+id/nav_bottomMenu"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/drawer_settings"
+            android:title="@string/Nav_Settings"/>
     </group>
 </menu>

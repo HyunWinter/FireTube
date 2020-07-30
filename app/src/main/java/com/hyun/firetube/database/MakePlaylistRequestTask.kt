@@ -10,10 +10,9 @@ import com.google.api.client.json.JsonFactory
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.youtube.YouTube
 import com.hyun.firetube.R
-import com.hyun.firetube.fragment.PlaylistFragment
+import com.hyun.firetube.fragment.PlaylistsFragment
 import com.hyun.firetube.model.Playlist
-import kotlinx.android.synthetic.main.frag_playlist.*
-import kotlinx.android.synthetic.main.frag_playlist.view.*
+import kotlinx.android.synthetic.main.frag_playlists.view.*
 import java.util.*
 
 /************************************************************************
@@ -21,12 +20,12 @@ import java.util.*
  * Precondition:    Called from MainActivity
  * Postcondition:   Execute Youtube Service Asynchronously
  ************************************************************************/
-class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : PlaylistFragment)
+class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : PlaylistsFragment)
     : AsyncTask<Void?, Void?, ArrayList<Playlist>>() {
 
     companion object{
         private const val DEFAULT_REQUEST_SIZE = 20L
-        private const val DEFAULT_REQUEST_TYPE = "snippet"
+        private const val DEFAULT_REQUEST_TYPE = "snippet,contentDetails"
     }
 
     private var mService : YouTube? = null
@@ -95,31 +94,14 @@ class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : P
                     Playlist(
                         playlists[i].id,
                         playlists[i].snippet.title,
-                        playlists[i].snippet.thumbnails.high.url
+                        playlists[i].snippet.thumbnails.high.url,
+                        playlists[i].contentDetails.itemCount.toInt()
                     )
                 )
             }
         }
 
-        // Pre-ordered query is not working in the playlists() type.
-        // The search() type allow pre-ordered query, but it only works
-        // for videos and not playlists.
-        if (playlist.isNotEmpty()) {
-            Collections.sort(playlist, PlaylistComparator())
-        }
-
         return playlist
-    }
-
-    /************************************************************************
-     * Purpose:         Sorting Algorithm
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    inner class PlaylistComparator : Comparator<Playlist> {
-        override fun compare(o1: Playlist, o2: Playlist): Int {
-            return o1.title.compareTo(o2.title)
-        }
     }
 
     /************************************************************************
@@ -128,7 +110,7 @@ class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : P
      * Postcondition:   show ProgressBar
      ************************************************************************/
     override fun onPreExecute() {
-        this.mContext.showProgressBar(this.mContext.getRoot().Playlist_ProgressBar)
+        this.mContext.showProgressBar(this.mContext.getRoot().Playlists_ProgressBar)
     }
 
     /************************************************************************
@@ -139,12 +121,16 @@ class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : P
      ************************************************************************/
     override fun onPostExecute(output : ArrayList<Playlist>) {
 
-        this.mContext.hideProgressBar(this.mContext.getRoot().Playlist_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.getRoot().Playlists_ProgressBar)
 
         if (output.isEmpty()) {
-            this.mContext.makeSnackBar(this.mContext.getRoot().Playlist_Background, "No results returned.")
+            this.mContext.makeSnackBar(
+                this.mContext.getRoot().Playlists_Background,
+                "No results returned."
+            )
         }
         else {
+            this.mContext.sortPlayList(output)
             this.mContext.updatePlaylistAdapter(output)
         }
     }
@@ -156,7 +142,7 @@ class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : P
      ************************************************************************/
     override fun onCancelled() {
 
-        this.mContext.hideProgressBar(this.mContext.getRoot().Playlist_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.getRoot().Playlists_ProgressBar)
 
         if (mLastError != null) {
 
@@ -169,18 +155,18 @@ class MakePlaylistRequestTask(credential : GoogleAccountCredential?, context : P
             else if (mLastError is UserRecoverableAuthIOException) {
                 this.mContext.startActivityForResult(
                     (mLastError as UserRecoverableAuthIOException).intent,
-                    PlaylistFragment.REQUEST_AUTHORIZATION
+                    PlaylistsFragment.REQUEST_AUTHORIZATION
                 )
             }
             else {
                 val errorStr = ("The following error occurred:"
                         + mLastError!!.message).trimIndent()
-                this.mContext.makeSnackBar(this.mContext.getRoot().Playlist_Background, errorStr)
+                this.mContext.makeSnackBar(this.mContext.getRoot().Playlists_Background, errorStr)
             }
         }
         else {
 
-            this.mContext.makeSnackBar(this.mContext.getRoot().Playlist_Background, "Request cancelled.")
+            this.mContext.makeSnackBar(this.mContext.getRoot().Playlists_Background, "Request cancelled.")
         }
     }
 }

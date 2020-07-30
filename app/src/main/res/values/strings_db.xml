@@ -1,8 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="key_username">username</string>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
 
-    // URLs
-    <string name="Channel_URL_FrontKey">https://www.googleapis.com/youtube/v3/search?part=snippet&amp;order=date&amp;channelId=</string>
-    <string name="Channel_URL_RearKey">&amp;maxResults=20&amp;key=</string>
+    <!-- Settings -->
+    <string name="Settings_Theme_Key">settings_theme</string>
+    <string name="Settings_Language_Key">settings_language</string>
+    <string name="Settings_Tag_Key">settings_tag</string>
+    <string name="Settings_Version_Key">settings_version</string>
+    <string-array name="Settings_Language_List">
+        <item>English</item>
+        <item>Deutsch</item>
+        <item>Español</item>
+        <item>Français</item>
+        <item>中文</item>
+        <item>日本語</item>
+        <item>한국어</item>
+    </string-array>
+    <string-array name="Settings_Language_Alias">
+        <item>en</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>zh</item>
+        <item>ja</item>
+        <item>ko</item>
+    </string-array>
+    <string-array name="Settings_Theme_Alias">
+        <item>light_theme</item>
+        <item>dark_theme</item>
+        <item>system_theme</item>
+    </string-array>
+    <string name="Settings_Policy_Key">settings_policy</string>
+    <string name="Settings_Terms_Key">settings_terms</string>
+    <string name="Settings_Rights_Key">settings_rights</string>
 </resources>

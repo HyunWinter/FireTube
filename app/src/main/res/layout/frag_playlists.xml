@@ -5,19 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/Playlist_Background">
+    android:id="@+id/Playlists_Background">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        tools:listitem="@layout/frag_playlist_item"
+        tools:listitem="@layout/frag_playlists_item"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:id="@+id/Playlist_RecyclerView"/>
+        android:id="@+id/Playlists_RecyclerView"/>
 
     <!-- Hidden Progress Bar (Hidden) -->
     <ProgressBar
         style="@style/ProgressBar"
-        android:id="@+id/Playlist_ProgressBar"/>
+        android:id="@+id/Playlists_ProgressBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

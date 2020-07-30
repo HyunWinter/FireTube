@@ -14,14 +14,9 @@ abstract class BaseFragment : Fragment() {
      * Postcondition:   Make SnackBar Message On A Background
      ************************************************************************/
     fun makeSnackBar(background: CoordinatorLayout, text: String) {
-
-        val snackbar = Snackbar.make(
-            background,
-            text,
-            Snackbar.LENGTH_SHORT
-        )
-
-        snackbar.show()
+        Snackbar
+            .make(background, text, Snackbar.LENGTH_SHORT)
+            .show()
     }
 
     /************************************************************************

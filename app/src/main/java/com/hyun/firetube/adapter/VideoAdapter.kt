@@ -25,7 +25,7 @@ class VideoAdapter(context : Context, videolist : ArrayList<Video>) :
 
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.frag_playlist_item, parent, false)
+            .inflate(R.layout.frag_playlists_item, parent, false)
 
         return ViewHolder(view)
     }

@@ -4,19 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/Videos_Background">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        tools:listitem="@layout/frag_video_item"
+        tools:listitem="@layout/frag_videos_item"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         android:id="@+id/Video_RecyclerView"/>
 
     <!-- Hidden Progress Bar (Hidden) -->
     <ProgressBar
         style="@style/ProgressBar"
-        android:id="@+id/Video_ProgressBar"/>
+        android:id="@+id/Videos_ProgressBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

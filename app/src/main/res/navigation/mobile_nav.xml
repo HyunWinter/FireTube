@@ -2,18 +2,24 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_playlist">
+    app:startDestination="@+id/nav_playlists"
+    android:id="@+id/mobile_navigation">
 
     <fragment
-        android:id="@+id/nav_video"
-        android:name="com.hyun.firetube.fragment.VideoFragment"
-        android:label="@string/Nav_Video"
-        tools:layout="@layout/frag_video"/>
+        android:id="@+id/nav_videos"
+        android:name="com.hyun.firetube.fragment.VideosFragment"
+        android:label="@string/Nav_Videos"
+        tools:layout="@layout/frag_videos"/>
 
     <fragment
-        android:id="@+id/nav_playlist"
-        android:name="com.hyun.firetube.fragment.PlaylistFragment"
-        android:label="@string/Nav_Playlist"
-        tools:layout="@layout/frag_playlist"/>
+        android:id="@+id/nav_playlists"
+        android:name="com.hyun.firetube.fragment.PlaylistsFragment"
+        android:label="@string/Nav_Playlists"
+        tools:layout="@layout/frag_playlists"/>
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.hyun.firetube.fragment.SettingsFragment"
+        android:label="@string/Nav_Settings"
+        tools:layout="@layout/frag_settings"/>
 </navigation>

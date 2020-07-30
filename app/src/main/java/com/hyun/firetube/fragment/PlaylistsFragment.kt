@@ -7,12 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -23,12 +20,14 @@ import com.hyun.firetube.R
 import com.hyun.firetube.adapter.PlaylistAdapter
 import com.hyun.firetube.database.MakePlaylistRequestTask
 import com.hyun.firetube.model.Playlist
-import kotlinx.android.synthetic.main.frag_playlist.*
-import kotlinx.android.synthetic.main.frag_playlist.view.*
+import kotlinx.android.synthetic.main.frag_playlists.*
+import kotlinx.android.synthetic.main.frag_playlists.view.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.*
+import kotlin.collections.ArrayList
 
-class PlaylistFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
+class PlaylistsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     // Companion
     companion object {
@@ -57,7 +56,7 @@ class PlaylistFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                               savedInstanceState: Bundle?
     ): View? {
 
-        this.mRoot = inflater.inflate(R.layout.frag_playlist, container, false)
+        this.mRoot = inflater.inflate(R.layout.frag_playlists, container, false)
         this.setContents()
         this.getResultsFromApi()
 
@@ -77,13 +76,32 @@ class PlaylistFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
         this.mPlaylist = arrayListOf()
         this.mPlaylistAdapter = PlaylistAdapter(activity?.applicationContext, this.mPlaylist)
-        this.mRoot.Playlist_RecyclerView.setHasFixedSize(true)
-        this.mRoot.Playlist_RecyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
-        this.mRoot.Playlist_RecyclerView.adapter = this.mPlaylistAdapter
+        this.mRoot.Playlists_RecyclerView.setHasFixedSize(true)
+        this.mRoot.Playlists_RecyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
+        this.mRoot.Playlists_RecyclerView.adapter = this.mPlaylistAdapter
     }
 
     fun getRoot() : View {
         return this.mRoot
+    }
+
+    /************************************************************************
+     * Purpose:         Sorting Algorithm
+     * Precondition:    Pre-ordered query is not working in the playlists()
+     *                  type. The search() type allow pre-ordered query, but
+     *                  it only works for videos and not playlists.
+     * Postcondition:   .
+     ************************************************************************/
+    fun sortPlayList(playlist : ArrayList<Playlist>) {
+        if (playlist.size >= 2) {
+            Collections.sort(playlist, PlaylistComparator())
+        }
+    }
+
+    inner class PlaylistComparator : Comparator<Playlist> {
+        override fun compare(o1: Playlist, o2: Playlist): Int {
+            return o1.title.compareTo(o2.title)
+        }
     }
 
     /************************************************************************
@@ -96,9 +114,6 @@ class PlaylistFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         this.mPlaylist.clear()
         this.mPlaylist.addAll(playlist)
         this.mPlaylistAdapter.notifyDataSetChanged()
-
-        Log.d(TAG, "List Count: " + this.mPlaylist.size)
-        Log.d(TAG, "Adapter Count: " + this.mPlaylistAdapter.itemCount)
     }
 
     /************************************************************************
@@ -118,7 +133,7 @@ class PlaylistFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
             chooseAccount()
         }
         else if (!isDeviceOnline()) {
-            makeSnackBar(this.Playlist_Background, "No network connection available.")
+            makeSnackBar(this.Playlists_Background, "No network connection available.")
         }
         else {
             MakePlaylistRequestTask(this.mCredential, this).execute()
@@ -194,7 +209,7 @@ class PlaylistFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                     val errorStr = "This app requires Google Play Services. " +
                             "Please install Google Play Services on your device " +
                             "and relaunch this app."
-                    makeSnackBar(this.Playlist_Background, errorStr)
+                    makeSnackBar(this.Playlists_Background, errorStr)
                 }
                 else {
                     getResultsFromApi()

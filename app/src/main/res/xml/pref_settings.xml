@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- General -->
+    <PreferenceCategory
+        app:title="@string/Settings_General"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            app:key="@string/Settings_Theme_Key"
+            app:title="@string/Settings_Theme"
+            app:summary="%s"
+            app:defaultValue="1"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/settings_theme"
+            app:entries="@array/Settings_Theme_List"
+            app:entryValues="@array/Settings_Theme_Alias"/>
+
+        <ListPreference
+            app:key="@string/Settings_Language_Key"
+            app:title="@string/Settings_Language"
+            app:summary="%s"
+            app:useSimpleSummaryProvider="true"
+            app:icon="@drawable/settings_language"
+            app:entries="@array/Settings_Language_List"
+            app:entryValues="@array/Settings_Language_Alias"/>
+    </PreferenceCategory>
+
+    <!-- Playlist -->
+    <PreferenceCategory
+        app:title="@string/Settings_Playlist"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            app:key="@string/Settings_Tag_Key"
+            app:title="@string/Settings_Tag"
+            app:icon="@drawable/settings_tag"
+            app:useSimpleSummaryProvider="true"/>
+    </PreferenceCategory>
+
+    <!-- About -->
+    <PreferenceCategory
+        app:title="@string/Settings_About"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            app:key="@string/Settings_Version_Key"
+            app:title="@string/Settings_Version"
+            app:summary="@string/Settings_Version_Default"
+            app:iconSpaceReserved="false"/>
+        <Preference
+            app:key="@string/Settings_Policy_Key"
+            app:title="@string/Settings_Policy"
+            app:iconSpaceReserved="false"/>
+        <Preference
+            app:key="@string/Settings_Terms_Key"
+            app:title="@string/Settings_Terms"
+            app:iconSpaceReserved="false"/>
+        <Preference
+            app:key="@string/Settings_Rights_Key"
+            app:title="@string/Settings_Rights"
+            app:iconSpaceReserved="false"
+            android:enabled="false"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

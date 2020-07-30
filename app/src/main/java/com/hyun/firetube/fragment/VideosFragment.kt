@@ -10,7 +10,7 @@ import com.hyun.firetube.R
 import com.hyun.firetube.adapter.PlaylistAdapter
 import com.hyun.firetube.model.Playlist
 
-class VideoFragment : BaseFragment() {
+class VideosFragment : BaseFragment() {
 
     // Companion
     companion object {
@@ -39,7 +39,7 @@ class VideoFragment : BaseFragment() {
                               savedInstanceState: Bundle?
     ): View? {
 
-        this.mRoot = inflater.inflate(R.layout.frag_video, container, false)
+        this.mRoot = inflater.inflate(R.layout.frag_videos, container, false)
         return this.mRoot
     }
 }

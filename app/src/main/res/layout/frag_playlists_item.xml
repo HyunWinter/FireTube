@@ -27,6 +27,7 @@
                 android:contentDescription="@string/Playlist_Thumbnail"
                 android:id="@+id/Playlist_Thumbnail" />
 
+            <!-- Item Count -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -36,7 +37,8 @@
                 android:gravity="center"
                 android:background="@color/transparent3"
                 android:text="@string/Playlist_Default_Size"
-                android:textSize="30sp"/>
+                android:textSize="30sp"
+                android:id="@+id/Playlist_ItemCount"/>
 
         </RelativeLayout>
 

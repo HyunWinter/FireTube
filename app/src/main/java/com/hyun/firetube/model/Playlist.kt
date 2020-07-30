@@ -4,19 +4,22 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Playlist(val id : String,
-              val title : String,
-              var thumbnail : String) : Parcelable {
+               val title : String,
+               var thumbnail : String,
+               var itemCount : Int) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(title)
         parcel.writeString(thumbnail)
+        parcel.writeInt(itemCount)
     }
 
     override fun describeContents(): Int {

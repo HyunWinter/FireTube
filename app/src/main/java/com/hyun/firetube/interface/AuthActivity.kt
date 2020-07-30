@@ -1,4 +1,4 @@
-package com.hyun.firetube.ui
+package com.hyun.firetube.`interface`
 
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable

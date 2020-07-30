@@ -15,7 +15,7 @@ import com.hyun.firetube.model.Playlist
  * Purpose:         Recycler View Adapter For Playlist
  * Precondition:    .
  * Postcondition:   Initiate and Assign View Holders to
- *                  XML frag_playlist_item
+ *                  XML frag_playlists_item
  ************************************************************************/
 class PlaylistAdapter(context : Context?, playlists : ArrayList<Playlist>) :
     RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
@@ -31,7 +31,7 @@ class PlaylistAdapter(context : Context?, playlists : ArrayList<Playlist>) :
 
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.frag_playlist_item, parent, false)
+            .inflate(R.layout.frag_playlists_item, parent, false)
 
         return ViewHolder(view)
     }
@@ -41,6 +41,7 @@ class PlaylistAdapter(context : Context?, playlists : ArrayList<Playlist>) :
         var playlist : Playlist = this.mPlayLists!![position]
 
         holder.title.text = playlist.title
+        holder.itemCount.text = playlist.itemCount.toString()
         Glide.with(mContext!!).load(playlist.thumbnail).into(holder.thumbnail)
     }
 
@@ -56,7 +57,8 @@ class PlaylistAdapter(context : Context?, playlists : ArrayList<Playlist>) :
      ************************************************************************/
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var title = itemView.findViewById<View>(R.id.Playlist_Title) as TextView
+        var title = itemView.findViewById(R.id.Playlist_Title) as TextView
+        var itemCount = itemView.findViewById(R.id.Playlist_ItemCount) as TextView
         var thumbnail = itemView.findViewById(R.id.Playlist_Thumbnail) as ImageView
     }
 }
