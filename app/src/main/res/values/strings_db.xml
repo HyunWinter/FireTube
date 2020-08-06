@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
+    <!-- Playlist -->
+    <string name="Playlist_ID_Key">playlist_id_key</string>
+    <string name="Playlist_Title_Key">playlist_title_key</string>
+
     <!-- Settings -->
     <string name="Settings_Logout_Key">settings_logout</string>
     <string name="Settings_Theme_Key">settings_theme</string>

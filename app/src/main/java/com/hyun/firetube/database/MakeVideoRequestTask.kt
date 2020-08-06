@@ -67,7 +67,7 @@ class MakeVideoRequestTask(context : VideosFragment)
             getDataFromApi()
         }
         catch (e: Exception) {
-            mLastError = e
+            this.mLastError = e
             cancel(true)
             null
         }
@@ -93,15 +93,15 @@ class MakeVideoRequestTask(context : VideosFragment)
             .execute()
 
         this.mPageToken = result.nextPageToken
-        val searchResults = result.items
+        val videoResults = result.items
 
-        for (i in searchResults.indices) {
+        for (i in videoResults.indices) {
 
             video.add(
                 Video(
-                    searchResults[i].id.videoId,
-                    searchResults[i].snippet.title,
-                    searchResults[i].snippet.thumbnails.high.url
+                    videoResults[i].id.videoId,
+                    videoResults[i].snippet.title,
+                    videoResults[i].snippet.thumbnails.high.url
                 )
             )
         }

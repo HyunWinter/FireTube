@@ -1,33 +1,22 @@
 package com.hyun.firetube.fragment
 
-import android.Manifest
-import android.accounts.AccountManager
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import com.google.api.client.util.ExponentialBackOff
-import com.google.api.services.youtube.YouTubeScopes
 import com.hyun.firetube.R
+import com.hyun.firetube.`interface`.PlaylistItemActivity
 import com.hyun.firetube.adapter.PlaylistAdapter
 import com.hyun.firetube.database.MakePlaylistRequestTask
 import com.hyun.firetube.model.Playlist
 import kotlinx.android.synthetic.main.frag_playlists.*
 import kotlinx.android.synthetic.main.frag_playlists.view.*
-import pub.devrel.easypermissions.AfterPermissionGranted
-import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
-import kotlin.collections.ArrayList
 
-class PlaylistsFragment : BaseFragment() {
+class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener {
 
     // Companion
     companion object {
@@ -66,7 +55,10 @@ class PlaylistsFragment : BaseFragment() {
     private fun setContents() {
 
         this.mPlaylist = arrayListOf()
-        this.mPlaylistAdapter = PlaylistAdapter(activity?.applicationContext, this.mPlaylist)
+        this.mPlaylistAdapter = PlaylistAdapter(
+            activity?.applicationContext,
+            this.mPlaylist,
+            this)
         this.mRoot.Playlists_RecyclerView.setHasFixedSize(true)
         this.mRoot.Playlists_RecyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
         this.mRoot.Playlists_RecyclerView.adapter = this.mPlaylistAdapter
@@ -74,6 +66,19 @@ class PlaylistsFragment : BaseFragment() {
 
     fun getRoot() : View {
         return this.mRoot
+    }
+
+    /************************************************************************
+     * Purpose:         Parcelable Playlist Click to PlaylistItem Activity
+     * Precondition:    Playlist Selected
+     * Postcondition:   .
+     ************************************************************************/
+    override fun onPlaylistSelected(position: Int) {
+
+        val intent = Intent(activity, PlaylistItemActivity::class.java)
+        intent.putExtra(getString(R.string.Playlist_ID_Key), this.mPlaylist[position].id)
+        intent.putExtra(getString(R.string.Playlist_Title_Key), this.mPlaylist[position].title)
+        startActivity(intent)
     }
 
     /************************************************************************
@@ -154,7 +159,7 @@ class PlaylistsFragment : BaseFragment() {
      * Postcondition:   .
      ************************************************************************/
     fun sortPlayList(playlist : ArrayList<Playlist>) {
-        if (playlist.size >= 2) {
+        if (playlist.size > 1) {
             Collections.sort(playlist, PlaylistComparator())
         }
     }

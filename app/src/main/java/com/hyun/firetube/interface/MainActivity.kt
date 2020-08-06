@@ -26,8 +26,8 @@ import kotlinx.android.synthetic.main.main_navheader.view.*
  *                  1.3 MainActivity -> SettingsFragment
  *
  *                  2.1 PlaylistFragment -> (MakePlaylistRequestTask)
- *                  2.2 PlaylistFragment -> PlaylistVideoActivity
- *                  2.3 PlaylistVideoActivity -> VideoPlayerActivity
+ *                  2.2 PlaylistFragment -> PlaylistItemActivity
+ *                  2.3 PlaylistItemActivity -> VideoPlayerActivity
  *
  *                  3.1 VideosFragment -> (MakeVideoRequestTask)
  *                  3.2 VideosFragment -> VideoPlayerActivity
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(this.main_appbar_toolbar)
 
         this.mAppBarConfig = AppBarConfiguration(
-            setOf(R.id.nav_videos, R.id.nav_playlists, R.id.nav_settings),
+            setOf(R.id.nav_videos, R.id.nav_playlists),
             this.main_activity_drawerlayout
         )
         val navController = findNavController(R.id.main_content_hostfrag)

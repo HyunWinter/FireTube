@@ -14,18 +14,13 @@ import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.youtube.YouTube
 import com.google.api.services.youtube.YouTubeScopes
 import com.hyun.firetube.R
-import com.hyun.firetube.fragment.PlaylistsFragment
-import com.hyun.firetube.model.Playlist
-import kotlinx.android.synthetic.main.frag_playlists.view.*
-import java.util.*
+import com.hyun.firetube.`interface`.PlaylistItemActivity
+import com.hyun.firetube.model.Video
+import kotlinx.android.synthetic.main.activity_playlistitem.*
+import java.util.ArrayList
 
-/************************************************************************
- * Purpose:         Async Task For Youtube API Playlist
- * Precondition:    Called from MainActivity
- * Postcondition:   Execute Youtube Service Asynchronously
- ************************************************************************/
-class MakePlaylistRequestTask(context : PlaylistsFragment)
-    : AsyncTask<Void?, Void?, ArrayList<Playlist>>() {
+class MakePlaylistItemRequestTask(context : PlaylistItemActivity, playlistID : String)
+    : AsyncTask<Void?, Void?, ArrayList<Video>>() {
 
     companion object{
         private const val TAG = "MakePlaylistRequestTask"  // Logcat
@@ -39,17 +34,18 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
     private var mLastError : Exception? = null
     private var mPageToken : String? = ""
     private val mContext = context
+    private val mPlaylistID = playlistID
 
     init {
         this.mCredential = GoogleAccountCredential
-            .usingOAuth2(mContext.activity?.applicationContext, listOf(*SCOPES))
+            .usingOAuth2(mContext.applicationContext, listOf(*SCOPES))
             .setBackOff(ExponentialBackOff())
         val googleSignInAccount = GoogleSignIn
-            .getLastSignedInAccount(mContext.activity?.applicationContext)
+            .getLastSignedInAccount(mContext.applicationContext)
         this.mCredential.selectedAccount = googleSignInAccount!!.account
 
-        val transport: HttpTransport = NetHttpTransport()
-        val jsonFactory: JsonFactory = JacksonFactory.getDefaultInstance()
+        val transport : HttpTransport = NetHttpTransport()
+        val jsonFactory : JsonFactory = JacksonFactory.getDefaultInstance()
         this.mService = YouTube.Builder(transport, jsonFactory, mCredential)
             .setApplicationName(this.mContext.getString(R.string.app_name))
             .build()
@@ -60,13 +56,13 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
      * Precondition:    .
      * Postcondition:   getDataFromApi error catching
      ************************************************************************/
-    override fun doInBackground(vararg params: Void?): ArrayList<Playlist>? {
+    override fun doInBackground(vararg params: Void?) : ArrayList<Video>? {
 
         return try {
             getDataFromApi()
         }
         catch (e: Exception) {
-            mLastError = e
+            this.mLastError = e
             cancel(true)
             null
         }
@@ -78,44 +74,33 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
      * Postcondition:   Execute Youtube Service and
      *                  Take Results To onPostExecute
      ************************************************************************/
-    private fun getDataFromApi() : ArrayList<Playlist> {
+    private fun getDataFromApi() : ArrayList<Video> {
 
-        val playlist : ArrayList<Playlist> = arrayListOf()
+        val playlistItems : ArrayList<Video> = arrayListOf()
 
-        // Max result size is 50 while max playlist size is 200
-        // Since the query can't be pre-ordered (as described later),
-        // You have to pull the entire playlists first
+        val result = mService!!
+            .playlistItems()
+            .list(DEFAULT_REQUEST_TYPE)
+            .setPlaylistId(mPlaylistID)
+            .setMaxResults(DEFAULT_REQUEST_SIZE)
+            .setPageToken(this.mPageToken)
+            .execute()
 
-        // Since Youtube API has limited number of requests,
-        // I will implement something in Firestore caching to minimize
-        // wasteful reads.
-        while (mPageToken != null) {
+        this.mPageToken = result.nextPageToken
+        val playlistItemResults = result.items
 
-            val result = mService!!
-                .playlists()
-                .list(DEFAULT_REQUEST_TYPE)
-                .setMine(true)
-                .setMaxResults(DEFAULT_REQUEST_SIZE)
-                .setPageToken(this.mPageToken)
-                .execute()
+        for (i in playlistItemResults.indices) {
 
-            this.mPageToken = result.nextPageToken
-            val playlistResults = result.items
-
-            for (i in playlistResults.indices) {
-
-                playlist.add(
-                    Playlist(
-                        playlistResults[i].id,
-                        playlistResults[i].snippet.title,
-                        playlistResults[i].snippet.thumbnails.high.url,
-                        playlistResults[i].contentDetails.itemCount.toInt()
-                    )
+            playlistItems.add(
+                Video(
+                    playlistItemResults[i].id,
+                    playlistItemResults[i].snippet.title,
+                    playlistItemResults[i].snippet.thumbnails.high.url
                 )
-            }
+            )
         }
 
-        return playlist
+        return playlistItems
     }
 
     /************************************************************************
@@ -124,7 +109,7 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
      * Postcondition:   show ProgressBar
      ************************************************************************/
     override fun onPreExecute() {
-        this.mContext.showProgressBar(this.mContext.getRoot().Playlists_ProgressBar)
+        this.mContext.showProgressBar(this.mContext.PlaylistItem_ProgressBar)
     }
 
     /************************************************************************
@@ -133,19 +118,19 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
      * Postcondition:   Hide ProgressBar and make SnackBar message when
      *                  no results are returned
      ************************************************************************/
-    override fun onPostExecute(output : ArrayList<Playlist>) {
+    override fun onPostExecute(output : ArrayList<Video>) {
 
-        this.mContext.hideProgressBar(this.mContext.getRoot().Playlists_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.PlaylistItem_ProgressBar)
 
         if (output.isEmpty()) {
             this.mContext.makeSnackBar(
-                this.mContext.getRoot().Playlists_Background,
+                this.mContext.PlaylistItem_Background,
                 "No results returned."
             )
         }
         else {
-            this.mContext.sortPlayList(output)
-            this.mContext.updatePlaylistAdapter(output)
+            this.mContext.sortVideos(output)
+            this.mContext.updateVideoAdapter(output)
         }
     }
 
@@ -156,7 +141,7 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
      ************************************************************************/
     override fun onCancelled() {
 
-        this.mContext.hideProgressBar(this.mContext.getRoot().Playlists_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.PlaylistItem_ProgressBar)
 
         if (mLastError != null) {
 
@@ -169,22 +154,24 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
             else if (mLastError is UserRecoverableAuthIOException) {
                 this.mContext.startActivityForResult(
                     (mLastError as UserRecoverableAuthIOException).intent,
-                    PlaylistsFragment.REQUEST_AUTHORIZATION
+                    PlaylistItemActivity.REQUEST_AUTHORIZATION
                 )
             }
             else {
                 val errorStr = (
                         "The following error occurred: "
-                        + mLastError!!.message
-                    )
+                                + mLastError!!.message
+                        )
                     .trimIndent()
                 Log.e(TAG, "The following error occurred: $errorStr")
-                this.mContext.makeSnackBar(this.mContext.getRoot().Playlists_Background, errorStr)
+                this.mContext.makeSnackBar(this.mContext.PlaylistItem_Background, errorStr)
             }
         }
         else {
-
-            this.mContext.makeSnackBar(this.mContext.getRoot().Playlists_Background, "Request cancelled.")
+            this.mContext.makeSnackBar(
+                this.mContext.PlaylistItem_Background,
+                "Request cancelled."
+            )
         }
     }
 }

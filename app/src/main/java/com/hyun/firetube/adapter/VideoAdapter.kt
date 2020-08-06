@@ -15,7 +15,7 @@ import com.hyun.firetube.model.Video
  * Purpose:         Video Recycler View Adapter For Videos
  * Precondition:    .
  * Postcondition:   Initiate and Assign View Holders to
- *                  XML frag_videos_item
+ *                  XML listitem_videos
  ************************************************************************/
 class VideoAdapter(context : Context?, videolist : ArrayList<Video>) :
     RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
@@ -31,7 +31,7 @@ class VideoAdapter(context : Context?, videolist : ArrayList<Video>) :
 
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.frag_videos_item, parent, false)
+            .inflate(R.layout.listitem_videos, parent, false)
 
         return ViewHolder(view)
     }

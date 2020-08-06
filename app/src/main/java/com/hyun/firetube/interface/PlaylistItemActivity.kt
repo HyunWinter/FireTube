@@ -1,33 +1,22 @@
-package com.hyun.firetube.fragment
+package com.hyun.firetube.`interface`
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import com.google.api.services.youtube.YouTubeScopes
 import com.hyun.firetube.R
-import com.hyun.firetube.adapter.PlaylistAdapter
 import com.hyun.firetube.adapter.VideoAdapter
-import com.hyun.firetube.database.MakePlaylistRequestTask
-import com.hyun.firetube.database.MakeVideoRequestTask
-import com.hyun.firetube.model.Playlist
+import com.hyun.firetube.database.MakePlaylistItemRequestTask
 import com.hyun.firetube.model.Video
-import kotlinx.android.synthetic.main.frag_playlists.*
-import kotlinx.android.synthetic.main.frag_playlists.view.*
+import kotlinx.android.synthetic.main.activity_playlistitem.*
 import kotlinx.android.synthetic.main.frag_videos.*
-import kotlinx.android.synthetic.main.frag_videos.view.*
 import java.util.*
-import kotlin.collections.ArrayList
 
-class VideosFragment : BaseFragment() {
+class PlaylistItemActivity : BaseActivity() {
 
     // Companion
     companion object {
-        private const val TAG = "VideoFragment"  // Logcat
+        private const val TAG = "PlaylistItemActivity"  // Logcat
         const val REQUEST_AUTHORIZATION = 1001
         const val REQUEST_GOOGLE_PLAY_SERVICES = 1002
     }
@@ -35,41 +24,46 @@ class VideosFragment : BaseFragment() {
     // Variables
     private lateinit var mVideoAdapter : VideoAdapter
     private lateinit var mVideos : ArrayList<Video>
-    private lateinit var mRoot : View
+    private lateinit var mPlaylistID : String
 
-    /************************************************************************
-     * Purpose:         onCreate
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
 
-        this.mRoot = inflater.inflate(R.layout.frag_videos, container, false)
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_playlistitem)
+
+        this.setToolbar()
         this.setContents()
         this.getResultsFromApi()
-
-        return this.mRoot
     }
 
     /************************************************************************
-     * Purpose:         setContents
+     * Purpose:         Set Intent
+     * Precondition:    onCreate
+     * Postcondition:   Contents Initialization
+     ************************************************************************/
+    private fun setToolbar() {
+
+        this.mPlaylistID = intent.getStringExtra(getString(R.string.Playlist_ID_Key)) as String
+        val playlistTitle = intent.getStringExtra(getString(R.string.Playlist_Title_Key))
+
+        setSupportActionBar(this.PlaylistItem_Toolbar)
+        supportActionBar?.title = playlistTitle
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    /************************************************************************
+     * Purpose:         Set Contents
      * Precondition:    onCreate
      * Postcondition:   Contents Initialization
      ************************************************************************/
     private fun setContents() {
 
         this.mVideos = arrayListOf()
-        this.mVideoAdapter = VideoAdapter(activity?.applicationContext, this.mVideos)
-        this.mRoot.Videos_RecyclerView.setHasFixedSize(true)
-        this.mRoot.Videos_RecyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
-        this.mRoot.Videos_RecyclerView.adapter = this.mVideoAdapter
-    }
-
-    fun getRoot() : View {
-        return this.mRoot
+        this.mVideoAdapter = VideoAdapter(this, this.mVideos)
+        this.PlaylistItem_RecyclerView.setHasFixedSize(true)
+        this.PlaylistItem_RecyclerView.layoutManager = LinearLayoutManager(this)
+        this.PlaylistItem_RecyclerView.adapter = this.mVideoAdapter
     }
 
     /************************************************************************
@@ -101,7 +95,7 @@ class VideosFragment : BaseFragment() {
             makeSnackBar(this.Videos_Background, "No network connection available.")
         }
         else {
-            MakeVideoRequestTask(this).execute()
+            MakePlaylistItemRequestTask(this, this.mPlaylistID).execute()
         }
     }
 
@@ -159,5 +153,15 @@ class VideosFragment : BaseFragment() {
         override fun compare(o1: Video, o2: Video): Int {
             return o1.title.compareTo(o2.title)
         }
+    }
+
+    /************************************************************************
+     * Purpose:         Back Button Override
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

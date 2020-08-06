@@ -8,12 +8,13 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/ic_icon"
+        android:roundIcon="@drawable/ic_round_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:allowBackup="true"
+        android:fullBackupContent="true">
 
         <activity android:name=".interface.AuthActivity">
             <intent-filter>
@@ -21,8 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".interface.MainActivity"/>
-
+        <activity android:name=".interface.PlaylistItemActivity"/>
+        <activity android:name=".interface.VideoPlayerActivity"/>
     </application>
 </manifest>

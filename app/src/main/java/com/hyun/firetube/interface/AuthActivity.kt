@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.GoogleAuthProvider
 import com.hyun.firetube.R
-import kotlinx.android.synthetic.main.auth_activity.*
+import kotlinx.android.synthetic.main.activity_auth.*
 
 class AuthActivity : BaseActivity() {
 
@@ -30,7 +30,7 @@ class AuthActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.auth_activity)
+        setContentView(R.layout.activity_auth)
 
         this.hideLoginLayout()
         this.setFirebaseAuth()

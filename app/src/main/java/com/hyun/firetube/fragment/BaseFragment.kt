@@ -1,5 +1,6 @@
 package com.hyun.firetube.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.view.View
@@ -22,6 +23,7 @@ abstract class BaseFragment : Fragment(), EasyPermissions.PermissionCallbacks {
      * Postcondition:   Make SnackBar Message On A Background
      ************************************************************************/
     fun makeSnackBar(background: CoordinatorLayout, text: String) {
+
         Snackbar.make(background, text, Snackbar.LENGTH_SHORT).show()
     }
 
@@ -102,7 +104,7 @@ abstract class BaseFragment : Fragment(), EasyPermissions.PermissionCallbacks {
      * Postcondition:   Display an error dialog showing that Google Play
      *                  Services is missing or out of date.
      ************************************************************************/
-    fun showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode: Int) {
+    fun showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode : Int) {
 
         val apiAvailability = GoogleApiAvailability.getInstance()
         val dialog = apiAvailability.getErrorDialog(
@@ -112,7 +114,6 @@ abstract class BaseFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         )
         dialog.show()
     }
-
 
     /************************************************************************
      * Purpose:         EasyPermissions Related

@@ -11,13 +11,16 @@ import com.bumptech.glide.Glide
 import com.hyun.firetube.R
 import com.hyun.firetube.model.Playlist
 
+
 /************************************************************************
  * Purpose:         Playlist Recycler View Adapter For Playlist
  * Precondition:    .
  * Postcondition:   Initiate and Assign View Holders to
- *                  XML frag_playlists_item
+ *                  XML listitem_playlists
  ************************************************************************/
-class PlaylistAdapter(context : Context?, playlists : ArrayList<Playlist>) :
+class PlaylistAdapter(context : Context?,
+                      playlists : ArrayList<Playlist>,
+                      playlistClickListener : PlaylistClickListener) :
     RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
 
     companion object {
@@ -26,14 +29,15 @@ class PlaylistAdapter(context : Context?, playlists : ArrayList<Playlist>) :
 
     private val mPlayLists : ArrayList<Playlist>? = playlists
     private val mContext : Context? = context
+    private val mPlaylistClickListener = playlistClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.frag_playlists_item, parent, false)
+            .inflate(R.layout.listitem_playlists, parent, false)
 
-        return ViewHolder(view)
+        return ViewHolder(view, this.mPlaylistClickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -55,11 +59,31 @@ class PlaylistAdapter(context : Context?, playlists : ArrayList<Playlist>) :
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView : View, clickListener : PlaylistClickListener) :
+        RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
 
         var title = itemView.findViewById(R.id.Playlist_Title) as TextView
         var itemCount = itemView.findViewById(R.id.Playlist_ItemCount) as TextView
         var thumbnail = itemView.findViewById(R.id.Playlist_Thumbnail) as ImageView
+        var playlistClickListener : PlaylistClickListener = clickListener
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            this.playlistClickListener.onPlaylistSelected(adapterPosition)
+        }
+    }
+
+    /************************************************************************
+     * Purpose:         Click Listener Interface
+     * Precondition:    onPlaylistSelected in PlaylistFragment
+     * Postcondition:   Send Position
+     ************************************************************************/
+    interface PlaylistClickListener {
+        fun onPlaylistSelected(position: Int)
     }
 }
 
