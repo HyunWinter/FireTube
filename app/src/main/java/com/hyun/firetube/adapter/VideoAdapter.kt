@@ -12,7 +12,7 @@ import com.hyun.firetube.R
 import com.hyun.firetube.model.Video
 
 /************************************************************************
- * Purpose:         Recycler View Adapter For Videos
+ * Purpose:         Video Recycler View Adapter For Videos
  * Precondition:    .
  * Postcondition:   Initiate and Assign View Holders to
  *                  XML frag_videos_item

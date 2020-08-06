@@ -25,14 +25,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
 
-        this.setAccount()
+        this.setLogout()
         this.setAppTheme()
         this.setLanguage()
         this.setAbout()
     }
 
     // Account
-    private fun setAccount() {
+    private fun setLogout() {
 
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

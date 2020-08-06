@@ -12,7 +12,7 @@ import com.hyun.firetube.R
 import com.hyun.firetube.model.Playlist
 
 /************************************************************************
- * Purpose:         Recycler View Adapter For Playlist
+ * Purpose:         Playlist Recycler View Adapter For Playlist
  * Precondition:    .
  * Postcondition:   Initiate and Assign View Holders to
  *                  XML frag_playlists_item

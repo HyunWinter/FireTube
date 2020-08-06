@@ -17,6 +17,24 @@ import kotlinx.android.synthetic.main.main_appbar.*
 import kotlinx.android.synthetic.main.main_navheader.*
 import kotlinx.android.synthetic.main.main_navheader.view.*
 
+/************************************************************************
+ * Purpose:         Firetube Main Activity
+ * Structure:       0.1 AuthActivity : BaseActivity -> MainActivity
+ *
+ *                  1.1 MainActivity -> PlaylistFragment
+ *                  1.2 MainActivity -> VideosFragment
+ *                  1.3 MainActivity -> SettingsFragment
+ *
+ *                  2.1 PlaylistFragment -> (MakePlaylistRequestTask)
+ *                  2.2 PlaylistFragment -> PlaylistVideoActivity
+ *                  2.3 PlaylistVideoActivity -> VideoPlayerActivity
+ *
+ *                  3.1 VideosFragment -> (MakeVideoRequestTask)
+ *                  3.2 VideosFragment -> VideoPlayerActivity
+ *
+ *                  4.1 SettingsFragment -> AuthActivity
+ *
+ ************************************************************************/
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mAppBarConfig : AppBarConfiguration
@@ -49,7 +67,7 @@ class MainActivity : AppCompatActivity() {
             this.main_activity_drawerlayout
         )
         val navController = findNavController(R.id.main_content_hostfrag)
-        setupActionBarWithNavController(navController, mAppBarConfig)
+        setupActionBarWithNavController(navController, this.mAppBarConfig)
         this.main_activity_navigationview.setupWithNavController(navController)
     }
 
@@ -91,6 +109,6 @@ class MainActivity : AppCompatActivity() {
      ************************************************************************/
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.main_content_hostfrag)
-        return navController.navigateUp(mAppBarConfig) || super.onSupportNavigateUp()
+        return navController.navigateUp(this.mAppBarConfig) || super.onSupportNavigateUp()
     }
 }
