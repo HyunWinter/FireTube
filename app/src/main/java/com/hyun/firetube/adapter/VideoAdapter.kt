@@ -11,7 +11,13 @@ import com.bumptech.glide.Glide
 import com.hyun.firetube.R
 import com.hyun.firetube.model.Video
 
-class VideoAdapter(context : Context, videolist : ArrayList<Video>) :
+/************************************************************************
+ * Purpose:         Recycler View Adapter For Videos
+ * Precondition:    .
+ * Postcondition:   Initiate and Assign View Holders to
+ *                  XML frag_videos_item
+ ************************************************************************/
+class VideoAdapter(context : Context?, videolist : ArrayList<Video>) :
     RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
 
     companion object {
@@ -25,7 +31,7 @@ class VideoAdapter(context : Context, videolist : ArrayList<Video>) :
 
         val view = LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.frag_playlists_item, parent, false)
+            .inflate(R.layout.frag_videos_item, parent, false)
 
         return ViewHolder(view)
     }
@@ -50,7 +56,7 @@ class VideoAdapter(context : Context, videolist : ArrayList<Video>) :
      ************************************************************************/
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var title = itemView.findViewById<View>(R.id.Playlist_Title) as TextView
-        var thumbnail = itemView.findViewById(R.id.Playlist_Thumbnail) as ImageView
+        var title = itemView.findViewById<View>(R.id.Video_Title) as TextView
+        var thumbnail = itemView.findViewById(R.id.Video_Thumbnail) as ImageView
     }
 }

@@ -3,6 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Account -->
+    <PreferenceCategory
+        app:title="@string/Settings_Account"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            app:key="@string/Settings_Logout_Key"
+            app:title="@string/Settings_Logout"
+            app:icon="@drawable/settings_logout"/>
+    </PreferenceCategory>
+
     <!-- General -->
     <PreferenceCategory
         app:title="@string/Settings_General"

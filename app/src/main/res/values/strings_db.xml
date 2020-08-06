@@ -4,6 +4,7 @@
     tools:ignore="MissingTranslation">
 
     <!-- Settings -->
+    <string name="Settings_Logout_Key">settings_logout</string>
     <string name="Settings_Theme_Key">settings_theme</string>
     <string name="Settings_Language_Key">settings_language</string>
     <string name="Settings_Tag_Key">settings_tag</string>

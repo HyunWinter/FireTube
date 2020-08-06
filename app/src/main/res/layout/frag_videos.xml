@@ -13,7 +13,7 @@
         android:scrollbars="vertical"
         tools:listitem="@layout/frag_videos_item"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:id="@+id/Video_RecyclerView"/>
+        android:id="@+id/Videos_RecyclerView"/>
 
     <!-- Hidden Progress Bar (Hidden) -->
     <ProgressBar

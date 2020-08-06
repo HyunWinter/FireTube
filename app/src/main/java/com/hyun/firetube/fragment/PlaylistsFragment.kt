@@ -27,21 +27,16 @@ import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 import kotlin.collections.ArrayList
 
-class PlaylistsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
+class PlaylistsFragment : BaseFragment() {
 
     // Companion
     companion object {
         private const val TAG = "PlaylistFragment"  // Logcat
-        const val REQUEST_ACCOUNT_PICKER = 1000
         const val REQUEST_AUTHORIZATION = 1001
         const val REQUEST_GOOGLE_PLAY_SERVICES = 1002
-        const val REQUEST_PERMISSION_GET_ACCOUNTS = 1003
-        private const val PREF_ACCOUNT_NAME = "accountName"
-        private val SCOPES = arrayOf(YouTubeScopes.YOUTUBE_READONLY)
     }
 
     // Variables
-    private lateinit var mCredential: GoogleAccountCredential
     private lateinit var mPlaylistAdapter : PlaylistAdapter
     private lateinit var mPlaylist : ArrayList<Playlist>
     private lateinit var mRoot : View
@@ -70,10 +65,6 @@ class PlaylistsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
      ************************************************************************/
     private fun setContents() {
 
-        this.mCredential = GoogleAccountCredential
-            .usingOAuth2(activity?.applicationContext, listOf(*SCOPES))
-            .setBackOff(ExponentialBackOff())
-
         this.mPlaylist = arrayListOf()
         this.mPlaylistAdapter = PlaylistAdapter(activity?.applicationContext, this.mPlaylist)
         this.mRoot.Playlists_RecyclerView.setHasFixedSize(true)
@@ -83,25 +74,6 @@ class PlaylistsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     fun getRoot() : View {
         return this.mRoot
-    }
-
-    /************************************************************************
-     * Purpose:         Sorting Algorithm
-     * Precondition:    Pre-ordered query is not working in the playlists()
-     *                  type. The search() type allow pre-ordered query, but
-     *                  it only works for videos and not playlists.
-     * Postcondition:   .
-     ************************************************************************/
-    fun sortPlayList(playlist : ArrayList<Playlist>) {
-        if (playlist.size >= 2) {
-            Collections.sort(playlist, PlaylistComparator())
-        }
-    }
-
-    inner class PlaylistComparator : Comparator<Playlist> {
-        override fun compare(o1: Playlist, o2: Playlist): Int {
-            return o1.title.compareTo(o2.title)
-        }
     }
 
     /************************************************************************
@@ -129,58 +101,11 @@ class PlaylistsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         if (!isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices()
         }
-        else if (this.mCredential.selectedAccountName == null) {
-            chooseAccount()
-        }
         else if (!isDeviceOnline()) {
             makeSnackBar(this.Playlists_Background, "No network connection available.")
         }
         else {
-            MakePlaylistRequestTask(this.mCredential, this).execute()
-        }
-    }
-
-    /************************************************************************
-     * Purpose:         Choose Account
-     * Precondition:    .
-     * Postcondition:   Attempts to set the account used with the API
-     *                  credentials.
-     *                  If an account name was previously saved it will use
-     *                  that one.
-     *                  Otherwise an account picker dialog will be shown to
-     *                  the user
-     ************************************************************************/
-    @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
-    private fun chooseAccount() {
-
-        if (EasyPermissions.hasPermissions(
-                this.requireActivity().applicationContext,
-                Manifest.permission.GET_ACCOUNTS)) {
-
-            val accountName = this.activity
-                ?.getPreferences(Context.MODE_PRIVATE)
-                ?.getString(PREF_ACCOUNT_NAME, null)
-
-            if (accountName != null) {
-                mCredential!!.selectedAccountName = accountName
-                getResultsFromApi()
-            }
-            else {
-                // Start a dialog from which the user can choose an account
-                startActivityForResult(
-                    mCredential!!.newChooseAccountIntent(),
-                    REQUEST_ACCOUNT_PICKER
-                )
-            }
-        }
-        else {
-            // Request the GET_ACCOUNTS permission via a user dialog
-            EasyPermissions.requestPermissions(
-                this,
-                "This app needs to access your Google account (via Contacts).",
-                REQUEST_PERMISSION_GET_ACCOUNTS,
-                Manifest.permission.GET_ACCOUNTS
-            )
+            MakePlaylistRequestTask(this).execute()
         }
     }
 
@@ -215,21 +140,6 @@ class PlaylistsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                     getResultsFromApi()
                 }
             }
-            REQUEST_ACCOUNT_PICKER -> {
-                if (resultCode == Activity.RESULT_OK && data != null && data.extras != null) {
-                    val accountName =
-                        data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
-                    if (accountName != null) {
-                        val settings = this.requireActivity()
-                            .getPreferences(Context.MODE_PRIVATE)
-                        val editor = settings.edit()
-                        editor.putString(PREF_ACCOUNT_NAME, accountName)
-                        editor.apply()
-                        mCredential!!.selectedAccountName = accountName
-                        getResultsFromApi()
-                    }
-                }
-            }
             REQUEST_AUTHORIZATION -> if (resultCode == Activity.RESULT_OK) {
                 getResultsFromApi()
             }
@@ -237,98 +147,21 @@ class PlaylistsFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
     }
 
     /************************************************************************
-     * Purpose:         On Request Permissions Result
-     * Precondition:    .
-     * Postcondition:   Respond to requests for permissions at runtime for
-     *                  API 23 and above.
+     * Purpose:         Sorting Algorithm
+     * Precondition:    Pre-ordered query is not working in the playlists()
+     *                  type. The search() type allow pre-ordered query, but
+     *                  it only works for videos and not playlists.
+     * Postcondition:   .
      ************************************************************************/
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
-
-        super.onRequestPermissionsResult(
-            requestCode,
-            permissions,
-            grantResults
-        )
-        EasyPermissions.onRequestPermissionsResult(
-            requestCode,
-            permissions,
-            grantResults,
-            this
-        )
-    }
-
-    /************************************************************************
-     * Purpose:         Check Device Online
-     * Precondition:    .
-     * Postcondition:   Checks whether the device currently has a network
-     *                  connection.
-     ************************************************************************/
-    private fun isDeviceOnline() : Boolean {
-
-        val connMgr = this
-            .requireActivity()
-            .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connMgr.activeNetworkInfo
-
-        return networkInfo != null && networkInfo.isConnected
-    }
-
-    /************************************************************************
-     * Purpose:         Acquire Google Play Services
-     * Precondition:    .
-     * Postcondition:   Check that Google Play services APK is installed and
-     *                  up to date.
-     ************************************************************************/
-    private fun isGooglePlayServicesAvailable() : Boolean {
-
-        val apiAvailability = GoogleApiAvailability.getInstance()
-        val connectionStatusCode = apiAvailability.isGooglePlayServicesAvailable(
-            this.activity?.applicationContext
-        )
-        return connectionStatusCode == ConnectionResult.SUCCESS
-    }
-
-    /************************************************************************
-     * Purpose:         Acquire Google Play Services
-     * Precondition:    .
-     * Postcondition:   Attempt to resolve a missing, out-of-date, invalid or
-     *                  disabled Google Play Services installation via a user
-     *                  dialog, if possible.
-     ************************************************************************/
-    private fun acquireGooglePlayServices() {
-        val apiAvailability = GoogleApiAvailability.getInstance()
-        val connectionStatusCode = apiAvailability.isGooglePlayServicesAvailable(
-            this.activity?.applicationContext
-        )
-        if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
-            showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode)
+    fun sortPlayList(playlist : ArrayList<Playlist>) {
+        if (playlist.size >= 2) {
+            Collections.sort(playlist, PlaylistComparator())
         }
     }
 
-    /************************************************************************
-     * Purpose:         Show GooglePlayServices Availability Error Dialog
-     * Precondition:    .
-     * Postcondition:   Display an error dialog showing that Google Play
-     *                  Services is missing or out of date.
-     ************************************************************************/
-    fun showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode: Int) {
-
-        val apiAvailability = GoogleApiAvailability.getInstance()
-        val dialog = apiAvailability.getErrorDialog(
-            this.activity,
-            connectionStatusCode,
-            REQUEST_GOOGLE_PLAY_SERVICES
-        )
-        dialog.show()
+    inner class PlaylistComparator : Comparator<Playlist> {
+        override fun compare(o1: Playlist, o2: Playlist): Int {
+            return o1.title.compareTo(o2.title)
+        }
     }
-
-    /************************************************************************
-     * Purpose:         EasyPermissions Related
-     * Precondition:    I'm hungry
-     * Postcondition:   Eat taco
-     ************************************************************************/
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>?) { }
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>?) { }
 }

@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_main_logout"
+        android:id="@+id/menu_main_sort"
         android:orderInCategory="100"
-        android:title="@string/Auth_SignOutText"
+        android:title="@string/Nav_Menu_Sort"
         app:showAsAction="never"/>
 </menu>

@@ -7,14 +7,13 @@
     <string name="Auth_WelcomeText">Welcome To\nFireTube</string>
     <string name="Auth_GoogleLoginText">Continue with Google</string>
     <string name="Auth_LoginSuccessText">,\nYou are\nLogged In!</string>
-    <string name="Auth_SignOutText">Log Out</string>
-    <string name="Auth_SignedOutText">Logged Out</string>
     <string name="Auth_GoogleLoginFailed">Google LogIn failed</string>
     <string name="Auth_FirebaseLoginFailed">Firebase LogIn failed</string>
     <string name="Auth_GoogleLogoutFailed">Google LogIn failed</string>
     <string name="Auth_FirebaseLogoutFailed">Firebase LogIn failed</string>
 
     <!-- Navigation Drawer -->
+    <string name="Nav_Menu_Sort">Sort</string>
     <string name="Nav_Username">UserName</string>
     <string name="Nav_Playlists">Playlists</string>
     <string name="Nav_Videos">Videos</string>
@@ -25,6 +24,8 @@
     <string name="Playlist_Default_Size">1</string>
 
     <!-- Settings -->
+    <string name="Settings_Account">Account</string>
+    <string name="Settings_Logout">Log Out</string>
     <string name="Settings_General">General</string>
     <string name="Settings_Language">Language</string>
     <string name="Settings_Theme">App Theme</string>

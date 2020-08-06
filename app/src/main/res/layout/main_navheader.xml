@@ -9,10 +9,18 @@
     android:orientation="vertical"
     android:gravity="bottom">
 
+    <!-- User Name -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Nav_Username"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:id="@+id/Main_Navheader_UserName"/>
+
+    <!-- User Email -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:id="@+id/Main_Navheader_UserEmail"/>
 
 </LinearLayout>

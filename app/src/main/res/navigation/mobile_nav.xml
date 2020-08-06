@@ -20,6 +20,5 @@
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.hyun.firetube.fragment.SettingsFragment"
-        android:label="@string/Nav_Settings"
-        tools:layout="@layout/frag_settings"/>
+        android:label="@string/Nav_Settings"/>
 </navigation>

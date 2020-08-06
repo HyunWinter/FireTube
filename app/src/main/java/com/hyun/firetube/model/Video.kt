@@ -4,8 +4,8 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Video(val id : String,
-               val title : String,
-               var thumbnail : String) : Parcelable {
+            val title : String,
+            var thumbnail : String) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -23,12 +23,12 @@ class Video(val id : String,
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Playlist> {
-        override fun createFromParcel(parcel: Parcel): Playlist {
-            return Playlist(parcel)
+    companion object CREATOR : Parcelable.Creator<Video> {
+        override fun createFromParcel(parcel: Parcel): Video {
+            return Video(parcel)
         }
 
-        override fun newArray(size: Int): Array<Playlist?> {
+        override fun newArray(size: Int): Array<Video?> {
             return arrayOfNulls(size)
         }
     }

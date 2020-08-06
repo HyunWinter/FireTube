@@ -23,9 +23,9 @@ class AuthActivity : BaseActivity() {
         private const val FadeDuration = 4000   // BG Animation
     }
 
-    private lateinit var googleSignInClient : GoogleSignInClient
-    private lateinit var authInstance : FirebaseAuth
-    private lateinit var authListener : AuthStateListener
+    private lateinit var mGoogleSignInClient : GoogleSignInClient
+    private lateinit var mAuthInstance : FirebaseAuth
+    private lateinit var mAuthListener : AuthStateListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -44,8 +44,8 @@ class AuthActivity : BaseActivity() {
      ************************************************************************/
     private fun setFirebaseAuth() {
 
-        this.authInstance = FirebaseAuth.getInstance()
-        this.authListener = AuthStateListener { firebaseAuth ->
+        this.mAuthInstance = FirebaseAuth.getInstance()
+        this.mAuthListener = AuthStateListener { firebaseAuth ->
 
             val user = firebaseAuth.currentUser
 
@@ -65,12 +65,12 @@ class AuthActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        this.authInstance.addAuthStateListener(this.authListener)
+        this.mAuthInstance.addAuthStateListener(this.mAuthListener)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        this.authInstance.removeAuthStateListener(this.authListener)
+        this.mAuthInstance.removeAuthStateListener(this.mAuthListener)
     }
 
     /************************************************************************
@@ -89,14 +89,12 @@ class AuthActivity : BaseActivity() {
             .requestEmail()
             .build()
 
-        this.googleSignInClient = GoogleSignIn.getClient(this, gso)
+        this.mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         Auth_GoogleLogIn.setOnClickListener{
             showProgressBar(Auth_ProgressBar)
-            val signInIntent = this.googleSignInClient.signInIntent
-            startActivityForResult(signInIntent,
-                RC_SIGN_IN
-            )
+            val signInIntent = this.mGoogleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
         }
     }
 
@@ -110,6 +108,7 @@ class AuthActivity : BaseActivity() {
 
             if (task.isSuccessful) {
                 val account = task.getResult(ApiException::class.java)!!
+
                 Log.w(TAG, "Google log in success: " + account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
             }
@@ -123,7 +122,7 @@ class AuthActivity : BaseActivity() {
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        this.authInstance
+        this.mAuthInstance
             .signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
 
