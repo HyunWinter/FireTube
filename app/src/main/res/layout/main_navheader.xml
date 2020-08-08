@@ -3,9 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="180dp"
-    android:background="?attr/colorPrimary"
     android:padding="16dp"
-    android:theme="@style/ThemeOverlay.MaterialComponents.Dark"
     android:orientation="vertical"
     android:gravity="bottom">
 
@@ -13,14 +11,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textSize="20sp"
         android:id="@+id/Main_Navheader_UserName"/>
 
     <!-- User Email -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textSize="16sp"
         android:id="@+id/Main_Navheader_UserEmail"/>
 
 </LinearLayout>

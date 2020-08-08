@@ -40,16 +40,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
     // Account
     private fun setLogout() {
 
-        val gso = GoogleSignInOptions
-            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        this.googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
-        this.authInstance = FirebaseAuth.getInstance()
-
         findPreference<Preference>(getString(R.string.Settings_Logout_Key))?.setOnPreferenceClickListener {
+
+            val gso = GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+            this.googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+            this.authInstance = FirebaseAuth.getInstance()
 
             this.googleSignInClient
                 .signOut()
@@ -65,26 +65,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
     // General
     private fun setTheme() {
 
-        // Get Themes
-        val themeList = resources.getStringArray(R.array.Settings_Theme_Alias)
-
         // Preference Listener
         findPreference<ListPreference>(getString(R.string.Settings_Theme_Key))?.setOnPreferenceChangeListener {
                 preference, newValue ->
 
+            val themeList = resources.getStringArray(R.array.Settings_Theme_Alias)
+
             when (newValue) {
-                // Light Theme
-                themeList[0] -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                }
-                // Dark Theme
-                themeList[1] -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
-                // System Theme
-                themeList[2] -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                }
+                themeList[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                themeList[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                themeList[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             }
 
             true
@@ -92,18 +82,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun setLanguage() {
-        // Get Themes
-        val langList = resources.getStringArray(R.array.Settings_Language_Alias)
 
         // Preference Listener
         findPreference<ListPreference>(getString(R.string.Settings_Language_Key))?.setOnPreferenceChangeListener {
                 preference, newValue ->
 
+            val langList = resources.getStringArray(R.array.Settings_Language_Alias)
+
             when (newValue) {
                 // en
-                langList[0] -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                }
+                langList[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
 
             true

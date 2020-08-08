@@ -2,7 +2,6 @@ package com.hyun.firetube.`interface`
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -14,8 +13,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.hyun.firetube.R
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_appbar.*
-import kotlinx.android.synthetic.main.main_navheader.*
-import kotlinx.android.synthetic.main.main_navheader.view.*
 
 /************************************************************************
  * Purpose:         Firetube Main Activity
@@ -60,7 +57,7 @@ class MainActivity : AppCompatActivity() {
      * Postcondition:   Initialize default contents
      ************************************************************************/
     private fun setContents() {
-        setSupportActionBar(this.main_appbar_toolbar)
+        setSupportActionBar(this.Main_Appbar_Toolbar)
 
         this.mAppBarConfig = AppBarConfiguration(
             setOf(R.id.nav_videos, R.id.nav_playlists),

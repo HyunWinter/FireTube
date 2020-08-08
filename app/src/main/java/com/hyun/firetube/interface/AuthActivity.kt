@@ -35,7 +35,8 @@ class AuthActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-        this.setDefaultPreference()
+        this.setThemePreference()
+        this.setLanguagePreference()
         this.setFirebaseAuth()
         this.setGoogleAuth()
     }
@@ -45,7 +46,7 @@ class AuthActivity : BaseActivity() {
      * Precondition:    onCreate
      * Postcondition:   Call user preferences if exist
      ************************************************************************/
-    private fun setDefaultPreference() {
+    private fun setThemePreference() {
 
         // Get Themes
         val themeList = resources.getStringArray(R.array.Settings_Theme_Alias)
@@ -57,18 +58,27 @@ class AuthActivity : BaseActivity() {
 
         // Change Theme
         when (savedTheme) {
-            // Light Theme
-            themeList[0] -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-            // Dark Theme
-            themeList[1] -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            // System Theme
-            themeList[2] -> {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            }
+            themeList[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            themeList[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            themeList[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+    }
+
+    private fun setLanguagePreference() {
+
+        // Get Themes
+        val langList = resources.getStringArray(R.array.Settings_Language_Alias)
+
+        // Load Shared Preferences
+        val savedLang = PreferenceManager
+            .getDefaultSharedPreferences(this)
+            .getString(getString(R.string.Settings_Language_Key), langList[0])
+
+        // Change Theme
+        when (savedLang) {
+            /*langList[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            langList[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            langList[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)*/
         }
     }
 

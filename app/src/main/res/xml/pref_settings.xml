@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- Account -->
     <PreferenceCategory
@@ -74,7 +73,7 @@
             app:key="@string/Settings_Rights_Key"
             app:title="@string/Settings_Rights"
             app:iconSpaceReserved="false"
-            android:enabled="false"/>
+            app:enabled="false"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

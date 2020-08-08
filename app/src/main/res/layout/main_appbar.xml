@@ -9,16 +9,14 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+            app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            android:id="@+id/main_appbar_toolbar"/>
+            android:id="@+id/Main_Appbar_Toolbar"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/main_content" />
