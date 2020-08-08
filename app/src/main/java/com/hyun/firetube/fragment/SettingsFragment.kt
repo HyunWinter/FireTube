@@ -1,14 +1,15 @@
 package com.hyun.firetube.fragment
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.view.Window
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -72,8 +73,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
             val themeList = resources.getStringArray(R.array.Settings_Theme_Alias)
 
             when (newValue) {
-                themeList[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                themeList[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                themeList[0] -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+                themeList[1] -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
                 themeList[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             }
 
@@ -91,7 +96,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             when (newValue) {
                 // en
-                langList[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                langList[0] -> ""
             }
 
             true
