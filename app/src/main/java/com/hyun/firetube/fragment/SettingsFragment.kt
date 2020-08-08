@@ -1,9 +1,14 @@
 package com.hyun.firetube.fragment
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -11,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.hyun.firetube.BuildConfig
 import com.hyun.firetube.R
 import com.hyun.firetube.`interface`.AuthActivity
+
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -22,11 +28,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private lateinit var authInstance : FirebaseAuth
     private lateinit var googleSignInClient : GoogleSignInClient
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        addPreferencesFromResource(R.xml.pref_settings)
+    override fun onCreatePreferences(savedInstanceState : Bundle?, rootKey : String?) {
+        setPreferencesFromResource(R.xml.pref_settings, rootKey)
 
         this.setLogout()
-        this.setAppTheme()
+        this.setTheme()
         this.setLanguage()
         this.setAbout()
     }
@@ -57,12 +63,51 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     // General
-    private fun setAppTheme() {
-        findPreference<Preference>(getString(R.string.Settings_Theme_Key))?.setDefaultValue(1)
+    private fun setTheme() {
+
+        // Get Themes
+        val themeList = resources.getStringArray(R.array.Settings_Theme_Alias)
+
+        // Preference Listener
+        findPreference<ListPreference>(getString(R.string.Settings_Theme_Key))?.setOnPreferenceChangeListener {
+                preference, newValue ->
+
+            when (newValue) {
+                // Light Theme
+                themeList[0] -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+                // Dark Theme
+                themeList[1] -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+                // System Theme
+                themeList[2] -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                }
+            }
+
+            true
+        }
     }
 
     private fun setLanguage() {
-        findPreference<Preference>(getString(R.string.Settings_Language_Key))?.setDefaultValue(1)
+        // Get Themes
+        val langList = resources.getStringArray(R.array.Settings_Language_Alias)
+
+        // Preference Listener
+        findPreference<ListPreference>(getString(R.string.Settings_Language_Key))?.setOnPreferenceChangeListener {
+                preference, newValue ->
+
+            when (newValue) {
+                // en
+                langList[0] -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+
+            true
+        }
     }
 
     // About

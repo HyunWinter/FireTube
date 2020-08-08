@@ -65,7 +65,6 @@
             android:layout_margin="5dp"
             android:singleLine="true"
             android:textSize="22sp"
-            android:textColor="@color/black"
             android:id="@+id/Playlist_Title"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

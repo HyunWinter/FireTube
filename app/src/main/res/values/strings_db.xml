@@ -22,19 +22,29 @@
         <item>日本語</item>
         <item>한국어</item>
     </string-array>
+    <string name="Settings_Language_Alias_1">en</string>
+    <string name="Settings_Language_Alias_2">de</string>
+    <string name="Settings_Language_Alias_3">es</string>
+    <string name="Settings_Language_Alias_4">fr</string>
+    <string name="Settings_Language_Alias_5">zh</string>
+    <string name="Settings_Language_Alias_6">ja</string>
+    <string name="Settings_Language_Alias_7">ko</string>
     <string-array name="Settings_Language_Alias">
-        <item>en</item>
-        <item>de</item>
-        <item>es</item>
-        <item>fr</item>
-        <item>zh</item>
-        <item>ja</item>
-        <item>ko</item>
+        <item>@string/Settings_Language_Alias_1</item>
+        <item>@string/Settings_Language_Alias_2</item>
+        <item>@string/Settings_Language_Alias_3</item>
+        <item>@string/Settings_Language_Alias_4</item>
+        <item>@string/Settings_Language_Alias_5</item>
+        <item>@string/Settings_Language_Alias_6</item>
+        <item>@string/Settings_Language_Alias_7</item>
     </string-array>
+    <string name="Settings_Theme_Alias_1">light_theme</string>
+    <string name="Settings_Theme_Alias_2">dark_theme</string>
+    <string name="Settings_Theme_Alias_3">system_theme</string>
     <string-array name="Settings_Theme_Alias">
-        <item>light_theme</item>
-        <item>dark_theme</item>
-        <item>system_theme</item>
+        <item>@string/Settings_Theme_Alias_1</item>
+        <item>@string/Settings_Theme_Alias_2</item>
+        <item>@string/Settings_Theme_Alias_3</item>
     </string-array>
     <string name="Settings_Policy_Key">settings_policy</string>
     <string name="Settings_Terms_Key">settings_terms</string>

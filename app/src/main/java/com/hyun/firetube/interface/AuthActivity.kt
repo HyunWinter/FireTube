@@ -5,6 +5,9 @@ import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.Preference
+import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -32,9 +35,41 @@ class AuthActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-        this.hideLoginLayout()
+        this.setDefaultPreference()
         this.setFirebaseAuth()
         this.setGoogleAuth()
+    }
+
+    /************************************************************************
+     * Purpose:         Set Default Preference
+     * Precondition:    onCreate
+     * Postcondition:   Call user preferences if exist
+     ************************************************************************/
+    private fun setDefaultPreference() {
+
+        // Get Themes
+        val themeList = resources.getStringArray(R.array.Settings_Theme_Alias)
+
+        // Load Shared Preferences
+        val savedTheme = PreferenceManager
+            .getDefaultSharedPreferences(this)
+            .getString(getString(R.string.Settings_Theme_Key), themeList[0])
+
+        // Change Theme
+        when (savedTheme) {
+            // Light Theme
+            themeList[0] -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+            // Dark Theme
+            themeList[1] -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            // System Theme
+            themeList[2] -> {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
+        }
     }
 
     /************************************************************************
@@ -138,7 +173,6 @@ class AuthActivity : BaseActivity() {
             }
     }
 
-
     /************************************************************************
      * Purpose:         Show & Hide XML
      * Precondition:    .
@@ -147,14 +181,14 @@ class AuthActivity : BaseActivity() {
     private fun hideLoginLayout()
     {
         this.Auth_LoginLayout.visibility = View.GONE
-        this.Auth_LoginLayout.isEnabled = false
+        this.Auth_LoginLayout.isClickable = false
         this.showProgressBar(this.Auth_ProgressBar)
     }
 
     private fun showLoginLayout()
     {
         this.Auth_LoginLayout.visibility = View.VISIBLE
-        this.Auth_LoginLayout.isEnabled = true
+        this.Auth_LoginLayout.isClickable = true
         this.hideProgressBar(this.Auth_ProgressBar)
         this.startBGAnim()
     }

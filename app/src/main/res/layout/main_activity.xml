@@ -7,8 +7,10 @@
     android:fitsSystemWindows="true"
     android:id="@+id/main_activity_drawerlayout">
 
+    <!-- Toolbar + Content Fragment -->
     <include layout="@layout/main_appbar"/>
 
+    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
@@ -17,4 +19,5 @@
         app:headerLayout="@layout/main_navheader"
         app:menu="@menu/menu_drawer"
         android:id="@+id/main_activity_navigationview"/>
+
 </androidx.drawerlayout.widget.DrawerLayout>
