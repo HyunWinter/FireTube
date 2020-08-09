@@ -1,4 +1,4 @@
-package com.hyun.firetube.`interface`
+package com.hyun.firetube.activity
 
 import android.os.Bundle
 import android.view.Menu
@@ -23,10 +23,10 @@ import kotlinx.android.synthetic.main.main_appbar.*
  *                  1.3 MainActivity -> SettingsFragment
  *
  *                  2.1 PlaylistFragment -> (MakePlaylistRequestTask)
- *                  2.2 PlaylistFragment -> PlaylistItemActivity
- *                  2.3 PlaylistItemActivity -> VideoPlayerActivity
+ *                  2.2 PlaylistFragment -> VideosActivity
+ *                  2.3 VideosActivity -> VideoPlayerActivity
  *
- *                  3.1 VideosFragment -> (MakeVideoRequestTask)
+ *                  3.1 VideosFragment -> (MakeVideosRequestTask)
  *                  3.2 VideosFragment -> VideoPlayerActivity
  *
  *                  4.1 SettingsFragment -> AuthActivity
@@ -75,6 +75,8 @@ class MainActivity : AppCompatActivity() {
      * Postcondition:   Return navigation controller
      ************************************************************************/
     private fun setNavHeader() {
+        // TODO Navigation Drawer To Bottom Navigation Layout
+        // TODO OR Adapt The Drawer To Tablet
         this.mAuthInstance = FirebaseAuth.getInstance()
 
         this.main_activity_navigationview
@@ -93,10 +95,10 @@ class MainActivity : AppCompatActivity() {
      * Precondition:    When menu is constructed
      * Postcondition:   Inflate menu items
      ************************************************************************/
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
-    }
+    }*/
 
     /************************************************************************
      * Purpose:         On Support Navigate Up

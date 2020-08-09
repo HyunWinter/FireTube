@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hyun.firetube.R
 import com.hyun.firetube.model.Playlist
+import kotlinx.android.synthetic.main.listitem_playlists.view.*
 
 
 /************************************************************************
@@ -42,11 +43,13 @@ class PlaylistAdapter(context : Context?,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        var playlist : Playlist = this.mPlayLists!![position]
+        val playlist : Playlist = this.mPlayLists!![position]
 
         holder.title.text = playlist.title
         holder.itemCount.text = playlist.itemCount.toString()
-        Glide.with(mContext!!).load(playlist.thumbnail).into(holder.thumbnail)
+        Glide.with(mContext!!)
+            .load(playlist.thumbnail)
+            .into(holder.thumbnail)
     }
 
     override fun getItemCount(): Int {
@@ -59,14 +62,15 @@ class PlaylistAdapter(context : Context?,
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    inner class ViewHolder(itemView : View, clickListener : PlaylistClickListener) :
+    inner class ViewHolder(itemView : View,
+                           clickListener : PlaylistClickListener) :
         RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
 
-        var title = itemView.findViewById(R.id.Playlist_Title) as TextView
-        var itemCount = itemView.findViewById(R.id.Playlist_ItemCount) as TextView
-        var thumbnail = itemView.findViewById(R.id.Playlist_Thumbnail) as ImageView
-        var playlistClickListener : PlaylistClickListener = clickListener
+        var title : TextView = itemView.ListItem_Playlist_Title
+        var itemCount : TextView = itemView.ListItem_Playlist_ItemCount
+        var thumbnail : ImageView = itemView.ListItem_Playlist_Thumbnail
+        private var playlistClickListener : PlaylistClickListener = clickListener
 
         init {
             itemView.setOnClickListener(this)

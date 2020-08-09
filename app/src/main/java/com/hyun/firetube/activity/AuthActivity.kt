@@ -1,13 +1,11 @@
-package com.hyun.firetube.`interface`
+package com.hyun.firetube.activity
 
 import android.content.Intent
-import android.content.res.Resources
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient

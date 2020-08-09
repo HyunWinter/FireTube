@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/auth_bg_anim"
     android:id="@+id/Auth_Background"
-    tools:context=".interface.AuthActivity">
+    tools:context=".activity.AuthActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

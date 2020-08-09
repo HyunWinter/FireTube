@@ -20,8 +20,9 @@
     <string name="Nav_Settings">Settings</string>
 
     <!-- Playlist -->
-    <string name="Playlist_Thumbnail">Video Thumbnail</string>
-    <string name="Playlist_Default_Size">1</string>
+    <string name="Playlist_Size">Playlist Size</string>
+    <string name="Playlist_Thumbnail">Playlist Thumbnail</string>
+    <string name="Video_Thumbnail">Video Thumbnail</string>
 
     <!-- Settings -->
     <string name="Settings_Account">Account</string>

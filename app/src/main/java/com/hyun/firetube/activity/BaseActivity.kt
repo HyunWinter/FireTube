@@ -1,4 +1,4 @@
-package com.hyun.firetube.`interface`
+package com.hyun.firetube.activity
 
 import android.content.Context
 import android.net.ConnectivityManager

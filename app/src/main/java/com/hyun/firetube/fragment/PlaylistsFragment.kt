@@ -1,19 +1,21 @@
 package com.hyun.firetube.fragment
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.util.DisplayMetrics
+import android.view.*
+import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
-import com.hyun.firetube.`interface`.PlaylistItemActivity
+import com.hyun.firetube.activity.VideoActivity
 import com.hyun.firetube.adapter.PlaylistAdapter
 import com.hyun.firetube.database.MakePlaylistRequestTask
 import com.hyun.firetube.model.Playlist
+import com.hyun.firetube.utility.Helper
 import kotlinx.android.synthetic.main.frag_playlists.*
 import kotlinx.android.synthetic.main.frag_playlists.view.*
+import kotlinx.android.synthetic.main.listitem_playlists.*
 import java.util.*
 
 class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener {
@@ -26,8 +28,8 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
     }
 
     // Variables
-    private lateinit var mPlaylistAdapter : PlaylistAdapter
-    private lateinit var mPlaylist : ArrayList<Playlist>
+    private lateinit var mPlaylistsAdapter : PlaylistAdapter
+    private lateinit var mPlaylists : ArrayList<Playlist>
     private lateinit var mRoot : View
 
     /************************************************************************
@@ -41,8 +43,9 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
     ): View? {
 
         this.mRoot = inflater.inflate(R.layout.frag_playlists, container, false)
+        setHasOptionsMenu(true)
         this.setContents()
-        this.getResultsFromApi()
+        //if (this.mPlaylists.isEmpty()) this.getResultsFromApi()
 
         return this.mRoot
     }
@@ -54,14 +57,22 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
      ************************************************************************/
     private fun setContents() {
 
-        this.mPlaylist = arrayListOf()
-        this.mPlaylistAdapter = PlaylistAdapter(
+        this.mPlaylists = arrayListOf()
+        this.mPlaylistsAdapter = PlaylistAdapter(
             activity?.applicationContext,
-            this.mPlaylist,
+            this.mPlaylists,
             this)
         this.mRoot.Playlists_RecyclerView.setHasFixedSize(true)
-        this.mRoot.Playlists_RecyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
-        this.mRoot.Playlists_RecyclerView.adapter = this.mPlaylistAdapter
+
+        val layoutManager = GridLayoutManager(
+            activity?.applicationContext,
+            Helper().calcGridWidthCount(
+                requireActivity().applicationContext,
+                480F
+            )
+        )
+        this.mRoot.Playlists_RecyclerView.layoutManager = layoutManager
+        this.mRoot.Playlists_RecyclerView.adapter = this.mPlaylistsAdapter
     }
 
     fun getRoot() : View {
@@ -75,9 +86,9 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
      ************************************************************************/
     override fun onPlaylistSelected(position: Int) {
 
-        val intent = Intent(activity, PlaylistItemActivity::class.java)
-        intent.putExtra(getString(R.string.Playlist_ID_Key), this.mPlaylist[position].id)
-        intent.putExtra(getString(R.string.Playlist_Title_Key), this.mPlaylist[position].title)
+        val intent = Intent(activity, VideoActivity::class.java)
+        intent.putExtra(getString(R.string.Playlist_ID_Key), this.mPlaylists[position].id)
+        intent.putExtra(getString(R.string.Playlist_Title_Key), this.mPlaylists[position].title)
         startActivity(intent)
     }
 
@@ -88,9 +99,9 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
      ************************************************************************/
     fun updatePlaylistAdapter(playlist : ArrayList<Playlist>) {
 
-        this.mPlaylist.clear()
-        this.mPlaylist.addAll(playlist)
-        this.mPlaylistAdapter.notifyDataSetChanged()
+        this.mPlaylists.clear()
+        this.mPlaylists.addAll(playlist)
+        this.mPlaylistsAdapter.notifyDataSetChanged()
     }
 
     /************************************************************************
@@ -168,5 +179,25 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
         override fun compare(o1: Playlist, o2: Playlist): Int {
             return o1.title.compareTo(o2.title)
         }
+    }
+
+    /************************************************************************
+     * Purpose:         On Create Options Menu
+     * Precondition:    When menu is constructed
+     * Postcondition:   Inflate menu items
+     ************************************************************************/
+    override fun onCreateOptionsMenu(menu : Menu, inflater : MenuInflater) {
+
+        inflater.inflate(R.menu.menu_main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item : MenuItem) : Boolean {
+
+        when (item.itemId) {
+            R.id.menu_main_refresh -> this.getResultsFromApi()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

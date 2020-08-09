@@ -3,4 +3,11 @@
     <!-- Authentication Page -->
     <dimen name="Auth_HeaderDimen">40sp</dimen>
     <dimen name="Auth_AnimFadeDuration">4000</dimen>
+
+    <!-- Playlist & Video -->
+    <dimen name="RecyclerViewItem_Margin">10dp</dimen>
+    <dimen name="CardView_CornerRadius">0dp</dimen>
+    <dimen name="CardView_Elevation">2dp</dimen>
+    <dimen name="RecyclerViewItem_Height">200dp</dimen>
+
 </resources>

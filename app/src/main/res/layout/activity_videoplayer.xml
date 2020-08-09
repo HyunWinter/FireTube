@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/VideoPlayer_Background">
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
@@ -14,7 +15,25 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            android:id="@+id/PlaylistItem_Toolbar"/>
+            android:id="@+id/VideoPlayer_Toolbar"/>
     </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.youtube.player.YouTubePlayerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/VideoPlayer_Youtube"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/main_play_icon"
+        android:id="@+id/VideoPlayer_Play"/>
+
+    <!-- Hidden Progress Bar (Hidden) -->
+    <ProgressBar
+        style="@style/ProgressBar"
+        android:id="@+id/PlaylistItem_ProgressBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

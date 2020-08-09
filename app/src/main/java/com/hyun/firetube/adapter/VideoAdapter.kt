@@ -17,15 +17,18 @@ import com.hyun.firetube.model.Video
  * Postcondition:   Initiate and Assign View Holders to
  *                  XML listitem_videos
  ************************************************************************/
-class VideoAdapter(context : Context?, videolist : ArrayList<Video>) :
+class VideoAdapter(context : Context?,
+                   videoList : ArrayList<Video>,
+                   clickListener: VideoClickListener) :
     RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
 
     companion object {
         private const val TAG = "VideoAdapter"  // Logcat
     }
 
-    private val mVideoLists : ArrayList<Video>? = videolist
+    private val mVideoLists : ArrayList<Video>? = videoList
     private val mContext : Context? = context
+    private val mVideoClickListener = clickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoAdapter.ViewHolder {
 
@@ -33,7 +36,7 @@ class VideoAdapter(context : Context?, videolist : ArrayList<Video>) :
             .from(parent.context)
             .inflate(R.layout.listitem_videos, parent, false)
 
-        return ViewHolder(view)
+        return ViewHolder(view, this.mVideoClickListener)
     }
 
     override fun onBindViewHolder(holder: VideoAdapter.ViewHolder, position: Int) {
@@ -54,9 +57,30 @@ class VideoAdapter(context : Context?, videolist : ArrayList<Video>) :
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View,
+                           clickListener : VideoClickListener) :
+        RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
 
         var title = itemView.findViewById<View>(R.id.Video_Title) as TextView
         var thumbnail = itemView.findViewById(R.id.Video_Thumbnail) as ImageView
+        private var videoClickListener : VideoClickListener = clickListener
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            this.videoClickListener.onVideoSelected(adapterPosition)
+        }
+    }
+
+    /************************************************************************
+     * Purpose:         Click Listener Interface
+     * Precondition:    onPlaylistSelected in PlaylistFragment
+     * Postcondition:   Send Position
+     ************************************************************************/
+    interface VideoClickListener {
+        fun onVideoSelected(position: Int)
     }
 }

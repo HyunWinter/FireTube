@@ -1,12 +1,8 @@
 package com.hyun.firetube.fragment
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
-import android.view.Window
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -16,7 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.hyun.firetube.BuildConfig
 import com.hyun.firetube.R
-import com.hyun.firetube.`interface`.AuthActivity
+import com.hyun.firetube.activity.AuthActivity
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -73,12 +69,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
             val themeList = resources.getStringArray(R.array.Settings_Theme_Alias)
 
             when (newValue) {
-                themeList[0] -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                }
-                themeList[1] -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
+                themeList[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                themeList[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 themeList[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             }
 

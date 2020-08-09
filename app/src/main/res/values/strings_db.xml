@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
 
-    <!-- Playlist -->
+    <!-- Playlist & Video -->
     <string name="Playlist_ID_Key">playlist_id_key</string>
     <string name="Playlist_Title_Key">playlist_title_key</string>
+    <string name="Video_ID_Key">video_id_key</string>
+    <string name="Video_Title_Key">video_title_key</string>
 
     <!-- Settings -->
     <string name="Settings_Logout_Key">settings_logout</string>

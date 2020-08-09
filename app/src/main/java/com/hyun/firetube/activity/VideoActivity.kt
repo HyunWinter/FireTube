@@ -1,4 +1,4 @@
-package com.hyun.firetube.`interface`
+package com.hyun.firetube.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_playlistitem.*
 import kotlinx.android.synthetic.main.frag_videos.*
 import java.util.*
 
-class PlaylistItemActivity : BaseActivity() {
+class VideoActivity : BaseActivity(), VideoAdapter.VideoClickListener {
 
     // Companion
     companion object {
@@ -60,7 +60,7 @@ class PlaylistItemActivity : BaseActivity() {
     private fun setContents() {
 
         this.mVideos = arrayListOf()
-        this.mVideoAdapter = VideoAdapter(this, this.mVideos)
+        this.mVideoAdapter = VideoAdapter(this, this.mVideos, this)
         this.PlaylistItem_RecyclerView.setHasFixedSize(true)
         this.PlaylistItem_RecyclerView.layoutManager = LinearLayoutManager(this)
         this.PlaylistItem_RecyclerView.adapter = this.mVideoAdapter
@@ -76,6 +76,19 @@ class PlaylistItemActivity : BaseActivity() {
         this.mVideos.clear()
         this.mVideos.addAll(videos)
         this.mVideoAdapter.notifyDataSetChanged()
+    }
+
+    /************************************************************************
+     * Purpose:         Parcelable Video Click to VideoPlayerActivity
+     * Precondition:    Video Selected
+     * Postcondition:   .
+     ************************************************************************/
+    override fun onVideoSelected(position: Int) {
+
+        val intent = Intent(this, VideoPlayerActivity::class.java)
+        intent.putExtra(getString(R.string.Video_ID_Key), this.mVideos[position].id)
+        intent.putExtra(getString(R.string.Video_Title_Key), this.mVideos[position].title)
+        startActivity(intent)
     }
 
     /************************************************************************
@@ -161,7 +174,7 @@ class PlaylistItemActivity : BaseActivity() {
      * Postcondition:   .
      ************************************************************************/
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        finish()
         return true
     }
 }

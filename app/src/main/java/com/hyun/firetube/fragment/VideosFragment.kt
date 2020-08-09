@@ -7,23 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
-import com.google.api.services.youtube.YouTubeScopes
 import com.hyun.firetube.R
-import com.hyun.firetube.adapter.PlaylistAdapter
+import com.hyun.firetube.activity.VideoPlayerActivity
 import com.hyun.firetube.adapter.VideoAdapter
-import com.hyun.firetube.database.MakePlaylistRequestTask
 import com.hyun.firetube.database.MakeVideoRequestTask
-import com.hyun.firetube.model.Playlist
 import com.hyun.firetube.model.Video
-import kotlinx.android.synthetic.main.frag_playlists.*
-import kotlinx.android.synthetic.main.frag_playlists.view.*
 import kotlinx.android.synthetic.main.frag_videos.*
 import kotlinx.android.synthetic.main.frag_videos.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class VideosFragment : BaseFragment() {
+class VideosFragment : BaseFragment(), VideoAdapter.VideoClickListener {
 
     // Companion
     companion object {
@@ -33,7 +27,7 @@ class VideosFragment : BaseFragment() {
     }
 
     // Variables
-    private lateinit var mVideoAdapter : VideoAdapter
+    private lateinit var mVideosAdapter : VideoAdapter
     private lateinit var mVideos : ArrayList<Video>
     private lateinit var mRoot : View
 
@@ -62,14 +56,27 @@ class VideosFragment : BaseFragment() {
     private fun setContents() {
 
         this.mVideos = arrayListOf()
-        this.mVideoAdapter = VideoAdapter(activity?.applicationContext, this.mVideos)
+        this.mVideosAdapter = VideoAdapter(activity?.applicationContext, this.mVideos, this)
         this.mRoot.Videos_RecyclerView.setHasFixedSize(true)
         this.mRoot.Videos_RecyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
-        this.mRoot.Videos_RecyclerView.adapter = this.mVideoAdapter
+        this.mRoot.Videos_RecyclerView.adapter = this.mVideosAdapter
     }
 
     fun getRoot() : View {
         return this.mRoot
+    }
+
+    /************************************************************************
+     * Purpose:         Parcelable Video Click to VideoPlayerActivity
+     * Precondition:    Video Selected
+     * Postcondition:   .
+     ************************************************************************/
+    override fun onVideoSelected(position: Int) {
+
+        val intent = Intent(activity, VideoPlayerActivity::class.java)
+        intent.putExtra(getString(R.string.Video_ID_Key), this.mVideos[position].id)
+        intent.putExtra(getString(R.string.Video_Title_Key), this.mVideos[position].title)
+        startActivity(intent)
     }
 
     /************************************************************************
@@ -81,7 +88,7 @@ class VideosFragment : BaseFragment() {
 
         this.mVideos.clear()
         this.mVideos.addAll(videos)
-        this.mVideoAdapter.notifyDataSetChanged()
+        this.mVideosAdapter.notifyDataSetChanged()
     }
 
     /************************************************************************
@@ -149,14 +156,14 @@ class VideosFragment : BaseFragment() {
      *                  it only works for videos and not playlists.
      * Postcondition:   .
      ************************************************************************/
-    fun sortVideos(videos : ArrayList<Video>) {
-        if (videos.size > 1) {
-            Collections.sort(videos, VideosComparator())
+    fun sortVideos(playlistItem : ArrayList<Video>) {
+        if (playlistItem.size > 1) {
+            Collections.sort(playlistItem, VideosComparator())
         }
     }
 
     inner class VideosComparator : Comparator<Video> {
-        override fun compare(o1: Video, o2: Video): Int {
+        override fun compare(o1 : Video, o2 : Video): Int {
             return o1.title.compareTo(o2.title)
         }
     }

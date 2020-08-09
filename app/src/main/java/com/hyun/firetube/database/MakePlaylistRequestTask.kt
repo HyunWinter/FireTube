@@ -29,7 +29,7 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
 
     companion object{
         private const val TAG = "MakePlaylistRequestTask"  // Logcat
-        private const val DEFAULT_REQUEST_SIZE = 20L
+        private const val DEFAULT_REQUEST_SIZE = 2L // TODO FIX
         private const val DEFAULT_REQUEST_TYPE = "snippet,contentDetails"
         private val SCOPES = arrayOf(YouTubeScopes.YOUTUBE_READONLY)
     }
@@ -89,7 +89,7 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
         // Since Youtube API has limited number of requests,
         // I will implement something in Firestore caching to minimize
         // wasteful reads.
-        while (mPageToken != null) {
+        //while (mPageToken != null) {
 
             val result = mService!!
                 .playlists()
@@ -108,12 +108,12 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
                     Playlist(
                         playlistResults[i].id,
                         playlistResults[i].snippet.title,
-                        playlistResults[i].snippet.thumbnails.high.url,
+                        playlistResults[i].snippet.thumbnails.maxres.url,
                         playlistResults[i].contentDetails.itemCount.toInt()
                     )
                 )
             }
-        }
+        //}
 
         return playlist
     }
