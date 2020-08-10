@@ -1,99 +1,85 @@
-package com.hyun.firetube.activity
+package com.hyun.firetube.fragment
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.hyun.firetube.R
+import com.hyun.firetube.activity.VideoPlayerActivity
 import com.hyun.firetube.adapter.VideoAdapter
-import com.hyun.firetube.database.MakePlaylistItemRequestTask
+import com.hyun.firetube.database.MakeUploadsRequestTask
 import com.hyun.firetube.model.Video
 import com.hyun.firetube.utility.Helper
-import kotlinx.android.synthetic.main.activity_playlistitem.*
-import kotlinx.android.synthetic.main.frag_videos.*
-import kotlinx.android.synthetic.main.frag_videos.view.*
+import kotlinx.android.synthetic.main.frag_uploads.*
+import kotlinx.android.synthetic.main.frag_uploads.view.*
 import java.util.*
 
-class VideosActivity : BaseActivity(), VideoAdapter.VideoClickListener {
+
+class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener {
 
     // Companion
     companion object {
-        private const val TAG = "PlaylistItemActivity"  // Logcat
+        private const val TAG = "VideoFragment"  // Logcat
         const val REQUEST_AUTHORIZATION = 1001
         const val REQUEST_GOOGLE_PLAY_SERVICES = 1002
     }
 
     // Variables
-    private lateinit var mVideosAdapter : VideoAdapter
-    private lateinit var mVideos : ArrayList<Video>
-    private lateinit var mPlaylistID : String
+    private lateinit var mUploadsAdapter : VideoAdapter
+    private lateinit var mUploads : ArrayList<Video>
+    private lateinit var mRoot : View
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /************************************************************************
+     * Purpose:         onCreate
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?
+    ): View? {
 
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_playlistitem)
-
-        this.setToolbar()
+        this.mRoot = inflater.inflate(R.layout.frag_uploads, container, false)
         this.setContents()
         this.getResultsFromApi()
+
+        return this.mRoot
     }
 
     /************************************************************************
-     * Purpose:         Set Intent
-     * Precondition:    onCreate
-     * Postcondition:   Contents Initialization
-     ************************************************************************/
-    private fun setToolbar() {
-
-        this.mPlaylistID = intent.getStringExtra(getString(R.string.Playlist_ID_Key)) as String
-        val playlistTitle = intent.getStringExtra(getString(R.string.Playlist_Title_Key))
-
-        setSupportActionBar(this.PlaylistItem_Toolbar)
-        supportActionBar?.title = playlistTitle
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-    }
-
-    /************************************************************************
-     * Purpose:         Set Contents
+     * Purpose:         setContents
      * Precondition:    onCreate
      * Postcondition:   Contents Initialization
      ************************************************************************/
     private fun setContents() {
 
-        this.mVideos = arrayListOf()
-        this.mVideosAdapter = VideoAdapter(
-            this,
-            this.mVideos,
+        this.mUploads = arrayListOf()
+        this.mUploadsAdapter = VideoAdapter(
+            activity?.applicationContext,
+            this.mUploads,
             this
         )
 
         val outValue = TypedValue()
         resources.getValue(R.dimen.RecyclerViewItem_ColumnWidth, outValue, true)
         val layoutManager = GridLayoutManager(
-            this,
+            activity?.applicationContext,
             Helper().calcGridWidthCount(
-                this,
+                requireActivity().applicationContext,
                 outValue.float
             )
         )
-        this.PlaylistItem_RecyclerView.setHasFixedSize(true)
-        this.PlaylistItem_RecyclerView.layoutManager = layoutManager
-        this.PlaylistItem_RecyclerView.adapter = this.mVideosAdapter
+        this.mRoot.Videos_RecyclerView.setHasFixedSize(true)
+        this.mRoot.Videos_RecyclerView.layoutManager = layoutManager
+        this.mRoot.Videos_RecyclerView.adapter = this.mUploadsAdapter
     }
 
-    /************************************************************************
-     * Purpose:         Update mPlaylist and Notify RecyclerView Adapter
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    fun updateVideoAdapter(videos : ArrayList<Video>) {
-
-        this.mVideos.clear()
-        this.mVideos.addAll(videos)
-        this.mVideosAdapter.notifyDataSetChanged()
+    fun getRoot() : View {
+        return this.mRoot
     }
 
     /************************************************************************
@@ -103,10 +89,22 @@ class VideosActivity : BaseActivity(), VideoAdapter.VideoClickListener {
      ************************************************************************/
     override fun onVideoSelected(position: Int) {
 
-        val intent = Intent(this, VideoPlayerActivity::class.java)
-        intent.putExtra(getString(R.string.Video_ID_Key), this.mVideos[position].id)
-        intent.putExtra(getString(R.string.Video_Title_Key), this.mVideos[position].title)
+        val intent = Intent(activity, VideoPlayerActivity::class.java)
+        intent.putExtra(getString(R.string.Video_ID_Key), this.mUploads[position].id)
+        intent.putExtra(getString(R.string.Video_Title_Key), this.mUploads[position].title)
         startActivity(intent)
+    }
+
+    /************************************************************************
+     * Purpose:         Update mPlaylist and Notify RecyclerView Adapter
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    fun updateVideoAdapter(videos : ArrayList<Video>) {
+
+        this.mUploads.clear()
+        this.mUploads.addAll(videos)
+        this.mUploadsAdapter.notifyDataSetChanged()
     }
 
     /************************************************************************
@@ -126,7 +124,7 @@ class VideosActivity : BaseActivity(), VideoAdapter.VideoClickListener {
             makeSnackBar(this.Videos_Background, "No network connection available.")
         }
         else {
-            MakePlaylistItemRequestTask(this, this.mPlaylistID).execute()
+            MakeUploadsRequestTask(this).execute()
         }
     }
 
@@ -174,15 +172,15 @@ class VideosActivity : BaseActivity(), VideoAdapter.VideoClickListener {
      *                  it only works for videos and not playlists.
      * Postcondition:   .
      ************************************************************************/
-    fun sortVideos(videos : ArrayList<Video>) {
-        if (videos.size > 1) {
-            Collections.sort(videos, VideosComparator())
+    fun sortVideos(uploads : ArrayList<Video>) {
+        if (uploads.size > 1) {
+            Collections.sort(uploads, VideosComparator())
         }
     }
 
     inner class VideosComparator : Comparator<Video> {
-        override fun compare(o1: Video, o2: Video): Int {
-            return o1.title.compareTo(o2.title)
+        override fun compare(upload1 : Video, upload2 : Video): Int {
+            return upload1.title.compareTo(upload2.title)
         }
     }
 }

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/nav_videos"
-        android:name="com.hyun.firetube.fragment.VideosFragment"
-        android:label="@string/Nav_Videos"
-        tools:layout="@layout/frag_videos"/>
+        android:name="com.hyun.firetube.fragment.UploadsFragment"
+        android:label="@string/Nav_Uploads"
+        tools:layout="@layout/frag_uploads"/>
 
     <fragment
         android:id="@+id/nav_playlists"

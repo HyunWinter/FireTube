@@ -7,7 +7,7 @@ import android.util.TypedValue
 import android.view.*
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
-import com.hyun.firetube.activity.VideosActivity
+import com.hyun.firetube.activity.VideoListActivity
 import com.hyun.firetube.adapter.PlaylistAdapter
 import com.hyun.firetube.database.MakePlaylistRequestTask
 import com.hyun.firetube.model.Playlist
@@ -86,7 +86,7 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
      ************************************************************************/
     override fun onPlaylistSelected(position: Int) {
 
-        val intent = Intent(activity, VideosActivity::class.java)
+        val intent = Intent(activity, VideoListActivity::class.java)
         intent.putExtra(getString(R.string.Playlist_ID_Key), this.mPlaylists[position].id)
         intent.putExtra(getString(R.string.Playlist_Title_Key), this.mPlaylists[position].title)
         startActivity(intent)

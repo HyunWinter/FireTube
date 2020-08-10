@@ -19,15 +19,13 @@ import kotlinx.android.synthetic.main.main_appbar.*
  * Structure:       0.1 AuthActivity : BaseActivity -> MainActivity
  *
  *                  1.1 MainActivity -> PlaylistFragment
- *                  1.2 MainActivity -> VideosFragment
+ *                  1.2 MainActivity -> UploadsFragment
  *                  1.3 MainActivity -> SettingsFragment
  *
- *                  2.1 PlaylistFragment -> (MakePlaylistRequestTask)
- *                  2.2 PlaylistFragment -> VideosActivity
- *                  2.3 VideosActivity -> VideoPlayerActivity
+ *                  2.1 PlaylistFragment -> VideoListActivity
+ *                  2.3 VideoListActivity -> VideoPlayerActivity
  *
- *                  3.1 VideosFragment -> (MakeVideosRequestTask)
- *                  3.2 VideosFragment -> VideoPlayerActivity
+ *                  3.1 UploadsFragment -> VideoPlayerActivity
  *
  *                  4.1 SettingsFragment -> AuthActivity
  *

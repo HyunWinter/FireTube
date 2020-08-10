@@ -14,24 +14,18 @@ import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.youtube.YouTube
 import com.google.api.services.youtube.YouTubeScopes
 import com.hyun.firetube.R
-import com.hyun.firetube.fragment.VideosFragment
+import com.hyun.firetube.activity.VideoListActivity
 import com.hyun.firetube.model.Video
-import kotlinx.android.synthetic.main.frag_videos.view.*
+import kotlinx.android.synthetic.main.activity_playlistitem.*
 import java.util.ArrayList
 
-/************************************************************************
- * Purpose:         Async Task For Youtube API Videos
- * Precondition:    Called from MainActivity
- * Postcondition:   Execute Youtube Service Asynchronously
- ************************************************************************/
-class MakeVideoRequestTask(context : VideosFragment)
+class MakeVideoListRequestTask(context : VideoListActivity, playlistID : String)
     : AsyncTask<Void?, Void?, ArrayList<Video>>() {
 
     companion object{
-        private const val TAG = "MakeVideoRequestTask"  // Logcat
+        private const val TAG = "MakePlaylistRequestTask"  // Logcat
         private const val DEFAULT_REQUEST_SIZE = 20L
-        private const val DEFAULT_REQUEST_TYPE = "snippet"
-        private const val DEFAULT_SRESULT_TYPE = "video"
+        private const val DEFAULT_REQUEST_TYPE = "snippet,contentDetails"
         private val SCOPES = arrayOf(YouTubeScopes.YOUTUBE_READONLY)
     }
 
@@ -40,13 +34,14 @@ class MakeVideoRequestTask(context : VideosFragment)
     private var mLastError : Exception? = null
     private var mPageToken : String? = ""
     private val mContext = context
+    private val mPlaylistID = playlistID
 
     init {
         this.mCredential = GoogleAccountCredential
-            .usingOAuth2(mContext.activity?.applicationContext, listOf(*SCOPES))
+            .usingOAuth2(mContext.applicationContext, listOf(*SCOPES))
             .setBackOff(ExponentialBackOff())
         val googleSignInAccount = GoogleSignIn
-            .getLastSignedInAccount(mContext.activity?.applicationContext)
+            .getLastSignedInAccount(mContext.applicationContext)
         this.mCredential.selectedAccount = googleSignInAccount!!.account
 
         val transport : HttpTransport = NetHttpTransport()
@@ -61,7 +56,7 @@ class MakeVideoRequestTask(context : VideosFragment)
      * Precondition:    .
      * Postcondition:   getDataFromApi error catching
      ************************************************************************/
-    override fun doInBackground(vararg params: Void?): ArrayList<Video>? {
+    override fun doInBackground(vararg params: Void?) : ArrayList<Video>? {
 
         return try {
             getDataFromApi()
@@ -81,13 +76,12 @@ class MakeVideoRequestTask(context : VideosFragment)
      ************************************************************************/
     private fun getDataFromApi() : ArrayList<Video> {
 
-        val video : ArrayList<Video> = arrayListOf()
+        val videoList : ArrayList<Video> = arrayListOf()
 
-        val result = mService!!
-            .search()
+        val result = this.mService!!
+            .playlistItems()
             .list(DEFAULT_REQUEST_TYPE)
-            .setForMine(true)
-            .setType(DEFAULT_SRESULT_TYPE)
+            .setPlaylistId(this.mPlaylistID)
             .setMaxResults(DEFAULT_REQUEST_SIZE)
             .setPageToken(this.mPageToken)
             .execute()
@@ -97,16 +91,16 @@ class MakeVideoRequestTask(context : VideosFragment)
 
         for (i in videoResults.indices) {
 
-            video.add(
+            videoList.add(
                 Video(
-                    videoResults[i].id.videoId,
+                    videoResults[i].contentDetails.videoId,
                     videoResults[i].snippet.title,
                     videoResults[i].snippet.thumbnails.medium.url
                 )
             )
         }
 
-        return video
+        return videoList
     }
 
     /************************************************************************
@@ -115,7 +109,7 @@ class MakeVideoRequestTask(context : VideosFragment)
      * Postcondition:   show ProgressBar
      ************************************************************************/
     override fun onPreExecute() {
-        this.mContext.showProgressBar(this.mContext.getRoot().Videos_ProgressBar)
+        this.mContext.showProgressBar(this.mContext.PlaylistItem_ProgressBar)
     }
 
     /************************************************************************
@@ -126,11 +120,11 @@ class MakeVideoRequestTask(context : VideosFragment)
      ************************************************************************/
     override fun onPostExecute(output : ArrayList<Video>) {
 
-        this.mContext.hideProgressBar(this.mContext.getRoot().Videos_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.PlaylistItem_ProgressBar)
 
         if (output.isEmpty()) {
             this.mContext.makeSnackBar(
-                this.mContext.getRoot().Videos_Background,
+                this.mContext.PlaylistItem_Background,
                 "No results returned."
             )
         }
@@ -147,7 +141,7 @@ class MakeVideoRequestTask(context : VideosFragment)
      ************************************************************************/
     override fun onCancelled() {
 
-        this.mContext.hideProgressBar(this.mContext.getRoot().Videos_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.PlaylistItem_ProgressBar)
 
         if (mLastError != null) {
 
@@ -160,23 +154,24 @@ class MakeVideoRequestTask(context : VideosFragment)
             else if (mLastError is UserRecoverableAuthIOException) {
                 this.mContext.startActivityForResult(
                     (mLastError as UserRecoverableAuthIOException).intent,
-                    VideosFragment.REQUEST_AUTHORIZATION
+                    VideoListActivity.REQUEST_AUTHORIZATION
                 )
             }
             else {
-
                 val errorStr = (
                         "The following error occurred: "
-                        + mLastError!!.message
-                    )
+                                + mLastError!!.message
+                        )
                     .trimIndent()
                 Log.e(TAG, "The following error occurred: $errorStr")
-                this.mContext.makeSnackBar(this.mContext.getRoot().Videos_Background, errorStr)
+                this.mContext.makeSnackBar(this.mContext.PlaylistItem_Background, errorStr)
             }
         }
         else {
-
-            this.mContext.makeSnackBar(this.mContext.getRoot().Videos_Background, "Request cancelled.")
+            this.mContext.makeSnackBar(
+                this.mContext.PlaylistItem_Background,
+                "Request cancelled."
+            )
         }
     }
 }

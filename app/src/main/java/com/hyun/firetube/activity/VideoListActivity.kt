@@ -1,99 +1,85 @@
-package com.hyun.firetube.fragment
+package com.hyun.firetube.activity
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
-import com.hyun.firetube.activity.VideoPlayerActivity
 import com.hyun.firetube.adapter.VideoAdapter
-import com.hyun.firetube.database.MakeVideoRequestTask
+import com.hyun.firetube.database.MakeVideoListRequestTask
 import com.hyun.firetube.model.Video
 import com.hyun.firetube.utility.Helper
-import kotlinx.android.synthetic.main.frag_playlists.view.*
-import kotlinx.android.synthetic.main.frag_videos.*
-import kotlinx.android.synthetic.main.frag_videos.view.*
+import kotlinx.android.synthetic.main.activity_playlistitem.*
+import kotlinx.android.synthetic.main.frag_uploads.*
 import java.util.*
 
-
-class VideosFragment : BaseFragment(), VideoAdapter.VideoClickListener {
+class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener {
 
     // Companion
     companion object {
-        private const val TAG = "VideoFragment"  // Logcat
+        private const val TAG = "PlaylistItemActivity"  // Logcat
         const val REQUEST_AUTHORIZATION = 1001
         const val REQUEST_GOOGLE_PLAY_SERVICES = 1002
     }
 
     // Variables
-    private lateinit var mVideosAdapter : VideoAdapter
-    private lateinit var mVideos : ArrayList<Video>
-    private lateinit var mRoot : View
+    private lateinit var mVideoListAdapter : VideoAdapter
+    private lateinit var mVideoList : ArrayList<Video>
+    private lateinit var mPlayListID : String
 
-    /************************************************************************
-     * Purpose:         onCreate
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
 
-        this.mRoot = inflater.inflate(R.layout.frag_videos, container, false)
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_playlistitem)
+
+        this.setToolbar()
         this.setContents()
         this.getResultsFromApi()
-
-        return this.mRoot
     }
 
     /************************************************************************
-     * Purpose:         setContents
+     * Purpose:         Set Intent
+     * Precondition:    onCreate
+     * Postcondition:   Contents Initialization
+     ************************************************************************/
+    private fun setToolbar() {
+
+        this.mPlayListID = intent.getStringExtra(getString(R.string.Playlist_ID_Key)) as String
+        val playlistTitle = intent.getStringExtra(getString(R.string.Playlist_Title_Key))
+
+        setSupportActionBar(this.PlaylistItem_Toolbar)
+        supportActionBar?.title = playlistTitle
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    /************************************************************************
+     * Purpose:         Set Contents
      * Precondition:    onCreate
      * Postcondition:   Contents Initialization
      ************************************************************************/
     private fun setContents() {
 
-        this.mVideos = arrayListOf()
-        this.mVideosAdapter = VideoAdapter(
-            activity?.applicationContext,
-            this.mVideos,
+        this.mVideoList = arrayListOf()
+        this.mVideoListAdapter = VideoAdapter(
+            this,
+            this.mVideoList,
             this
         )
 
         val outValue = TypedValue()
         resources.getValue(R.dimen.RecyclerViewItem_ColumnWidth, outValue, true)
         val layoutManager = GridLayoutManager(
-            activity?.applicationContext,
+            this,
             Helper().calcGridWidthCount(
-                requireActivity().applicationContext,
+                this,
                 outValue.float
             )
         )
-        this.mRoot.Videos_RecyclerView.setHasFixedSize(true)
-        this.mRoot.Videos_RecyclerView.layoutManager = layoutManager
-        this.mRoot.Videos_RecyclerView.adapter = this.mVideosAdapter
-    }
-
-    fun getRoot() : View {
-        return this.mRoot
-    }
-
-    /************************************************************************
-     * Purpose:         Parcelable Video Click to VideoPlayerActivity
-     * Precondition:    Video Selected
-     * Postcondition:   .
-     ************************************************************************/
-    override fun onVideoSelected(position: Int) {
-
-        val intent = Intent(activity, VideoPlayerActivity::class.java)
-        intent.putExtra(getString(R.string.Video_ID_Key), this.mVideos[position].id)
-        intent.putExtra(getString(R.string.Video_Title_Key), this.mVideos[position].title)
-        startActivity(intent)
+        this.PlaylistItem_RecyclerView.setHasFixedSize(true)
+        this.PlaylistItem_RecyclerView.layoutManager = layoutManager
+        this.PlaylistItem_RecyclerView.adapter = this.mVideoListAdapter
     }
 
     /************************************************************************
@@ -103,9 +89,22 @@ class VideosFragment : BaseFragment(), VideoAdapter.VideoClickListener {
      ************************************************************************/
     fun updateVideoAdapter(videos : ArrayList<Video>) {
 
-        this.mVideos.clear()
-        this.mVideos.addAll(videos)
-        this.mVideosAdapter.notifyDataSetChanged()
+        this.mVideoList.clear()
+        this.mVideoList.addAll(videos)
+        this.mVideoListAdapter.notifyDataSetChanged()
+    }
+
+    /************************************************************************
+     * Purpose:         Parcelable Video Click to VideoPlayerActivity
+     * Precondition:    Video Selected
+     * Postcondition:   .
+     ************************************************************************/
+    override fun onVideoSelected(position: Int) {
+
+        val intent = Intent(this, VideoPlayerActivity::class.java)
+        intent.putExtra(getString(R.string.Video_ID_Key), this.mVideoList[position].id)
+        intent.putExtra(getString(R.string.Video_Title_Key), this.mVideoList[position].title)
+        startActivity(intent)
     }
 
     /************************************************************************
@@ -125,7 +124,7 @@ class VideosFragment : BaseFragment(), VideoAdapter.VideoClickListener {
             makeSnackBar(this.Videos_Background, "No network connection available.")
         }
         else {
-            MakeVideoRequestTask(this).execute()
+            MakeVideoListRequestTask(this, this.mPlayListID).execute()
         }
     }
 
@@ -173,14 +172,14 @@ class VideosFragment : BaseFragment(), VideoAdapter.VideoClickListener {
      *                  it only works for videos and not playlists.
      * Postcondition:   .
      ************************************************************************/
-    fun sortVideos(playlistItem : ArrayList<Video>) {
-        if (playlistItem.size > 1) {
-            Collections.sort(playlistItem, VideosComparator())
+    fun sortVideos(videos : ArrayList<Video>) {
+        if (videos.size > 1) {
+            Collections.sort(videos, VideosComparator())
         }
     }
 
     inner class VideosComparator : Comparator<Video> {
-        override fun compare(o1 : Video, o2 : Video): Int {
+        override fun compare(o1: Video, o2: Video): Int {
             return o1.title.compareTo(o2.title)
         }
     }
