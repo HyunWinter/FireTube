@@ -140,4 +140,14 @@ abstract class BaseActivity : AppCompatActivity(), EasyPermissions.PermissionCal
             progressBar.visibility = View.INVISIBLE
         }
     }
+
+    /************************************************************************
+     * Purpose:         Back Button Override
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
 }

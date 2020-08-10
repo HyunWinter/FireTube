@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/VideoPlayer_Background">
+    android:id="@+id/VideoPlayer_Background"
+    android:orientation="vertical">
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
@@ -18,22 +19,40 @@
             android:id="@+id/VideoPlayer_Toolbar"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.youtube.player.YouTubePlayerView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/VideoPlayer_Youtube"/>
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
 
-    <ImageButton
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <kr.co.prnd.YouTubePlayerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/VideoPlayer_Youtube"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:layout_margin="@dimen/RecyclerViewItem_Margin"
+                android:id="@+id/VideoPlayer_Title"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <!--<ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/main_play_icon"
-        android:id="@+id/VideoPlayer_Play"/>
+        android:id="@+id/VideoPlayer_Play"/>-->
 
     <!-- Hidden Progress Bar (Hidden) -->
-    <ProgressBar
+    <!--<ProgressBar
         style="@style/ProgressBar"
-        android:id="@+id/PlaylistItem_ProgressBar"/>
+        android:id="@+id/PlaylistItem_ProgressBar"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

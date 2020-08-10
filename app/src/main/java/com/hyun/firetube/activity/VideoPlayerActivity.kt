@@ -1,20 +1,16 @@
 package com.hyun.firetube.activity
 
 import android.os.Bundle
-import com.google.api.services.youtube.YouTube
+import androidx.appcompat.app.AppCompatActivity
 import com.hyun.firetube.R
-import com.google.android.youtube.player.*
 import com.hyun.firetube.model.Video
-import kotlinx.android.synthetic.main.activity_playlistitem.*
 import kotlinx.android.synthetic.main.activity_videoplayer.*
-import java.util.ArrayList
+
 
 class VideoPlayerActivity : BaseActivity() {
 
     // Variables
     private lateinit var mVideo : Video
-    private lateinit var mYoutubePlayer : YouTubePlayerView
-    private lateinit var mInitializedListener : YouTubePlayer.OnInitializedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -37,31 +33,19 @@ class VideoPlayerActivity : BaseActivity() {
         this.mVideo = Video(videoID, videoTitle, "")
 
         setSupportActionBar(this.VideoPlayer_Toolbar)
-        supportActionBar?.title = this.mVideo.title
+        supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
-    private fun setContents() {
-
-        // TODO video player
-        /*this.mInitializedListener = YouTubePlayer.OnInitializedListener { _ ->
-
-        }*/
-        /*this.VideoPlayer_Youtube.initialize(
-            getString(R.string.default_web_client_id),
-
-
-        )*/
-    }
-
     /************************************************************************
-     * Purpose:         Back Button Override
+     * Purpose:         Youtube Player
      * Precondition:    .
      * Postcondition:   .
      ************************************************************************/
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
+    private fun setContents() {
+
+        this.VideoPlayer_Youtube.play(this.mVideo.id)
+        this.VideoPlayer_Title.text = this.mVideo.title
     }
 }

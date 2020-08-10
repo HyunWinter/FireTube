@@ -9,5 +9,11 @@
     <dimen name="CardView_CornerRadius">0dp</dimen>
     <dimen name="CardView_Elevation">2dp</dimen>
     <dimen name="RecyclerViewItem_Height">200dp</dimen>
+    <item
+        name="RecyclerViewItem_ColumnWidth"
+        format="float"
+        type="dimen">
+        480
+    </item>
 
 </resources>

@@ -64,7 +64,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         // Preference Listener
         findPreference<ListPreference>(getString(R.string.Settings_Theme_Key))?.setOnPreferenceChangeListener {
-                preference, newValue ->
+                _, newValue ->
 
             val themeList = resources.getStringArray(R.array.Settings_Theme_Alias)
 
@@ -82,14 +82,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         // Preference Listener
         findPreference<ListPreference>(getString(R.string.Settings_Language_Key))?.setOnPreferenceChangeListener {
-                preference, newValue ->
+                _, newValue ->
 
-            val langList = resources.getStringArray(R.array.Settings_Language_Alias)
+            //val langList = resources.getStringArray(R.array.Settings_Language_Alias)
 
-            when (newValue) {
+            /*when (newValue) {
                 // en
                 langList[0] -> ""
-            }
+            }*/
 
             true
         }

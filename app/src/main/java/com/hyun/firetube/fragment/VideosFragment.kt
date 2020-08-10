@@ -3,19 +3,22 @@ package com.hyun.firetube.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
 import com.hyun.firetube.activity.VideoPlayerActivity
 import com.hyun.firetube.adapter.VideoAdapter
 import com.hyun.firetube.database.MakeVideoRequestTask
 import com.hyun.firetube.model.Video
+import com.hyun.firetube.utility.Helper
+import kotlinx.android.synthetic.main.frag_playlists.view.*
 import kotlinx.android.synthetic.main.frag_videos.*
 import kotlinx.android.synthetic.main.frag_videos.view.*
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class VideosFragment : BaseFragment(), VideoAdapter.VideoClickListener {
 
@@ -56,9 +59,23 @@ class VideosFragment : BaseFragment(), VideoAdapter.VideoClickListener {
     private fun setContents() {
 
         this.mVideos = arrayListOf()
-        this.mVideosAdapter = VideoAdapter(activity?.applicationContext, this.mVideos, this)
+        this.mVideosAdapter = VideoAdapter(
+            activity?.applicationContext,
+            this.mVideos,
+            this
+        )
+
+        val outValue = TypedValue()
+        resources.getValue(R.dimen.RecyclerViewItem_ColumnWidth, outValue, true)
+        val layoutManager = GridLayoutManager(
+            activity?.applicationContext,
+            Helper().calcGridWidthCount(
+                requireActivity().applicationContext,
+                outValue.float
+            )
+        )
         this.mRoot.Videos_RecyclerView.setHasFixedSize(true)
-        this.mRoot.Videos_RecyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
+        this.mRoot.Videos_RecyclerView.layoutManager = layoutManager
         this.mRoot.Videos_RecyclerView.adapter = this.mVideosAdapter
     }
 

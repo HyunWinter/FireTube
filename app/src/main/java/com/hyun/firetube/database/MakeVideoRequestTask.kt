@@ -101,7 +101,7 @@ class MakeVideoRequestTask(context : VideosFragment)
                 Video(
                     videoResults[i].id.videoId,
                     videoResults[i].snippet.title,
-                    videoResults[i].snippet.thumbnails.maxres.url
+                    videoResults[i].snippet.thumbnails.medium.url
                 )
             )
         }

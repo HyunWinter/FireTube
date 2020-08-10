@@ -1,21 +1,19 @@
 package com.hyun.firetube.fragment
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
+import android.util.TypedValue
 import android.view.*
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
-import com.hyun.firetube.activity.VideoActivity
+import com.hyun.firetube.activity.VideosActivity
 import com.hyun.firetube.adapter.PlaylistAdapter
 import com.hyun.firetube.database.MakePlaylistRequestTask
 import com.hyun.firetube.model.Playlist
 import com.hyun.firetube.utility.Helper
 import kotlinx.android.synthetic.main.frag_playlists.*
 import kotlinx.android.synthetic.main.frag_playlists.view.*
-import kotlinx.android.synthetic.main.listitem_playlists.*
 import java.util.*
 
 class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener {
@@ -45,7 +43,7 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
         this.mRoot = inflater.inflate(R.layout.frag_playlists, container, false)
         setHasOptionsMenu(true)
         this.setContents()
-        //if (this.mPlaylists.isEmpty()) this.getResultsFromApi()
+        if (this.mPlaylists.isEmpty()) this.getResultsFromApi()
 
         return this.mRoot
     }
@@ -62,15 +60,17 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
             activity?.applicationContext,
             this.mPlaylists,
             this)
-        this.mRoot.Playlists_RecyclerView.setHasFixedSize(true)
 
+        val outValue = TypedValue()
+        resources.getValue(R.dimen.RecyclerViewItem_ColumnWidth, outValue, true)
         val layoutManager = GridLayoutManager(
             activity?.applicationContext,
             Helper().calcGridWidthCount(
                 requireActivity().applicationContext,
-                480F
+                outValue.float
             )
         )
+        this.mRoot.Playlists_RecyclerView.setHasFixedSize(true)
         this.mRoot.Playlists_RecyclerView.layoutManager = layoutManager
         this.mRoot.Playlists_RecyclerView.adapter = this.mPlaylistsAdapter
     }
@@ -86,7 +86,7 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
      ************************************************************************/
     override fun onPlaylistSelected(position: Int) {
 
-        val intent = Intent(activity, VideoActivity::class.java)
+        val intent = Intent(activity, VideosActivity::class.java)
         intent.putExtra(getString(R.string.Playlist_ID_Key), this.mPlaylists[position].id)
         intent.putExtra(getString(R.string.Playlist_Title_Key), this.mPlaylists[position].title)
         startActivity(intent)

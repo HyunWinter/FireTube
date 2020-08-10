@@ -23,7 +23,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity"/>
-        <activity android:name=".activity.VideoActivity"/>
-        <activity android:name=".activity.VideoPlayerActivity"/>
+        <activity android:name=".activity.VideosActivity"/>
+        <activity
+            android:name=".activity.VideoPlayerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
     </application>
 </manifest>

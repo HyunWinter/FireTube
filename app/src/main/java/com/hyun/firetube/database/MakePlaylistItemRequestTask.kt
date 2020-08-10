@@ -14,12 +14,12 @@ import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.youtube.YouTube
 import com.google.api.services.youtube.YouTubeScopes
 import com.hyun.firetube.R
-import com.hyun.firetube.activity.VideoActivity
+import com.hyun.firetube.activity.VideosActivity
 import com.hyun.firetube.model.Video
 import kotlinx.android.synthetic.main.activity_playlistitem.*
 import java.util.ArrayList
 
-class MakePlaylistItemRequestTask(context : VideoActivity, playlistID : String)
+class MakePlaylistItemRequestTask(context : VideosActivity, playlistID : String)
     : AsyncTask<Void?, Void?, ArrayList<Video>>() {
 
     companion object{
@@ -93,9 +93,9 @@ class MakePlaylistItemRequestTask(context : VideoActivity, playlistID : String)
 
             playlistItems.add(
                 Video(
-                    playlistItemResults[i].id,
+                    playlistItemResults[i].contentDetails.videoId,
                     playlistItemResults[i].snippet.title,
-                    playlistItemResults[i].snippet.thumbnails.maxres.url
+                    playlistItemResults[i].snippet.thumbnails.medium.url
                 )
             )
         }
@@ -154,7 +154,7 @@ class MakePlaylistItemRequestTask(context : VideoActivity, playlistID : String)
             else if (mLastError is UserRecoverableAuthIOException) {
                 this.mContext.startActivityForResult(
                     (mLastError as UserRecoverableAuthIOException).intent,
-                    VideoActivity.REQUEST_AUTHORIZATION
+                    VideosActivity.REQUEST_AUTHORIZATION
                 )
             }
             else {

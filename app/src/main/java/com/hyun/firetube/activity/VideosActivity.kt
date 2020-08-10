@@ -3,16 +3,20 @@ package com.hyun.firetube.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.TypedValue
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hyun.firetube.R
 import com.hyun.firetube.adapter.VideoAdapter
 import com.hyun.firetube.database.MakePlaylistItemRequestTask
 import com.hyun.firetube.model.Video
+import com.hyun.firetube.utility.Helper
 import kotlinx.android.synthetic.main.activity_playlistitem.*
 import kotlinx.android.synthetic.main.frag_videos.*
+import kotlinx.android.synthetic.main.frag_videos.view.*
 import java.util.*
 
-class VideoActivity : BaseActivity(), VideoAdapter.VideoClickListener {
+class VideosActivity : BaseActivity(), VideoAdapter.VideoClickListener {
 
     // Companion
     companion object {
@@ -22,7 +26,7 @@ class VideoActivity : BaseActivity(), VideoAdapter.VideoClickListener {
     }
 
     // Variables
-    private lateinit var mVideoAdapter : VideoAdapter
+    private lateinit var mVideosAdapter : VideoAdapter
     private lateinit var mVideos : ArrayList<Video>
     private lateinit var mPlaylistID : String
 
@@ -60,10 +64,24 @@ class VideoActivity : BaseActivity(), VideoAdapter.VideoClickListener {
     private fun setContents() {
 
         this.mVideos = arrayListOf()
-        this.mVideoAdapter = VideoAdapter(this, this.mVideos, this)
+        this.mVideosAdapter = VideoAdapter(
+            this,
+            this.mVideos,
+            this
+        )
+
+        val outValue = TypedValue()
+        resources.getValue(R.dimen.RecyclerViewItem_ColumnWidth, outValue, true)
+        val layoutManager = GridLayoutManager(
+            this,
+            Helper().calcGridWidthCount(
+                this,
+                outValue.float
+            )
+        )
         this.PlaylistItem_RecyclerView.setHasFixedSize(true)
-        this.PlaylistItem_RecyclerView.layoutManager = LinearLayoutManager(this)
-        this.PlaylistItem_RecyclerView.adapter = this.mVideoAdapter
+        this.PlaylistItem_RecyclerView.layoutManager = layoutManager
+        this.PlaylistItem_RecyclerView.adapter = this.mVideosAdapter
     }
 
     /************************************************************************
@@ -75,7 +93,7 @@ class VideoActivity : BaseActivity(), VideoAdapter.VideoClickListener {
 
         this.mVideos.clear()
         this.mVideos.addAll(videos)
-        this.mVideoAdapter.notifyDataSetChanged()
+        this.mVideosAdapter.notifyDataSetChanged()
     }
 
     /************************************************************************
@@ -166,15 +184,5 @@ class VideoActivity : BaseActivity(), VideoAdapter.VideoClickListener {
         override fun compare(o1: Video, o2: Video): Int {
             return o1.title.compareTo(o2.title)
         }
-    }
-
-    /************************************************************************
-     * Purpose:         Back Button Override
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
     }
 }
