@@ -2,26 +2,24 @@ package com.hyun.firetube.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
-import com.hyun.firetube.activity.VideoPlayerActivity
 import com.hyun.firetube.adapter.VideoAdapter
 import com.hyun.firetube.database.MakeUploadsRequestTask
 import com.hyun.firetube.model.Video
 import com.hyun.firetube.utility.Helper
+import com.hyun.firetube.utility.VideoSelectedInterface
 import kotlinx.android.synthetic.main.frag_uploads.*
 import kotlinx.android.synthetic.main.frag_uploads.view.*
 import java.util.*
 
 
-class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener {
+class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener, VideoSelectedInterface {
 
     // Companion
     companion object {
@@ -75,9 +73,9 @@ class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener {
                 outValue.float
             )
         )
-        this.mRoot.Videos_RecyclerView.setHasFixedSize(true)
-        this.mRoot.Videos_RecyclerView.layoutManager = layoutManager
-        this.mRoot.Videos_RecyclerView.adapter = this.mUploadsAdapter
+        this.mRoot.Uploads_RecyclerView.setHasFixedSize(true)
+        this.mRoot.Uploads_RecyclerView.layoutManager = layoutManager
+        this.mRoot.Uploads_RecyclerView.adapter = this.mUploadsAdapter
     }
 
     fun getRoot() : View {
@@ -91,27 +89,10 @@ class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener {
      ************************************************************************/
     override fun onVideoSelected(position: Int) {
 
-        // Load Shared Preferences
-        val savedPlayerSettings = PreferenceManager
-            .getDefaultSharedPreferences(activity)
-            .getBoolean(getString(R.string.Settings_Youtube_Key), false)
-
-        lateinit var intent : Intent
-
-        if (savedPlayerSettings) {
-
-            val youtubeURL = "https://www.youtube.com/watch?v=" + this.mUploads[position].id
-            intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(youtubeURL)
-            intent.`package` = "com.google.android.youtube"
+        if (!videoSelectedResponse(this.mUploads[position], requireContext().applicationContext))
+        {
+            makeSnackBar(this.Uploads_Background, getString(R.string.Settings_Youtube_Player_Error))
         }
-        else {
-            intent = Intent(activity, VideoPlayerActivity::class.java)
-            intent.putExtra(getString(R.string.Video_ID_Key), this.mUploads[position].id)
-            intent.putExtra(getString(R.string.Video_Title_Key), this.mUploads[position].title)
-        }
-
-        startActivity(intent)
     }
 
     /************************************************************************
@@ -140,7 +121,7 @@ class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener {
             acquireGooglePlayServices()
         }
         else if (!isDeviceOnline()) {
-            makeSnackBar(this.Videos_Background, "No network connection available.")
+            makeSnackBar(this.Uploads_Background, "No network connection available.")
         }
         else {
             MakeUploadsRequestTask(this).execute()
@@ -172,7 +153,7 @@ class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener {
                     val errorStr = "This app requires Google Play Services. " +
                             "Please install Google Play Services on your device " +
                             "and relaunch this app."
-                    makeSnackBar(this.Videos_Background, errorStr)
+                    makeSnackBar(this.Uploads_Background, errorStr)
                 }
                 else {
                     getResultsFromApi()

@@ -15,6 +15,8 @@
     <string name="Settings_Language_Key">settings_language</string>
     <string name="Settings_Tag_Key">settings_tag</string>
     <string name="Settings_Youtube_Key">settings_youtube</string>
+    <string name="Settings_Youtube_URL">https://www.youtube.com/watch?v=</string>
+    <string name="Settings_Youtube_Package">com.google.android.youtube</string>
     <string name="Settings_Version_Key">settings_version</string>
     <string-array name="Settings_Language_List">
         <item>English</item>

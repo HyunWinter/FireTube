@@ -1,24 +1,22 @@
 package com.hyun.firetube.activity
 
 import android.app.Activity
-import android.content.ComponentName
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
 import com.hyun.firetube.adapter.VideoAdapter
 import com.hyun.firetube.database.MakeVideoListRequestTask
 import com.hyun.firetube.model.Video
 import com.hyun.firetube.utility.Helper
-import kotlinx.android.synthetic.main.activity_playlistitem.*
+import com.hyun.firetube.utility.VideoSelectedInterface
+import kotlinx.android.synthetic.main.activity_videolist.*
 import kotlinx.android.synthetic.main.frag_uploads.*
 import java.util.*
 
 
-class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener {
+class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener, VideoSelectedInterface {
 
     // Companion
     companion object {
@@ -35,7 +33,7 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_playlistitem)
+        setContentView(R.layout.activity_videolist)
 
         this.setToolbar()
         this.setContents()
@@ -52,7 +50,7 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener {
         this.mPlayListID = intent.getStringExtra(getString(R.string.Playlist_ID_Key)) as String
         val playlistTitle = intent.getStringExtra(getString(R.string.Playlist_Title_Key))
 
-        setSupportActionBar(this.PlaylistItem_Toolbar)
+        setSupportActionBar(this.VideoList_Toolbar)
         supportActionBar?.title = playlistTitle
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -81,9 +79,9 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener {
                 outValue.float
             )
         )
-        this.PlaylistItem_RecyclerView.setHasFixedSize(true)
-        this.PlaylistItem_RecyclerView.layoutManager = layoutManager
-        this.PlaylistItem_RecyclerView.adapter = this.mVideoListAdapter
+        this.VideoList_RecyclerView.setHasFixedSize(true)
+        this.VideoList_RecyclerView.layoutManager = layoutManager
+        this.VideoList_RecyclerView.adapter = this.mVideoListAdapter
     }
 
     /************************************************************************
@@ -105,27 +103,10 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener {
      ************************************************************************/
     override fun onVideoSelected(position: Int) {
 
-        // Load Shared Preferences
-        val savedPlayerSettings = PreferenceManager
-            .getDefaultSharedPreferences(this)
-            .getBoolean(getString(R.string.Settings_Youtube_Key), false)
-
-        lateinit var intent : Intent
-
-        if (savedPlayerSettings) {
-
-            val youtubeURL = "https://www.youtube.com/watch?v=" + this.mVideoList[position].id
-            intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(youtubeURL)
-            intent.`package` = "com.google.android.youtube"
+        if (!videoSelectedResponse(this.mVideoList[position], this))
+        {
+            makeSnackBar(this.VideoList_Background, getString(R.string.Settings_Youtube_Player_Error))
         }
-        else {
-            intent = Intent(this, VideoPlayerActivity::class.java)
-            intent.putExtra(getString(R.string.Video_ID_Key), this.mVideoList[position].id)
-            intent.putExtra(getString(R.string.Video_Title_Key), this.mVideoList[position].title)
-        }
-
-        startActivity(intent)
     }
 
     /************************************************************************
@@ -142,7 +123,7 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener {
             acquireGooglePlayServices()
         }
         else if (!isDeviceOnline()) {
-            makeSnackBar(this.Videos_Background, "No network connection available.")
+            makeSnackBar(this.Uploads_Background, "No network connection available.")
         }
         else {
             MakeVideoListRequestTask(this, this.mPlayListID).execute()
@@ -174,7 +155,7 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener {
                     val errorStr = "This app requires Google Play Services. " +
                             "Please install Google Play Services on your device " +
                             "and relaunch this app."
-                    makeSnackBar(this.Videos_Background, errorStr)
+                    makeSnackBar(this.Uploads_Background, errorStr)
                 }
                 else {
                     getResultsFromApi()

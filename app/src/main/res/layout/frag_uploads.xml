@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/Videos_Background">
+    android:id="@+id/Uploads_Background">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
@@ -13,11 +13,11 @@
         android:scrollbars="vertical"
         tools:listitem="@layout/listitem_videos"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:id="@+id/Videos_RecyclerView"/>
+        android:id="@+id/Uploads_RecyclerView"/>
 
     <!-- Hidden Progress Bar (Hidden) -->
     <ProgressBar
         style="@style/ProgressBar"
-        android:id="@+id/Videos_ProgressBar"/>
+        android:id="@+id/Uploads_ProgressBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

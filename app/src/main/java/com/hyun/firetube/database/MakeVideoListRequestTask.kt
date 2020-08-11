@@ -16,7 +16,7 @@ import com.google.api.services.youtube.YouTubeScopes
 import com.hyun.firetube.R
 import com.hyun.firetube.activity.VideoListActivity
 import com.hyun.firetube.model.Video
-import kotlinx.android.synthetic.main.activity_playlistitem.*
+import kotlinx.android.synthetic.main.activity_videolist.*
 import java.util.ArrayList
 
 class MakeVideoListRequestTask(context : VideoListActivity, playlistID : String)
@@ -109,7 +109,7 @@ class MakeVideoListRequestTask(context : VideoListActivity, playlistID : String)
      * Postcondition:   show ProgressBar
      ************************************************************************/
     override fun onPreExecute() {
-        this.mContext.showProgressBar(this.mContext.PlaylistItem_ProgressBar)
+        this.mContext.showProgressBar(this.mContext.VideoList_ProgressBar)
     }
 
     /************************************************************************
@@ -120,11 +120,11 @@ class MakeVideoListRequestTask(context : VideoListActivity, playlistID : String)
      ************************************************************************/
     override fun onPostExecute(output : ArrayList<Video>) {
 
-        this.mContext.hideProgressBar(this.mContext.PlaylistItem_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.VideoList_ProgressBar)
 
         if (output.isEmpty()) {
             this.mContext.makeSnackBar(
-                this.mContext.PlaylistItem_Background,
+                this.mContext.VideoList_Background,
                 "No results returned."
             )
         }
@@ -141,7 +141,7 @@ class MakeVideoListRequestTask(context : VideoListActivity, playlistID : String)
      ************************************************************************/
     override fun onCancelled() {
 
-        this.mContext.hideProgressBar(this.mContext.PlaylistItem_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.VideoList_ProgressBar)
 
         if (mLastError != null) {
 
@@ -164,12 +164,12 @@ class MakeVideoListRequestTask(context : VideoListActivity, playlistID : String)
                         )
                     .trimIndent()
                 Log.e(TAG, "The following error occurred: $errorStr")
-                this.mContext.makeSnackBar(this.mContext.PlaylistItem_Background, errorStr)
+                this.mContext.makeSnackBar(this.mContext.VideoList_Background, errorStr)
             }
         }
         else {
             this.mContext.makeSnackBar(
-                this.mContext.PlaylistItem_Background,
+                this.mContext.VideoList_Background,
                 "Request cancelled."
             )
         }

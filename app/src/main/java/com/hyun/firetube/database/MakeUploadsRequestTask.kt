@@ -115,7 +115,7 @@ class MakeUploadsRequestTask(context : UploadsFragment)
      * Postcondition:   show ProgressBar
      ************************************************************************/
     override fun onPreExecute() {
-        this.mContext.showProgressBar(this.mContext.getRoot().Videos_ProgressBar)
+        this.mContext.showProgressBar(this.mContext.getRoot().Uploads_ProgressBar)
     }
 
     /************************************************************************
@@ -126,11 +126,11 @@ class MakeUploadsRequestTask(context : UploadsFragment)
      ************************************************************************/
     override fun onPostExecute(output : ArrayList<Video>) {
 
-        this.mContext.hideProgressBar(this.mContext.getRoot().Videos_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.getRoot().Uploads_ProgressBar)
 
         if (output.isEmpty()) {
             this.mContext.makeSnackBar(
-                this.mContext.getRoot().Videos_Background,
+                this.mContext.getRoot().Uploads_Background,
                 "No results returned."
             )
         }
@@ -147,7 +147,7 @@ class MakeUploadsRequestTask(context : UploadsFragment)
      ************************************************************************/
     override fun onCancelled() {
 
-        this.mContext.hideProgressBar(this.mContext.getRoot().Videos_ProgressBar)
+        this.mContext.hideProgressBar(this.mContext.getRoot().Uploads_ProgressBar)
 
         if (mLastError != null) {
 
@@ -171,12 +171,12 @@ class MakeUploadsRequestTask(context : UploadsFragment)
                     )
                     .trimIndent()
                 Log.e(TAG, "The following error occurred: $errorStr")
-                this.mContext.makeSnackBar(this.mContext.getRoot().Videos_Background, errorStr)
+                this.mContext.makeSnackBar(this.mContext.getRoot().Uploads_Background, errorStr)
             }
         }
         else {
 
-            this.mContext.makeSnackBar(this.mContext.getRoot().Videos_Background, "Request cancelled.")
+            this.mContext.makeSnackBar(this.mContext.getRoot().Uploads_Background, "Request cancelled.")
         }
     }
 }
