@@ -1,6 +1,7 @@
 package com.hyun.firetube.fragment
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
@@ -15,6 +16,7 @@ import com.hyun.firetube.utility.Helper
 import kotlinx.android.synthetic.main.frag_playlists.*
 import kotlinx.android.synthetic.main.frag_playlists.view.*
 import java.util.*
+
 
 class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener {
 
@@ -87,8 +89,8 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
     override fun onPlaylistSelected(position: Int) {
 
         val intent = Intent(activity, VideoListActivity::class.java)
-        intent.putExtra(getString(R.string.Playlist_ID_Key), this.mPlaylists[position].id)
-        intent.putExtra(getString(R.string.Playlist_Title_Key), this.mPlaylists[position].title)
+        intent.putExtra(getString(R.string.Playlists_ID_Key), this.mPlaylists[position].id)
+        intent.putExtra(getString(R.string.Playlists_Title_Key), this.mPlaylists[position].title)
         startActivity(intent)
     }
 
@@ -163,25 +165,6 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
     }
 
     /************************************************************************
-     * Purpose:         Sorting Algorithm
-     * Precondition:    Pre-ordered query is not working in the playlists()
-     *                  type. The search() type allow pre-ordered query, but
-     *                  it only works for videos and not playlists.
-     * Postcondition:   .
-     ************************************************************************/
-    fun sortPlayList(playlist : ArrayList<Playlist>) {
-        if (playlist.size > 1) {
-            Collections.sort(playlist, PlaylistComparator())
-        }
-    }
-
-    inner class PlaylistComparator : Comparator<Playlist> {
-        override fun compare(o1: Playlist, o2: Playlist): Int {
-            return o1.title.compareTo(o2.title)
-        }
-    }
-
-    /************************************************************************
      * Purpose:         On Create Options Menu
      * Precondition:    When menu is constructed
      * Postcondition:   Inflate menu items
@@ -195,9 +178,52 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
     override fun onOptionsItemSelected(item : MenuItem) : Boolean {
 
         when (item.itemId) {
-            R.id.menu_main_refresh -> this.getResultsFromApi()
+            R.id.menu_refresh -> this.getResultsFromApi()
+            R.id.menu_sort_ascending -> {
+                val pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+                val edt = pref.edit()
+                edt.putString(getString(R.string.Playlists_Sort_Key), getString(R.string.Sort_ASC_Key))
+                edt.apply()
+
+                this.sortPlayListAscending(this.mPlaylists)
+                this.mPlaylistsAdapter.notifyDataSetChanged()
+            }
+            R.id.menu_sort_descending -> {
+                val pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+                val edt = pref.edit()
+                edt.putString(getString(R.string.Playlists_Sort_Key), getString(R.string.Sort_DES_Key))
+                edt.apply()
+
+                this.sortPlayListDescending(this.mPlaylists)
+                this.mPlaylistsAdapter.notifyDataSetChanged()
+            }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    /************************************************************************
+     * Purpose:         Sorting Algorithm
+     * Precondition:    Pre-ordered query is not working in the playlists()
+     *                  type. The search() type allow pre-ordered query, but
+     *                  it only works for videos and not playlists.
+     * Postcondition:   .
+     ************************************************************************/
+    fun sortPlayListAscending(playlist : ArrayList<Playlist>) {
+        if (playlist.size > 1) {
+            Collections.sort(playlist, PlaylistComparator())
+        }
+    }
+
+    fun sortPlayListDescending(playlist : ArrayList<Playlist>) {
+        if (playlist.size > 1) {
+            Collections.sort(playlist, Collections.reverseOrder(PlaylistComparator()))
+        }
+    }
+
+    inner class PlaylistComparator : Comparator<Playlist> {
+        override fun compare(o1: Playlist, o2: Playlist): Int {
+            return o1.title.compareTo(o2.title)
+        }
     }
 }

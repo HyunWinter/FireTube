@@ -1,9 +1,13 @@
 package com.hyun.firetube.activity
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
 import com.hyun.firetube.adapter.VideoAdapter
@@ -47,8 +51,8 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener, Video
      ************************************************************************/
     private fun setToolbar() {
 
-        this.mPlayListID = intent.getStringExtra(getString(R.string.Playlist_ID_Key)) as String
-        val playlistTitle = intent.getStringExtra(getString(R.string.Playlist_Title_Key))
+        this.mPlayListID = intent.getStringExtra(getString(R.string.Playlists_ID_Key)) as String
+        val playlistTitle = intent.getStringExtra(getString(R.string.Playlists_Title_Key))
 
         setSupportActionBar(this.VideoList_Toolbar)
         supportActionBar?.title = playlistTitle
@@ -168,19 +172,63 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener, Video
     }
 
     /************************************************************************
+     * Purpose:         On Create Options Menu
+     * Precondition:    When menu is constructed
+     * Postcondition:   Inflate menu items
+     ************************************************************************/
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item : MenuItem) : Boolean {
+
+        when (item.itemId) {
+            R.id.menu_refresh -> this.getResultsFromApi()
+            R.id.menu_sort_ascending -> {
+                val pref = getPreferences(Context.MODE_PRIVATE)
+                val edt = pref.edit()
+                edt.putString(getString(R.string.VideoList_Sort_Key), getString(R.string.Sort_ASC_Key))
+                edt.apply()
+
+                this.sortVideoListAscending(this.mVideoList)
+                this.mVideoListAdapter.notifyDataSetChanged()
+            }
+            R.id.menu_sort_descending -> {
+                val pref = getPreferences(Context.MODE_PRIVATE)
+                val edt = pref.edit()
+                edt.putString(getString(R.string.VideoList_Sort_Key), getString(R.string.Sort_DES_Key))
+                edt.apply()
+
+                this.sortVideoListDescending(this.mVideoList)
+                this.mVideoListAdapter.notifyDataSetChanged()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    /************************************************************************
      * Purpose:         Sorting Algorithm
      * Precondition:    Pre-ordered query is not working in the playlists()
      *                  type. The search() type allow pre-ordered query, but
      *                  it only works for videos and not playlists.
      * Postcondition:   .
      ************************************************************************/
-    fun sortVideos(videos : ArrayList<Video>) {
+    fun sortVideoListAscending(videos : ArrayList<Video>) {
         if (videos.size > 1) {
-            Collections.sort(videos, VideosComparator())
+            Collections.sort(videos, VideoListComparator())
         }
     }
 
-    inner class VideosComparator : Comparator<Video> {
+    fun sortVideoListDescending(videos : ArrayList<Video>) {
+        if (videos.size > 1) {
+            Collections.sort(videos, Collections.reverseOrder(VideoListComparator()))
+        }
+    }
+
+    inner class VideoListComparator : Comparator<Video> {
         override fun compare(o1: Video, o2: Video): Int {
             return o1.title.compareTo(o2.title)
         }

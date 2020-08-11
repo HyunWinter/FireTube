@@ -7,7 +7,6 @@ import androidx.preference.PreferenceManager
 import com.hyun.firetube.R
 import com.hyun.firetube.activity.VideoPlayerActivity
 import com.hyun.firetube.model.Video
-import kotlinx.android.synthetic.main.activity_videolist.*
 
 interface VideoSelectedInterface {
 
@@ -39,8 +38,8 @@ interface VideoSelectedInterface {
         }
         else {
             intent = Intent(context, VideoPlayerActivity::class.java)
-            intent.putExtra(context.getString(R.string.Video_ID_Key), video.id)
-            intent.putExtra(context.getString(R.string.Video_Title_Key), video.title)
+            intent.putExtra(context.getString(R.string.Uploads_ID_Key), video.id)
+            intent.putExtra(context.getString(R.string.Uploads_Title_Key), video.title)
             context.startActivity(intent)
             return true
         }

@@ -1,5 +1,7 @@
 package com.hyun.firetube.database
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -129,7 +131,15 @@ class MakeVideoListRequestTask(context : VideoListActivity, playlistID : String)
             )
         }
         else {
-            this.mContext.sortVideos(output)
+
+            val pref: SharedPreferences = this.mContext
+                .getPreferences(Context.MODE_PRIVATE)
+
+            when (pref.getString(this.mContext.getString(R.string.VideoList_Sort_Key), this.mContext.getString(R.string.Sort_ASC_Key))) {
+                this.mContext.getString(R.string.Sort_ASC_Key) -> this.mContext.sortVideoListAscending(output)
+                this.mContext.getString(R.string.Sort_DES_Key) ->  this.mContext.sortVideoListDescending(output)
+            }
+
             this.mContext.updateVideoAdapter(output)
         }
     }

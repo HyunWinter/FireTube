@@ -4,10 +4,19 @@
     tools:ignore="MissingTranslation">
 
     <!-- Playlist & Video -->
-    <string name="Playlist_ID_Key">playlist_id_key</string>
-    <string name="Playlist_Title_Key">playlist_title_key</string>
-    <string name="Video_ID_Key">video_id_key</string>
-    <string name="Video_Title_Key">video_title_key</string>
+    <string name="Playlists_ID_Key">playlists_id_key</string>
+    <string name="Playlists_Title_Key">playlists_title_key</string>
+    <string name="Uploads_ID_Key">uploads_id_key</string>
+    <string name="Uploads_Title_Key">uploads_title_key</string>
+
+    <string name="Playlists_Sort_Key">playlists_sort_key</string>
+    <string name="Uploads_Sort_Key">uploads_sort_key</string>
+    <string name="VideoList_Sort_Key">videolist_sort_key</string>
+    <string name="Sort_ASC_Key">asc_key</string>
+    <string name="Sort_DES_Key">des_key</string>
+
+
+
 
     <!-- Settings -->
     <string name="Settings_Logout_Key">settings_logout</string>

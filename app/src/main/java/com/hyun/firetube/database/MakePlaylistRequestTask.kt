@@ -1,5 +1,7 @@
 package com.hyun.firetube.database
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -18,6 +20,7 @@ import com.hyun.firetube.fragment.PlaylistsFragment
 import com.hyun.firetube.model.Playlist
 import kotlinx.android.synthetic.main.frag_playlists.view.*
 import java.util.*
+
 
 /************************************************************************
  * Purpose:         Async Task For Youtube API Playlist
@@ -144,7 +147,15 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
             )
         }
         else {
-            this.mContext.sortPlayList(output)
+            val pref: SharedPreferences = this.mContext
+                .requireActivity()
+                .getPreferences(Context.MODE_PRIVATE)
+
+            when (pref.getString(this.mContext.getString(R.string.Playlists_Sort_Key), this.mContext.getString(R.string.Sort_ASC_Key))) {
+                this.mContext.getString(R.string.Sort_ASC_Key) -> this.mContext.sortPlayListAscending(output)
+                this.mContext.getString(R.string.Sort_DES_Key) ->  this.mContext.sortPlayListDescending(output)
+            }
+
             this.mContext.updatePlaylistAdapter(output)
         }
     }

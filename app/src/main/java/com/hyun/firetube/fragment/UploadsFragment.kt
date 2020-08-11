@@ -1,12 +1,11 @@
 package com.hyun.firetube.fragment
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
 import com.hyun.firetube.adapter.VideoAdapter
@@ -44,6 +43,7 @@ class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener, VideoSe
     ): View? {
 
         this.mRoot = inflater.inflate(R.layout.frag_uploads, container, false)
+        setHasOptionsMenu(true)
         this.setContents()
         this.getResultsFromApi()
 
@@ -166,19 +166,63 @@ class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener, VideoSe
     }
 
     /************************************************************************
+     * Purpose:         On Create Options Menu
+     * Precondition:    When menu is constructed
+     * Postcondition:   Inflate menu items
+     ************************************************************************/
+    override fun onCreateOptionsMenu(menu : Menu, inflater : MenuInflater) {
+
+        inflater.inflate(R.menu.menu_main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item : MenuItem) : Boolean {
+
+        when (item.itemId) {
+            R.id.menu_refresh -> this.getResultsFromApi()
+            R.id.menu_sort_ascending -> {
+                val pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+                val edt = pref.edit()
+                edt.putString(getString(R.string.Uploads_Sort_Key), getString(R.string.Sort_ASC_Key))
+                edt.apply()
+
+                this.sortUploadsAscending(this.mUploads)
+                this.mUploadsAdapter.notifyDataSetChanged()
+            }
+            R.id.menu_sort_descending -> {
+                val pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
+                val edt = pref.edit()
+                edt.putString(getString(R.string.Uploads_Sort_Key), getString(R.string.Sort_DES_Key))
+                edt.apply()
+
+                this.sortUploadsDescending(this.mUploads)
+                this.mUploadsAdapter.notifyDataSetChanged()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    /************************************************************************
      * Purpose:         Sorting Algorithm
      * Precondition:    Pre-ordered query is not working in the playlists()
      *                  type. The search() type allow pre-ordered query, but
      *                  it only works for videos and not playlists.
      * Postcondition:   .
      ************************************************************************/
-    fun sortVideos(uploads : ArrayList<Video>) {
+    fun sortUploadsAscending(uploads : ArrayList<Video>) {
         if (uploads.size > 1) {
-            Collections.sort(uploads, VideosComparator())
+            Collections.sort(uploads, UploadsComparator())
         }
     }
 
-    inner class VideosComparator : Comparator<Video> {
+    fun sortUploadsDescending(uploads : ArrayList<Video>) {
+        if (uploads.size > 1) {
+            Collections.sort(uploads, Collections.reverseOrder(UploadsComparator()))
+        }
+    }
+
+    inner class UploadsComparator : Comparator<Video> {
         override fun compare(upload1 : Video, upload2 : Video): Int {
             return upload1.title.compareTo(upload2.title)
         }
