@@ -1,9 +1,12 @@
 package com.hyun.firetube.activity
 
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
 import com.hyun.firetube.adapter.VideoAdapter
@@ -13,6 +16,7 @@ import com.hyun.firetube.utility.Helper
 import kotlinx.android.synthetic.main.activity_playlistitem.*
 import kotlinx.android.synthetic.main.frag_uploads.*
 import java.util.*
+
 
 class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener {
 
@@ -101,9 +105,26 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener {
      ************************************************************************/
     override fun onVideoSelected(position: Int) {
 
-        val intent = Intent(this, VideoPlayerActivity::class.java)
-        intent.putExtra(getString(R.string.Video_ID_Key), this.mVideoList[position].id)
-        intent.putExtra(getString(R.string.Video_Title_Key), this.mVideoList[position].title)
+        // Load Shared Preferences
+        val savedPlayerSettings = PreferenceManager
+            .getDefaultSharedPreferences(this)
+            .getBoolean(getString(R.string.Settings_Youtube_Key), false)
+
+        lateinit var intent : Intent
+
+        if (savedPlayerSettings) {
+
+            val youtubeURL = "https://www.youtube.com/watch?v=" + this.mVideoList[position].id
+            intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(youtubeURL)
+            intent.`package` = "com.google.android.youtube"
+        }
+        else {
+            intent = Intent(this, VideoPlayerActivity::class.java)
+            intent.putExtra(getString(R.string.Video_ID_Key), this.mVideoList[position].id)
+            intent.putExtra(getString(R.string.Video_Title_Key), this.mVideoList[position].title)
+        }
+
         startActivity(intent)
     }
 

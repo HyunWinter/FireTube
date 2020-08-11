@@ -37,18 +37,27 @@
             app:defaultValue="@string/Settings_Language_Alias_1"
             app:icon="@drawable/settings_language"
             app:entries="@array/Settings_Language_List"
-            app:entryValues="@array/Settings_Language_Alias"/>
+            app:entryValues="@array/Settings_Language_Alias"
+            app:enabled="false"/>
     </PreferenceCategory>
 
     <!-- Playlist -->
     <PreferenceCategory
-        app:title="@string/Settings_Playlist"
+        app:title="@string/Settings_Youtube"
         app:iconSpaceReserved="false">
 
         <EditTextPreference
             app:key="@string/Settings_Tag_Key"
-            app:title="@string/Settings_Tag"
+            app:title="@string/Settings_Search_Tag"
             app:icon="@drawable/settings_tag"
+            app:useSimpleSummaryProvider="true"
+            app:enabled="false"/>
+
+        <SwitchPreference
+            app:key="@string/Settings_Youtube_Key"
+            app:title="@string/Settings_Youtube_Player"
+            android:summary="@string/Settings_Youtube_Player_Summary"
+            app:icon="@drawable/settings_youtube"
             app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
 
@@ -65,11 +74,13 @@
         <Preference
             app:key="@string/Settings_Policy_Key"
             app:title="@string/Settings_Policy"
-            app:iconSpaceReserved="false"/>
+            app:iconSpaceReserved="false"
+            app:enabled="false"/>
         <Preference
             app:key="@string/Settings_Terms_Key"
             app:title="@string/Settings_Terms"
-            app:iconSpaceReserved="false"/>
+            app:iconSpaceReserved="false"
+            app:enabled="false"/>
         <Preference
             app:key="@string/Settings_Rights_Key"
             app:title="@string/Settings_Rights"

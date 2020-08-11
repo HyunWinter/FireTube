@@ -95,6 +95,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
+    // Youtube
+    private fun setPlaylistTag() { }
+
     // About
     private fun setAbout() {
 

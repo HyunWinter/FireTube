@@ -2,11 +2,13 @@ package com.hyun.firetube.fragment
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
 import com.hyun.firetube.activity.VideoPlayerActivity
@@ -89,9 +91,26 @@ class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener {
      ************************************************************************/
     override fun onVideoSelected(position: Int) {
 
-        val intent = Intent(activity, VideoPlayerActivity::class.java)
-        intent.putExtra(getString(R.string.Video_ID_Key), this.mUploads[position].id)
-        intent.putExtra(getString(R.string.Video_Title_Key), this.mUploads[position].title)
+        // Load Shared Preferences
+        val savedPlayerSettings = PreferenceManager
+            .getDefaultSharedPreferences(activity)
+            .getBoolean(getString(R.string.Settings_Youtube_Key), false)
+
+        lateinit var intent : Intent
+
+        if (savedPlayerSettings) {
+
+            val youtubeURL = "https://www.youtube.com/watch?v=" + this.mUploads[position].id
+            intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(youtubeURL)
+            intent.`package` = "com.google.android.youtube"
+        }
+        else {
+            intent = Intent(activity, VideoPlayerActivity::class.java)
+            intent.putExtra(getString(R.string.Video_ID_Key), this.mUploads[position].id)
+            intent.putExtra(getString(R.string.Video_Title_Key), this.mUploads[position].title)
+        }
+
         startActivity(intent)
     }
 

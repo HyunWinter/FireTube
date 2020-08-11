@@ -14,6 +14,7 @@
     <string name="Settings_Theme_Key">settings_theme</string>
     <string name="Settings_Language_Key">settings_language</string>
     <string name="Settings_Tag_Key">settings_tag</string>
+    <string name="Settings_Youtube_Key">settings_youtube</string>
     <string name="Settings_Version_Key">settings_version</string>
     <string-array name="Settings_Language_List">
         <item>English</item>

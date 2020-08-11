@@ -35,8 +35,10 @@
         <item>Dark Theme</item>
         <item>System Theme</item>
     </string-array>
-    <string name="Settings_Playlist">Playlist</string>
-    <string name="Settings_Tag">Search Tag</string>
+    <string name="Settings_Youtube">YouTube</string>
+    <string name="Settings_Search_Tag">Playlist Search Tag</string>
+    <string name="Settings_Youtube_Player">Use YouTube App</string>
+    <string name="Settings_Youtube_Player_Summary">Got Youtube Premium? Avoid ads and watch private videos.</string>
     <string name="Settings_About">About</string>
     <string name="Settings_Version">Build Version</string>
     <string name="Settings_Version_Default">Unknown</string>
