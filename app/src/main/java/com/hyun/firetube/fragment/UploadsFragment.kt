@@ -176,55 +176,17 @@ class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener, VideoSe
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.getItem(2).isVisible = false
+        menu.getItem(3).isVisible = false
+    }
+
     override fun onOptionsItemSelected(item : MenuItem) : Boolean {
 
         when (item.itemId) {
             R.id.menu_refresh -> this.getResultsFromApi()
-            R.id.menu_sort_ascending -> {
-                val pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-                val edt = pref.edit()
-                edt.putString(getString(R.string.Uploads_Sort_Key), getString(R.string.Sort_ASC_Key))
-                edt.apply()
-
-                this.sortUploadsAscending(this.mUploads)
-                this.mUploadsAdapter.notifyDataSetChanged()
-            }
-            R.id.menu_sort_descending -> {
-                val pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
-                val edt = pref.edit()
-                edt.putString(getString(R.string.Uploads_Sort_Key), getString(R.string.Sort_DES_Key))
-                edt.apply()
-
-                this.sortUploadsDescending(this.mUploads)
-                this.mUploadsAdapter.notifyDataSetChanged()
-            }
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    /************************************************************************
-     * Purpose:         Sorting Algorithm
-     * Precondition:    Pre-ordered query is not working in the playlists()
-     *                  type. The search() type allow pre-ordered query, but
-     *                  it only works for videos and not playlists.
-     * Postcondition:   .
-     ************************************************************************/
-    fun sortUploadsAscending(uploads : ArrayList<Video>) {
-        if (uploads.size > 1) {
-            Collections.sort(uploads, UploadsComparator())
-        }
-    }
-
-    fun sortUploadsDescending(uploads : ArrayList<Video>) {
-        if (uploads.size > 1) {
-            Collections.sort(uploads, Collections.reverseOrder(UploadsComparator()))
-        }
-    }
-
-    inner class UploadsComparator : Comparator<Video> {
-        override fun compare(upload1 : Video, upload2 : Video): Int {
-            return upload1.title.compareTo(upload2.title)
-        }
     }
 }

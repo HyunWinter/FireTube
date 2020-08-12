@@ -89,9 +89,10 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
         // Since the query can't be pre-ordered (as described later),
         // You have to pull the entire playlists first
 
-        // Since Youtube API has limited number of requests,
-        // I will implement something in Firestore caching to minimize
-        // wasteful reads.
+        // Querying Search() can't pre-order your own playlist,
+        // You have to make another query for your playlist id
+        // Querying Search() order is not working correctly.
+        // YouTube is aware of this... Just never fixed it... ne..ver...
         while (mPageToken != null) {
 
             val result = mService!!

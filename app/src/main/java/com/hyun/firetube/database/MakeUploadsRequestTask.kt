@@ -137,15 +137,6 @@ class MakeUploadsRequestTask(context : UploadsFragment)
             )
         }
         else {
-            val pref: SharedPreferences = this.mContext
-                .requireActivity()
-                .getPreferences(Context.MODE_PRIVATE)
-
-            when (pref.getString(this.mContext.getString(R.string.Uploads_Sort_Key), this.mContext.getString(R.string.Sort_ASC_Key))) {
-                this.mContext.getString(R.string.Sort_ASC_Key) -> this.mContext.sortUploadsAscending(output)
-                this.mContext.getString(R.string.Sort_DES_Key) ->  this.mContext.sortUploadsDescending(output)
-            }
-
             this.mContext.updateVideoAdapter(output)
         }
     }
