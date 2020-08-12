@@ -13,13 +13,17 @@
     <string name="Auth_FirebaseLogoutFailed">Firebase LogIn failed</string>
 
     <!-- Navigation Drawer -->
-    <string name="Nav_Menu_Sort">Sort</string>
-    <string name="Nav_Menu_Sort_Ascending">Ascending</string>
-    <string name="Nav_Menu_Sort_Descending">Descending</string>
     <string name="Nav_Username">UserName</string>
     <string name="Nav_Playlists">Playlists</string>
     <string name="Nav_Uploads">Uploads</string>
     <string name="Nav_Settings">Settings</string>
+
+    <!-- Toolbar Menu Options -->
+    <string name="Nav_Menu_Search">Search</string>
+    <string name="Nav_Menu_Refresh">Refresh</string>
+    <string name="Nav_Menu_Sort">Sort</string>
+    <string name="Nav_Menu_Sort_Ascending">Ascending</string>
+    <string name="Nav_Menu_Sort_Descending">Descending</string>
 
     <!-- Playlist -->
     <string name="Playlist_Size">Playlist Size</string>

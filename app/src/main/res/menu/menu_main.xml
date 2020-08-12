@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:orderInCategory="100"
-        android:title="@string/Nav_Menu_Sort"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/main_refresh_icon"
+        app:showAsAction="always|collapseActionView"
+        tools:ignore="AlwaysShowAction"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:title="@string/Nav_Menu_Search"
+        android:icon="@drawable/settings_search"
+        android:id="@+id/menu_search"/>
+
+    <item
+        app:showAsAction="never"
+        android:title="@string/Nav_Menu_Refresh"
         android:id="@+id/menu_refresh"/>
 
     <item
-        android:orderInCategory="100"
-        android:title="@string/Nav_Menu_Sort_Ascending"
         app:showAsAction="never"
+        android:title="@string/Nav_Menu_Sort_Ascending"
         android:id="@+id/menu_sort_ascending"/>
 
     <item
-        android:orderInCategory="100"
-        android:title="@string/Nav_Menu_Sort_Descending"
         app:showAsAction="never"
+        android:title="@string/Nav_Menu_Sort_Descending"
         android:id="@+id/menu_sort_descending"/>
 </menu>

@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.hyun.firetube.R
 import com.hyun.firetube.model.Playlist
 import kotlinx.android.synthetic.main.listitem_playlists.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /************************************************************************
@@ -22,13 +26,15 @@ import kotlinx.android.synthetic.main.listitem_playlists.view.*
 class PlaylistAdapter(context : Context?,
                       playlists : ArrayList<Playlist>,
                       playlistClickListener : PlaylistClickListener) :
-    RecyclerView.Adapter<PlaylistAdapter.ViewHolder>() {
+    RecyclerView.Adapter<PlaylistAdapter.ViewHolder>(),
+    Filterable {
 
     companion object {
         private const val TAG = "ChannelAdapter"  // Logcat
     }
 
-    private val mPlayLists : ArrayList<Playlist>? = playlists
+    private val mPlayLists : ArrayList<Playlist> = playlists
+    private var mPlayListsAll : ArrayList<Playlist> = playlists
     private val mContext : Context? = context
     private val mPlaylistClickListener = playlistClickListener
 
@@ -43,7 +49,7 @@ class PlaylistAdapter(context : Context?,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val playlist : Playlist = this.mPlayLists!![position]
+        val playlist : Playlist = this.mPlayListsAll[position]
 
         holder.title.text = playlist.title
         holder.itemCount.text = playlist.itemCount.toString()
@@ -54,7 +60,7 @@ class PlaylistAdapter(context : Context?,
 
     override fun getItemCount(): Int {
 
-        return this.mPlayLists!!.size
+        return this.mPlayListsAll.size
     }
 
     /************************************************************************
@@ -88,6 +94,47 @@ class PlaylistAdapter(context : Context?,
      ************************************************************************/
     interface PlaylistClickListener {
         fun onPlaylistSelected(position: Int)
+    }
+
+    /************************************************************************
+     * Purpose:         Search Filters
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    override fun getFilter() : Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                val charSearch = constraint.toString()
+
+                if (charSearch.isEmpty()) {
+                    //filteredList.addAll(mPlayListsAll)
+                    mPlayListsAll = mPlayLists
+                }
+                else {
+                    val filteredList = ArrayList<Playlist>()
+
+                    for (item in mPlayLists) {
+                        val title = item.title.toLowerCase(Locale.ROOT)
+                        if (title.contains(charSearch.toLowerCase(Locale.ROOT))) {
+                            filteredList.add(item)
+                        }
+                    }
+
+                    mPlayListsAll = filteredList
+                }
+
+                val results = FilterResults()
+                results.values = mPlayListsAll
+                return results
+            }
+
+            override fun publishResults(constraint : CharSequence?, results : FilterResults?) {
+
+                mPlayListsAll = results?.values as ArrayList<Playlist>
+                notifyDataSetChanged()
+            }
+        }
     }
 }
 

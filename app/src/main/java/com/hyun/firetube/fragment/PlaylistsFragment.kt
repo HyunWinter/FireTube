@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
 import com.hyun.firetube.activity.VideoListActivity
@@ -18,7 +20,8 @@ import kotlinx.android.synthetic.main.frag_playlists.view.*
 import java.util.*
 
 
-class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener {
+class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
+    SearchView.OnQueryTextListener {
 
     // Companion
     companion object {
@@ -172,6 +175,13 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
     override fun onCreateOptionsMenu(menu : Menu, inflater : MenuInflater) {
 
         inflater.inflate(R.menu.menu_main, menu)
+
+        val searchItem : MenuItem = menu.findItem((R.id.menu_search))
+        val searchView : SearchView = searchItem.actionView as SearchView
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
+        //searchView.queryHint = getString(R.string.Nav_Menu_Search) + "..."
+        searchView.setOnQueryTextListener(this)
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -225,5 +235,20 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener 
         override fun compare(o1: Playlist, o2: Playlist): Int {
             return o1.title.compareTo(o2.title)
         }
+    }
+
+    /************************************************************************
+     * Purpose:         Search Implementation
+     * Precondition:    When menu is constructed
+     * Postcondition:   .
+     ************************************************************************/
+    override fun onQueryTextSubmit(query: String?) : Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?) : Boolean {
+
+        this.mPlaylistsAdapter.filter.filter(newText)
+        return false
     }
 }
