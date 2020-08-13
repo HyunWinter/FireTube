@@ -68,6 +68,8 @@ Firetube provides a simple, visual way to organize Youtube Playlists. Log in to 
   - [ ] Localization Support
   - [x] Playlist Search Tag
   - [x] Watch Videos in Youtube App
+  - [x] Privacy Policy
+  - [x] Terms & Conditions
 
 ## Limitations
 - <a href="https://developers.google.com/youtube/v3/getting-started" target="_blank">Youtube Data API</a>
