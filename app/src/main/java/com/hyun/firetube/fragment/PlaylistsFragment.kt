@@ -221,6 +221,7 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
 
         val searchItem : MenuItem = menu.findItem((R.id.menu_search))
         val searchView : SearchView = searchItem.actionView as SearchView
+        searchView.maxWidth = Integer.MAX_VALUE
         searchView.imeOptions = EditorInfo.IME_ACTION_DONE
         searchView.setOnQueryTextListener(this)
 
