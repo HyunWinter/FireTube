@@ -84,8 +84,8 @@ Firetube provides a simple, visual way to organize Youtube Playlists. Log in to 
 The libraries and tools used include:
 - <a href="https://firebase.google.com/docs/auth" target="_blank">Firebase Authentication</a>
 - <a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a>
-- <a href="https://developers.google.com/youtube/v3/getting-started" target="_blank">Youtube Data API v3</a> by <a href="https://github.com/PRNDcompany" target="_blank">PRND</a> 
-- <a href="https://github.com/PRNDcompany/YouTubePlayerView" target="_blank">Youtube Player View</a>
+- <a href="https://developers.google.com/youtube/v3/getting-started" target="_blank">Youtube Data API v3</a>
+- <a href="https://github.com/PRNDcompany/YouTubePlayerView" target="_blank">Youtube Player View</a> by <a href="https://github.com/PRNDcompany" target="_blank">PRND</a> 
 
 ## Copyright
 
