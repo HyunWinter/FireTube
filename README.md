@@ -77,7 +77,7 @@ Firetube provides a simple, visual way to organize Youtube Playlists. Log in to 
   - Search() by order returns inaccurate results
   
 - <a href="https://developers.google.com/youtube/android/player" target="_blank">YouTube Player API </a>
-  - Hasn't been updated since October 2015 (excluding terms)
+  - Hasn't been updated since <a href="https://developers.google.com/youtube/android/player/revision_history#release_notes_10_14_2015" target="_blank">October 2015</a> (excluding terms)
   - YouTubePlayerView class needs to be extended from YouTubeBaseActivity
   - YouTubePlayerSupportFragment() can't be casted to AndroidX Fragment()
 
