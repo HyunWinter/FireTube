@@ -4,12 +4,17 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hyun.firetube.R
+import com.hyun.firetube.model.Playlist
 import com.hyun.firetube.model.Video
+import java.util.*
+import kotlin.collections.ArrayList
 
 /************************************************************************
  * Purpose:         Video Recycler View Adapter For Videos
@@ -20,13 +25,15 @@ import com.hyun.firetube.model.Video
 class VideoAdapter(context : Context?,
                    videoList : ArrayList<Video>,
                    clickListener: VideoClickListener) :
-    RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
+    RecyclerView.Adapter<VideoAdapter.ViewHolder>(),
+    Filterable {
 
     companion object {
         private const val TAG = "VideoAdapter"  // Logcat
     }
 
-    private val mVideoLists : ArrayList<Video>? = videoList
+    private val mVideoLists : ArrayList<Video> = videoList
+    private var mVideoListsAll : ArrayList<Video> = videoList
     private val mContext : Context? = context
     private val mVideoClickListener = clickListener
 
@@ -41,7 +48,7 @@ class VideoAdapter(context : Context?,
 
     override fun onBindViewHolder(holder: VideoAdapter.ViewHolder, position: Int) {
 
-        var video : Video = this.mVideoLists!![position]
+        val video : Video = this.mVideoListsAll[position]
 
         holder.title.text = video.title
         Glide.with(mContext!!).load(video.thumbnail).into(holder.thumbnail)
@@ -49,7 +56,7 @@ class VideoAdapter(context : Context?,
 
     override fun getItemCount(): Int {
 
-        return this.mVideoLists!!.size
+        return this.mVideoListsAll.size
     }
 
     /************************************************************************
@@ -82,5 +89,45 @@ class VideoAdapter(context : Context?,
      ************************************************************************/
     interface VideoClickListener {
         fun onVideoSelected(position: Int)
+    }
+
+    /************************************************************************
+     * Purpose:         Search Filters
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    override fun getFilter() : Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                val charSearch = constraint.toString()
+
+                if (charSearch.isEmpty()) {
+                    mVideoListsAll = mVideoLists
+                }
+                else {
+                    val filteredList = ArrayList<Video>()
+
+                    for (item in mVideoLists) {
+                        val title = item.title.toLowerCase(Locale.ROOT)
+                        if (title.contains(charSearch.toLowerCase(Locale.ROOT))) {
+                            filteredList.add(item)
+                        }
+                    }
+
+                    mVideoListsAll = filteredList
+                }
+
+                val results = FilterResults()
+                results.values = mVideoListsAll
+                return results
+            }
+
+            override fun publishResults(constraint : CharSequence?, results : FilterResults?) {
+
+                mVideoListsAll = results?.values as ArrayList<Video>
+                notifyDataSetChanged()
+            }
+        }
     }
 }

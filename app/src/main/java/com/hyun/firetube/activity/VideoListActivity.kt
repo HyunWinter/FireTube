@@ -8,6 +8,8 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
 import com.hyun.firetube.adapter.VideoAdapter
@@ -20,7 +22,8 @@ import kotlinx.android.synthetic.main.frag_uploads.*
 import java.util.*
 
 
-class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener, VideoSelectedInterface {
+class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener, VideoSelectedInterface,
+    SearchView.OnQueryTextListener {
 
     // Companion
     companion object {
@@ -176,9 +179,15 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener, Video
      * Precondition:    When menu is constructed
      * Postcondition:   Inflate menu items
      ************************************************************************/
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_main, menu)
+
+        val searchItem : MenuItem = menu.findItem((R.id.menu_search))
+        val searchView : SearchView = searchItem.actionView as SearchView
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
+        searchView.setOnQueryTextListener(this)
+
         return true
     }
 
@@ -207,6 +216,16 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener, Video
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onQueryTextSubmit(query: String?) : Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?) : Boolean {
+
+        this.mVideoListAdapter.filter.filter(newText)
+        return false
     }
 
     /************************************************************************

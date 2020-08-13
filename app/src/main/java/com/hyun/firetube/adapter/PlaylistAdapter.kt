@@ -108,7 +108,6 @@ class PlaylistAdapter(context : Context?,
                 val charSearch = constraint.toString()
 
                 if (charSearch.isEmpty()) {
-                    //filteredList.addAll(mPlayListsAll)
                     mPlayListsAll = mPlayLists
                 }
                 else {

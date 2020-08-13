@@ -222,7 +222,6 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
         val searchItem : MenuItem = menu.findItem((R.id.menu_search))
         val searchView : SearchView = searchItem.actionView as SearchView
         searchView.imeOptions = EditorInfo.IME_ACTION_DONE
-        //searchView.queryHint = getString(R.string.Nav_Menu_Search) + "..."
         searchView.setOnQueryTextListener(this)
 
         super.onCreateOptionsMenu(menu, inflater)
@@ -255,6 +254,16 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onQueryTextSubmit(query: String?) : Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?) : Boolean {
+
+        this.mPlaylistsAdapter.filter.filter(newText)
+        return false
+    }
+
     /************************************************************************
      * Purpose:         Sorting Algorithm
      * Precondition:    Pre-ordered query is not working in the playlists()
@@ -278,21 +287,6 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
         override fun compare(o1: Playlist, o2: Playlist): Int {
             return o1.title.compareTo(o2.title)
         }
-    }
-
-    /************************************************************************
-     * Purpose:         Search Implementation
-     * Precondition:    When menu is constructed
-     * Postcondition:   .
-     ************************************************************************/
-    override fun onQueryTextSubmit(query: String?) : Boolean {
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String?) : Boolean {
-
-        this.mPlaylistsAdapter.filter.filter(newText)
-        return false
     }
 
     /************************************************************************

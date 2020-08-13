@@ -7,10 +7,10 @@
     <string name="Auth_WelcomeText">Welcome To\nFireTube</string>
     <string name="Auth_GoogleLoginText">Continue with Google</string>
     <string name="Auth_LoginSuccessText">,\nYou are\nLogged In!</string>
-    <string name="Auth_GoogleLoginFailed">Google LogIn failed</string>
-    <string name="Auth_FirebaseLoginFailed">Firebase LogIn failed</string>
-    <string name="Auth_GoogleLogoutFailed">Google LogIn failed</string>
-    <string name="Auth_FirebaseLogoutFailed">Firebase LogIn failed</string>
+    <string name="Auth_GoogleLoginFailed">Google Log In failed</string>
+    <string name="Auth_FirebaseLoginFailed">Firebase Log In failed</string>
+    <string name="Auth_GoogleLogoutFailed">Google Log In failed</string>
+    <string name="Auth_FirebaseLogoutFailed">Firebase Log In failed</string>
 
     <!-- Navigation Drawer -->
     <string name="Nav_Username">UserName</string>
