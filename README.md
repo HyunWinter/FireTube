@@ -7,10 +7,12 @@ Firetube provides a simple, visual way to organize Youtube Playlists. Log in to 
 
 ## Table of Contents
 
+- [Screenshots](#screenshots)
 - [Features](#features)
+- [Libraries](#libraries)
 - [Copyright](#copyright)
 
-## Features
+## Screenshots
 
 | **Welcome Page** | **Choose Account** | **Navigation View** |
 | :---: | :---: | :---: |
@@ -28,6 +30,58 @@ Firetube provides a simple, visual way to organize Youtube Playlists. Log in to 
 | :---: | :---: |
 | ![Tablet Portrait](https://github.com/HyunWinter/Firetube/blob/master/screenshots/10_tablet_portrait.png) | ![Tablet Landscape](https://github.com/HyunWinter/Firetube/blob/master/screenshots/11_tablet_landscape.png)
 
+## Features
+- [x] Firebase Authentication with Google Log In
+  - [x] Shared Credential with Youtube Auth
+- [x] Youtube Uploads
+  - [ ] SQLite Local DB
+  - [ ] Pagination
+  - [ ] Search
+  - [x] Refresh
+- [x] Youtube Playlists
+  - [x] SQLite Local DB
+  - [ ] Pagination
+  - [x] Search
+  - [x] Refresh
+  - [x] Sort Ascending
+  - [x] Sort Descending
+- [x] Youtube Playlist Videos
+  - [ ] SQLite Local DB
+  - [ ] Pagination
+  - [ ] Video Details & Comments
+  - [ ] Search
+  - [x] Refresh
+  - [x] Sort Ascending
+  - [x] Sort Descending
+- [x] Watch Videos
+  - [x] In-App Player
+  - [x] Youtube Player
+- [x] Settings Page
+  - [x] Logout
+  - [x] Light, Dark, System Themes
+  - [ ] Localization Support
+  - [x] Playlist Search Tag
+  - [x] Watch Videos in Youtube App
+
+## Limitations
+- Youtube Data API 
+  - Queries has limited supported operations
+  - Default quota allocation of 10,000 units per day
+  - Playlist() and PlaylistItems doesn't support pre-ordering queries
+  - Search() by order return inaccurate results
+  
+- YouTube Player API 
+  - Hasn't been updated since October 2015 (excluding terms)
+  - YouTubePlayerView class needs to be extended from YouTubeBaseActivity
+  - YouTubePlayerSupportFragment() can't be casted to AndroidX Fragment()
+
+## Libraries
+The libraries and tools used include:
+- <a href="https://firebase.google.com/docs/auth" target="_blank">Firebase Authentication</a>
+- <a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a>
+- <a href="https://developers.google.com/youtube/v3/getting-started" target="_blank">Youtube Data API v3</a>
+- <a href="https://github.com/PRNDcompany/YouTubePlayerView" target="_blank">Youtube Player View</a>
+
 ## Copyright
 
-Copyright 2020 © <a href="https://github.com/HyunWinter" target="_blank">Hyun Winter</a>.
+Copyright 2020 © <a href="https://github.com/HyunWinter" target="_blank">Hyun Winter</a>. All rights reserved.
