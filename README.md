@@ -71,7 +71,7 @@ Firetube provides a simple, visual way to organize Youtube Playlists. Log in to 
 
 ## Limitations
 - Youtube Data API 
-  - Queries has limited supported operations
+  - Queries has limited support operations
   - Default quota allocation of 10,000 units per day
   - Playlist() and PlaylistItems() don't support pre-ordering queries
   - Search() by order returns inaccurate results
