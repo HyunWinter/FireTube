@@ -87,6 +87,7 @@ The libraries and tools used include:
 - <a href="https://www.sqlite.org/index.html" target="_blank">SQLite</a>
 - <a href="https://developers.google.com/youtube/v3/getting-started" target="_blank">Youtube Data API v3</a>
 - <a href="https://github.com/PRNDcompany/YouTubePlayerView" target="_blank">Youtube Player View</a> by <a href="https://github.com/PRNDcompany" target="_blank">PRND</a> 
+- <a href="https://square.github.io/picasso/" target="_blank">Picasso</a>
 
 ## Copyright
 
