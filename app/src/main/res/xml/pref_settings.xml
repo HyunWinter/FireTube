@@ -50,6 +50,7 @@
             app:key="@string/Settings_Tag_Key"
             app:title="@string/Settings_Search_Tag"
             app:icon="@drawable/settings_tag"
+
             app:useSimpleSummaryProvider="true"/>
 
         <SwitchPreference
@@ -73,13 +74,11 @@
         <Preference
             app:key="@string/Settings_Policy_Key"
             app:title="@string/Settings_Policy"
-            app:iconSpaceReserved="false"
-            app:enabled="false"/>
+            app:iconSpaceReserved="false"/>
         <Preference
             app:key="@string/Settings_Terms_Key"
             app:title="@string/Settings_Terms"
-            app:iconSpaceReserved="false"
-            app:enabled="false"/>
+            app:iconSpaceReserved="false"/>
         <Preference
             app:key="@string/Settings_Rights_Key"
             app:title="@string/Settings_Rights"

@@ -1,14 +1,15 @@
 package com.hyun.firetube.fragment
 
+import android.content.DialogInterface
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.util.TypedValue
-import android.view.WindowManager
+import android.webkit.WebView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -104,16 +105,36 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
     }
-
+    
     // About
     private fun setAbout() {
 
         findPreference<Preference>(getString(R.string.Settings_Version_Key))?.summary = BuildConfig.VERSION_NAME
         findPreference<Preference>(getString(R.string.Settings_Policy_Key))?.setOnPreferenceClickListener {
 
+            val webView = WebView(requireActivity())
+            webView.loadUrl("file:///android_asset/PrivacyPolicy.html")
+
+            AlertDialog.Builder(requireActivity(), R.style.DialogStyle)
+                .setView(webView)
+                .setPositiveButton("OK") { _, _ ->
+                    // Do Nothing
+                }
+                .show()
+
             true
         }
         findPreference<Preference>(getString(R.string.Settings_Terms_Key))?.setOnPreferenceClickListener {
+
+            val webView = WebView(requireActivity())
+            webView.loadUrl("file:///android_asset/TermsAndConditions.html")
+
+            AlertDialog.Builder(requireActivity(), R.style.DialogStyle)
+                .setView(webView)
+                .setPositiveButton("OK") { _, _ ->
+                    // Do Nothing
+                }
+                .show()
 
             true
         }

@@ -13,6 +13,8 @@
         <item name="colorPrimary">@color/colorAccent</item>
     </style>
 
+    <style name="DialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog.Alert"/>
+
     <!-- Progress Bar -->
     <style name="ProgressBar">
         <item name="android:layout_width">wrap_content</item>
