@@ -177,8 +177,8 @@ class UploadsFragment : BaseFragment(), VideoAdapter.VideoClickListener, VideoSe
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.getItem(2).isVisible = false
-        menu.getItem(3).isVisible = false
+        menu.findItem(R.id.menu_sort_ascending).isVisible = false
+        menu.findItem(R.id.menu_sort_descending).isVisible = false
     }
 
     override fun onOptionsItemSelected(item : MenuItem) : Boolean {

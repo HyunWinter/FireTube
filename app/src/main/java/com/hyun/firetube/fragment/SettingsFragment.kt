@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.hyun.firetube.BuildConfig
 import com.hyun.firetube.R
 import com.hyun.firetube.activity.AuthActivity
+import com.hyun.firetube.database.PlaylistDB
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -39,6 +40,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         findPreference<Preference>(getString(R.string.Settings_Logout_Key))?.setOnPreferenceClickListener {
 
+            // Database
+            val playlistsDB = PlaylistDB(requireActivity())
+            playlistsDB.clearDatabase(requireActivity())
+
+            // Logout from Both Google and Firebase
             val gso = GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -94,9 +100,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
     }
-
-    // Youtube
-    private fun setPlaylistTag() { }
 
     // About
     private fun setAbout() {

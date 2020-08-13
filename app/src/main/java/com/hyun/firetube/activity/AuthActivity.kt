@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.GoogleAuthProvider
 import com.hyun.firetube.R
+import com.hyun.firetube.database.PlaylistDB
 import kotlinx.android.synthetic.main.activity_auth.*
 
 class AuthActivity : BaseActivity() {
@@ -128,7 +129,6 @@ class AuthActivity : BaseActivity() {
 
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            //.requestScopes(Scope(YouTubeScopes.YOUTUBE_READONLY))
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()

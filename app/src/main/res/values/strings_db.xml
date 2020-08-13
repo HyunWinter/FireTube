@@ -8,7 +8,11 @@
     <string name="Playlists_Title_Key">playlists_title_key</string>
     <string name="Uploads_ID_Key">uploads_id_key</string>
     <string name="Uploads_Title_Key">uploads_title_key</string>
+    <string name="Uploads_PageToken_Key">uploads_pagetoken_key</string>
+    <string name="Uploads_Type_Key">video</string>
+    <string name="Uploads_Order_Key">date</string>
 
+    // Sort
     <string name="Playlists_Sort_Key">playlists_sort_key</string>
     <string name="Uploads_Sort_Key">uploads_sort_key</string>
     <string name="VideoList_Sort_Key">videolist_sort_key</string>

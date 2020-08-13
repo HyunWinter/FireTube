@@ -8,11 +8,13 @@ import android.util.TypedValue
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.SearchView
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hyun.firetube.R
 import com.hyun.firetube.activity.VideoListActivity
 import com.hyun.firetube.adapter.PlaylistAdapter
 import com.hyun.firetube.database.MakePlaylistRequestTask
+import com.hyun.firetube.database.PlaylistDB
 import com.hyun.firetube.model.Playlist
 import com.hyun.firetube.utility.Helper
 import kotlinx.android.synthetic.main.frag_playlists.*
@@ -34,6 +36,7 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
     private lateinit var mPlaylistsAdapter : PlaylistAdapter
     private lateinit var mPlaylists : ArrayList<Playlist>
     private lateinit var mRoot : View
+    private lateinit var mPlaylistsDB : PlaylistDB
 
     /************************************************************************
      * Purpose:         onCreate
@@ -47,8 +50,9 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
 
         this.mRoot = inflater.inflate(R.layout.frag_playlists, container, false)
         setHasOptionsMenu(true)
+
         this.setContents()
-        if (this.mPlaylists.isEmpty()) this.getResultsFromApi()
+        this.checkPlaylist()
 
         return this.mRoot
     }
@@ -78,10 +82,61 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
         this.mRoot.Playlists_RecyclerView.setHasFixedSize(true)
         this.mRoot.Playlists_RecyclerView.layoutManager = layoutManager
         this.mRoot.Playlists_RecyclerView.adapter = this.mPlaylistsAdapter
+
+        // DB
+        this.mPlaylistsDB = PlaylistDB(requireActivity())
     }
 
-    fun getRoot() : View {
-        return this.mRoot
+    private fun checkPlaylist() {
+
+        // Check SQLite DB
+        this.getPlaylistFromDB()
+
+        // Load Data From Youtube
+        if (this.mPlaylists.isEmpty()) {
+            this.getResultsFromApi()
+        }
+    }
+
+    private fun getPlaylistFromDB() {
+
+        // Load Shared Preferences
+        val savedPlaylistTag = PreferenceManager
+            .getDefaultSharedPreferences(requireActivity())
+            .getString(getString(R.string.Settings_Tag_Key), "")
+
+        val result = this.mPlaylistsDB.getPlaylist(savedPlaylistTag)
+        if (result.isNotEmpty()) {
+            this.mPlaylists.addAll(result)
+            this.notifyDataChanged()
+        }
+    }
+
+    /************************************************************************
+     * Purpose:         Update mPlaylist and Notify RecyclerView Adapter
+     * Precondition:    called from onPostExecute in MakePlaylistRequestTask
+     * Postcondition:   update the adapter with new mPlaylist values
+     ************************************************************************/
+    private fun notifyDataChanged() {
+
+        this.mPlaylistsAdapter.notifyDataSetChanged()
+        this.mRoot.Playlists_RecyclerView.smoothScrollToPosition(0)
+    }
+
+    fun updatePlaylistAdapter(playlist : ArrayList<Playlist>) {
+
+        this.mPlaylistsDB.clearTable()
+        this.mPlaylistsDB.setPlaylist(playlist)
+
+        this.mPlaylists.clear()
+        this.getPlaylistFromDB() // Load again from local DB
+
+        if (this.mPlaylists.isEmpty()) {
+            makeSnackBar(
+                this.Playlists_Background,
+                "No playlist found."
+            )
+        }
     }
 
     /************************************************************************
@@ -95,18 +150,6 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
         intent.putExtra(getString(R.string.Playlists_ID_Key), this.mPlaylists[position].id)
         intent.putExtra(getString(R.string.Playlists_Title_Key), this.mPlaylists[position].title)
         startActivity(intent)
-    }
-
-    /************************************************************************
-     * Purpose:         Update mPlaylist and Notify RecyclerView Adapter
-     * Precondition:    .
-     * Postcondition:   .
-     ************************************************************************/
-    fun updatePlaylistAdapter(playlist : ArrayList<Playlist>) {
-
-        this.mPlaylists.clear()
-        this.mPlaylists.addAll(playlist)
-        this.mPlaylistsAdapter.notifyDataSetChanged()
     }
 
     /************************************************************************
@@ -196,7 +239,7 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
                 edt.apply()
 
                 this.sortPlayListAscending(this.mPlaylists)
-                this.mPlaylistsAdapter.notifyDataSetChanged()
+                this.notifyDataChanged()
             }
             R.id.menu_sort_descending -> {
                 val pref = requireActivity().getPreferences(Context.MODE_PRIVATE)
@@ -205,7 +248,7 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
                 edt.apply()
 
                 this.sortPlayListDescending(this.mPlaylists)
-                this.mPlaylistsAdapter.notifyDataSetChanged()
+                this.notifyDataChanged()
             }
         }
 
@@ -250,5 +293,14 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
 
         this.mPlaylistsAdapter.filter.filter(newText)
         return false
+    }
+
+    /************************************************************************
+     * Purpose:         Passing Root View
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    fun getRoot() : View {
+        return this.mRoot
     }
 }

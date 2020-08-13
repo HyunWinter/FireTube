@@ -85,14 +85,6 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
 
         val playlist : ArrayList<Playlist> = arrayListOf()
 
-        // Max result size is 50 while max playlist size is 200
-        // Since the query can't be pre-ordered (as described later),
-        // You have to pull the entire playlists first
-
-        // Querying Search() can't pre-order your own playlist,
-        // You have to make another query for your playlist id
-        // Querying Search() order is not working correctly.
-        // YouTube is aware of this... Just never fixed it... ne..ver...
         while (mPageToken != null) {
 
             val result = mService!!
@@ -141,24 +133,16 @@ class MakePlaylistRequestTask(context : PlaylistsFragment)
 
         this.mContext.hideProgressBar(this.mContext.getRoot().Playlists_ProgressBar)
 
-        if (output.isEmpty()) {
-            this.mContext.makeSnackBar(
-                this.mContext.getRoot().Playlists_Background,
-                "No results returned."
-            )
-        }
-        else {
-            val pref: SharedPreferences = this.mContext
-                .requireActivity()
-                .getPreferences(Context.MODE_PRIVATE)
+        val pref: SharedPreferences = this.mContext
+            .requireActivity()
+            .getPreferences(Context.MODE_PRIVATE)
 
-            when (pref.getString(this.mContext.getString(R.string.Playlists_Sort_Key), this.mContext.getString(R.string.Sort_ASC_Key))) {
-                this.mContext.getString(R.string.Sort_ASC_Key) -> this.mContext.sortPlayListAscending(output)
-                this.mContext.getString(R.string.Sort_DES_Key) ->  this.mContext.sortPlayListDescending(output)
-            }
-
-            this.mContext.updatePlaylistAdapter(output)
+        when (pref.getString(this.mContext.getString(R.string.Playlists_Sort_Key), this.mContext.getString(R.string.Sort_ASC_Key))) {
+            this.mContext.getString(R.string.Sort_ASC_Key) -> this.mContext.sortPlayListAscending(output)
+            this.mContext.getString(R.string.Sort_DES_Key) ->  this.mContext.sortPlayListDescending(output)
         }
+
+        this.mContext.updatePlaylistAdapter(output)
     }
 
     /************************************************************************

@@ -50,8 +50,7 @@
             app:key="@string/Settings_Tag_Key"
             app:title="@string/Settings_Search_Tag"
             app:icon="@drawable/settings_tag"
-            app:useSimpleSummaryProvider="true"
-            app:enabled="false"/>
+            app:useSimpleSummaryProvider="true"/>
 
         <SwitchPreference
             app:key="@string/Settings_Youtube_Key"
