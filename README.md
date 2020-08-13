@@ -19,9 +19,9 @@ Firetube provides a simple, visual way to organize Youtube Playlists. Log in to 
 | :---: | :---: | :---: |
 | ![Welcome Page](https://raw.githubusercontent.com/HyunWinter/Firetube/master/screenshots/01_welcome_page.png) | ![Choose Account](https://raw.githubusercontent.com/HyunWinter/Firetube/master/screenshots/02_google_auth.png) | ![Navigation View](https://raw.githubusercontent.com/HyunWinter/Firetube/master/screenshots/03_navigation_menu.png)
 
-| **Playlist** | **Playlist Video** | **Video** |
+| **Playlists** | **Playlist Videos** | **Uploads** |
 | :---: | :---: | :---: |
-| ![Playlist](https://raw.githubusercontent.com/HyunWinter/Firetube/master/screenshots/04_phone_playlists.png) | ![Playlist Video](https://raw.githubusercontent.com/HyunWinter/Firetube/master/screenshots/05_phone_playlists_item.png) | ![Video](https://raw.githubusercontent.com/HyunWinter/Firetube/master/screenshots/06_phone_videos.png)
+| ![Playlist](https://raw.githubusercontent.com/HyunWinter/Firetube/master/screenshots/04_phone_playlists.png) | ![Playlist Video](https://raw.githubusercontent.com/HyunWinter/Firetube/master/screenshots/05_phone_playlists_item.png) | ![Uploads](https://raw.githubusercontent.com/HyunWinter/Firetube/master/screenshots/06_phone_videos.png)
 
 | **Youtube Player** | **Settings** | **Dark Theme** |
 | :---: | :---: | :---: |
