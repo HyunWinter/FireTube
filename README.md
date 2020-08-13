@@ -38,11 +38,13 @@ Firetube provides a simple, visual way to organize Youtube Playlists. Log in to 
 - [x] Youtube Uploads
   - [ ] SQLite Local DB
   - [ ] Pagination
+  - [x] Adaptable Tablet View
   - [ ] Search
   - [x] Refresh
 - [x] Youtube Playlists
   - [x] SQLite Local DB
   - [ ] Pagination
+  - [x] Adaptable Tablet View
   - [x] Search
   - [x] Refresh
   - [x] Sort Ascending
@@ -50,6 +52,7 @@ Firetube provides a simple, visual way to organize Youtube Playlists. Log in to 
 - [x] Youtube Playlist Videos
   - [ ] SQLite Local DB
   - [ ] Pagination
+  - [x] Adaptable Tablet View
   - [ ] Video Details & Comments
   - [ ] Search
   - [x] Refresh
