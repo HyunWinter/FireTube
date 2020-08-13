@@ -31,8 +31,10 @@ Firetube provides a simple, visual way to organize Youtube Playlists. Log in to 
 | ![Tablet Portrait](https://github.com/HyunWinter/Firetube/blob/master/screenshots/10_tablet_portrait.png) | ![Tablet Landscape](https://github.com/HyunWinter/Firetube/blob/master/screenshots/11_tablet_landscape.png)
 
 ## Features
-- [x] Firebase Authentication with Google Log In
-  - [x] Shared Credential with Youtube Auth
+- [x] Authentication
+  - [x] Firebase Authentication
+  - [x] Google Log In
+  - [x] Shared Credential with Youtube
 - [x] Youtube Uploads
   - [ ] SQLite Local DB
   - [ ] Pagination
