@@ -1,7 +1,10 @@
 package com.hyun.firetube.fragment
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -72,6 +75,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<ListPreference>(getString(R.string.Settings_Theme_Key))?.setOnPreferenceChangeListener {
                 _, newValue ->
 
+            // Theme Mode
             val themeList = resources.getStringArray(R.array.Settings_Theme_Alias)
 
             when (newValue) {

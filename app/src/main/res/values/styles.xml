@@ -5,6 +5,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
         <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
     </style>
 
