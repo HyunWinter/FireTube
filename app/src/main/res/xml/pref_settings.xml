@@ -37,8 +37,7 @@
             app:defaultValue="@string/Settings_Language_Alias_1"
             app:icon="@drawable/settings_language"
             app:entries="@array/Settings_Language_List"
-            app:entryValues="@array/Settings_Language_Alias"
-            app:enabled="false"/>
+            app:entryValues="@array/Settings_Language_Alias"/>
     </PreferenceCategory>
 
     <!-- Playlist -->

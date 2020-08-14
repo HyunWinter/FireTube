@@ -22,7 +22,6 @@
 
     <!-- Playlist -->
     <string name="Playlist_Thumbnail">Video Thumbnail</string>
-    <string name="Playlist_Default_Size">1</string>
 
     <!-- Settings -->
     <string name="Settings_Account">Account</string>

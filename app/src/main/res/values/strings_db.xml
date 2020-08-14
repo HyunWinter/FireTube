@@ -19,9 +19,6 @@
     <string name="Sort_ASC_Key">asc_key</string>
     <string name="Sort_DES_Key">des_key</string>
 
-
-
-
     <!-- Settings -->
     <string name="Settings_Logout_Key">settings_logout</string>
     <string name="Settings_Theme_Key">settings_theme</string>
@@ -33,11 +30,11 @@
     <string name="Settings_Version_Key">settings_version</string>
     <string-array name="Settings_Language_List">
         <item>English</item>
-        <item>Deutsch</item>
+        <!--<item>Deutsch</item>
         <item>Español</item>
         <item>Français</item>
         <item>中文</item>
-        <item>日本語</item>
+        <item>日本語</item>-->
         <item>한국어</item>
     </string-array>
     <string name="Settings_Language_Alias_1">en</string>
@@ -49,11 +46,11 @@
     <string name="Settings_Language_Alias_7">ko</string>
     <string-array name="Settings_Language_Alias">
         <item>@string/Settings_Language_Alias_1</item>
-        <item>@string/Settings_Language_Alias_2</item>
+       <!-- <item>@string/Settings_Language_Alias_2</item>
         <item>@string/Settings_Language_Alias_3</item>
         <item>@string/Settings_Language_Alias_4</item>
         <item>@string/Settings_Language_Alias_5</item>
-        <item>@string/Settings_Language_Alias_6</item>
+        <item>@string/Settings_Language_Alias_6</item>-->
         <item>@string/Settings_Language_Alias_7</item>
     </string-array>
     <string name="Settings_Theme_Alias_1">light_theme</string>
@@ -67,4 +64,5 @@
     <string name="Settings_Policy_Key">settings_policy</string>
     <string name="Settings_Terms_Key">settings_terms</string>
     <string name="Settings_Rights_Key">settings_rights</string>
+    <string name="Settings_Rights">Copyright 2020 © Hyun Winter. All rights reserved.</string>
 </resources>

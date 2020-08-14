@@ -22,7 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity"/>
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="locale"/>
         <activity android:name=".activity.VideoListActivity"/>
         <activity
             android:name=".activity.VideoPlayerActivity"

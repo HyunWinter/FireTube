@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Default Language: English -->
-    <string name="app_name">Firetube</string>
+    <string name="app_name">FireTube</string>
 
     <!-- Authentication -->
     <string name="Auth_WelcomeText">Welcome To\nFireTube</string>
     <string name="Auth_GoogleLoginText">Continue with Google</string>
-    <string name="Auth_LoginSuccessText">,\nYou are\nLogged In!</string>
-    <string name="Auth_GoogleLoginFailed">Google Log In failed</string>
-    <string name="Auth_FirebaseLoginFailed">Firebase Log In failed</string>
-    <string name="Auth_GoogleLogoutFailed">Google Log In failed</string>
-    <string name="Auth_FirebaseLogoutFailed">Firebase Log In failed</string>
+    <string name="Auth_GoogleLoginFailed">Google Log In failed.</string>
+    <string name="Auth_FirebaseLoginFailed">Firebase Log In failed.</string>
+    <string name="Auth_GoogleLogoutFailed">Google Log In failed.</string>
+    <string name="Auth_FirebaseLogoutFailed">Firebase Log In failed.</string>
 
     <!-- Navigation Drawer -->
-    <string name="Nav_Username">UserName</string>
     <string name="Nav_Playlists">Playlists</string>
     <string name="Nav_Uploads">Uploads</string>
     <string name="Nav_Settings">Settings</string>
@@ -27,8 +25,8 @@
 
     <!-- Playlist -->
     <string name="Playlist_Size">Playlist Size</string>
-    <string name="Playlist_Thumbnail">Playlist Thumbnail</string>
-    <string name="Video_Thumbnail">Video Thumbnail</string>
+    <string name="Playlist_Thumbnail_Desc">Playlist Thumbnail</string>
+    <string name="Video_Thumbnail_Desc">Video Thumbnail</string>
 
     <!-- Settings -->
     <string name="Settings_Account">Account</string>
@@ -51,5 +49,4 @@
     <string name="Settings_Version_Default">Unknown</string>
     <string name="Settings_Policy">Privacy Policy</string>
     <string name="Settings_Terms">Terms &amp; Conditions</string>
-    <string name="Settings_Rights">© 2020 DNASC. All Rights Reserved</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.hyun.firetube.activity
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.widget.TextView
@@ -11,6 +12,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.hyun.firetube.R
+import com.hyun.firetube.utility.LocaleHelper
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_appbar.*
 
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mAppBarConfig : AppBarConfiguration
     private lateinit var mAuthInstance : FirebaseAuth
+    private lateinit var mInitLocale : String
 
     /************************************************************************
      * Purpose:         onCreate
@@ -55,8 +58,14 @@ class MainActivity : AppCompatActivity() {
      * Postcondition:   Initialize default contents
      ************************************************************************/
     private fun setContents() {
+
+        // Locale
+        this.mInitLocale = LocaleHelper.getPersistedLocale(this) as String
+
+        // Toolbar
         setSupportActionBar(this.Main_Appbar_Toolbar)
 
+        // Navigation Drawer
         this.mAppBarConfig = AppBarConfiguration(
             setOf(R.id.nav_videos, R.id.nav_playlists),
             this.main_activity_drawerlayout
@@ -89,16 +98,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     /************************************************************************
-     * Purpose:         On Create Options Menu
-     * Precondition:    When menu is constructed
-     * Postcondition:   Inflate menu items
-     ************************************************************************/
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }*/
-
-    /************************************************************************
      * Purpose:         On Support Navigate Up
      * Precondition:    Whenever the user chooses to navigate Up within your
      *                  application's activity hierarchy from the action bar
@@ -107,5 +106,21 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.main_content_hostfrag)
         return navController.navigateUp(this.mAppBarConfig) || super.onSupportNavigateUp()
+    }
+
+    /************************************************************************
+     * Purpose:         Localization
+     * Precondition:    .
+     * Postcondition:   .
+     ************************************************************************/
+    override fun attachBaseContext(newBase : Context?) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase!!))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (mInitLocale != LocaleHelper.getPersistedLocale(this)) {
+            recreate()
+        }
     }
 }

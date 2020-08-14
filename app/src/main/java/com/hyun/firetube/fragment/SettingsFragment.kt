@@ -1,7 +1,7 @@
 package com.hyun.firetube.fragment
 
-import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.webkit.WebView
 import androidx.appcompat.app.AlertDialog
@@ -18,6 +18,8 @@ import com.hyun.firetube.BuildConfig
 import com.hyun.firetube.R
 import com.hyun.firetube.activity.AuthActivity
 import com.hyun.firetube.database.PlaylistDB
+import com.hyun.firetube.utility.LocaleHelper
+import java.util.*
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -95,17 +97,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference<ListPreference>(getString(R.string.Settings_Language_Key))?.setOnPreferenceChangeListener {
                 _, newValue ->
 
-            //val langList = resources.getStringArray(R.array.Settings_Language_Alias)
+            val langList = resources.getStringArray(R.array.Settings_Language_Alias)
+            var language : String = langList[0]
 
-            /*when (newValue) {
-                // en
-                langList[0] -> ""
-            }*/
+            when (newValue) {
+                //langList[0] -> language = langList[0]
+                langList[1] -> language = langList[1]
+            }
+
+            LocaleHelper.setLocale(requireActivity(), language)
+            requireActivity().recreate()
 
             true
         }
     }
-    
+
     // About
     private fun setAbout() {
 
