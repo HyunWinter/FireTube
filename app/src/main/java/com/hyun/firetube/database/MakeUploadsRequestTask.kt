@@ -1,7 +1,5 @@
 package com.hyun.firetube.database
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.AsyncTask
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -19,7 +17,7 @@ import com.hyun.firetube.R
 import com.hyun.firetube.fragment.UploadsFragment
 import com.hyun.firetube.model.Video
 import kotlinx.android.synthetic.main.frag_uploads.view.*
-import java.util.ArrayList
+import java.util.*
 
 /************************************************************************
  * Purpose:         Async Task For Youtube API Videos
@@ -152,27 +150,29 @@ class MakeUploadsRequestTask(context : UploadsFragment)
 
         if (mLastError != null) {
 
-            if (mLastError is GooglePlayServicesAvailabilityIOException) {
-                this.mContext.showGooglePlayServicesAvailabilityErrorDialog(
-                    (mLastError as GooglePlayServicesAvailabilityIOException)
-                        .connectionStatusCode
-                )
-            }
-            else if (mLastError is UserRecoverableAuthIOException) {
-                this.mContext.startActivityForResult(
-                    (mLastError as UserRecoverableAuthIOException).intent,
-                    UploadsFragment.REQUEST_AUTHORIZATION
-                )
-            }
-            else {
-
-                val errorStr = (
-                        "The following error occurred: "
-                        + mLastError!!.message
+            when (mLastError) {
+                is GooglePlayServicesAvailabilityIOException -> {
+                    this.mContext.showGooglePlayServicesAvailabilityErrorDialog(
+                        (mLastError as GooglePlayServicesAvailabilityIOException)
+                            .connectionStatusCode
                     )
-                    .trimIndent()
-                Log.e(TAG, "The following error occurred: $errorStr")
-                this.mContext.makeSnackBar(this.mContext.getRoot().Uploads_Background, errorStr)
+                }
+                is UserRecoverableAuthIOException -> {
+                    this.mContext.startActivityForResult(
+                        (mLastError as UserRecoverableAuthIOException).intent,
+                        UploadsFragment.REQUEST_AUTHORIZATION
+                    )
+                }
+                else -> {
+
+                    val errorStr = (
+                            "The following error occurred: "
+                                    + mLastError!!.message
+                            )
+                        .trimIndent()
+                    Log.e(TAG, "The following error occurred: $errorStr")
+                    this.mContext.makeSnackBar(this.mContext.getRoot().Uploads_Background, errorStr)
+                }
             }
         }
         else {

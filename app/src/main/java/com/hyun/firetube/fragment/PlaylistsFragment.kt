@@ -284,7 +284,7 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
         }
     }
 
-    inner class PlaylistComparator : Comparator<Playlist> {
+    class PlaylistComparator : Comparator<Playlist> {
         override fun compare(o1: Playlist, o2: Playlist): Int {
             return o1.title.compareTo(o2.title)
         }

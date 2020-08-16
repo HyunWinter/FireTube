@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.SearchView
@@ -248,7 +247,7 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener, Video
         }
     }
 
-    inner class VideoListComparator : Comparator<Video> {
+    class VideoListComparator : Comparator<Video> {
         override fun compare(o1: Video, o2: Video): Int {
             return o1.title.compareTo(o2.title)
         }

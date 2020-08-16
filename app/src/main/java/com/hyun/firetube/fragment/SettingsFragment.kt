@@ -1,7 +1,6 @@
 package com.hyun.firetube.fragment
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.webkit.WebView
 import androidx.appcompat.app.AlertDialog
@@ -9,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -19,7 +17,6 @@ import com.hyun.firetube.R
 import com.hyun.firetube.activity.AuthActivity
 import com.hyun.firetube.database.PlaylistDB
 import com.hyun.firetube.utility.LocaleHelper
-import java.util.*
 
 
 class SettingsFragment : PreferenceFragmentCompat() {

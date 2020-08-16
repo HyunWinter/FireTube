@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hyun.firetube.R
-import com.hyun.firetube.model.Playlist
 import com.hyun.firetube.model.Video
 import java.util.*
 import kotlin.collections.ArrayList
@@ -102,10 +101,9 @@ class VideoAdapter(context : Context?,
 
                 val charSearch = constraint.toString()
 
-                if (charSearch.isEmpty()) {
-                    mVideoListsAll = mVideoLists
-                }
-                else {
+                mVideoListsAll = if (charSearch.isEmpty()) {
+                    mVideoLists
+                } else {
                     val filteredList = ArrayList<Video>()
 
                     for (item in mVideoLists) {
@@ -115,7 +113,7 @@ class VideoAdapter(context : Context?,
                         }
                     }
 
-                    mVideoListsAll = filteredList
+                    filteredList
                 }
 
                 val results = FilterResults()

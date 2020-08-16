@@ -2,7 +2,6 @@ package com.hyun.firetube.activity
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController

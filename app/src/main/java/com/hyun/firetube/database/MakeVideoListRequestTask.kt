@@ -155,26 +155,28 @@ class MakeVideoListRequestTask(context : VideoListActivity, playlistID : String)
 
         if (mLastError != null) {
 
-            if (mLastError is GooglePlayServicesAvailabilityIOException) {
-                this.mContext.showGooglePlayServicesAvailabilityErrorDialog(
-                    (mLastError as GooglePlayServicesAvailabilityIOException)
-                        .connectionStatusCode
-                )
-            }
-            else if (mLastError is UserRecoverableAuthIOException) {
-                this.mContext.startActivityForResult(
-                    (mLastError as UserRecoverableAuthIOException).intent,
-                    VideoListActivity.REQUEST_AUTHORIZATION
-                )
-            }
-            else {
-                val errorStr = (
-                        "The following error occurred: "
-                                + mLastError!!.message
-                        )
-                    .trimIndent()
-                Log.e(TAG, "The following error occurred: $errorStr")
-                this.mContext.makeSnackBar(this.mContext.VideoList_Background, errorStr)
+            when (mLastError) {
+                is GooglePlayServicesAvailabilityIOException -> {
+                    this.mContext.showGooglePlayServicesAvailabilityErrorDialog(
+                        (mLastError as GooglePlayServicesAvailabilityIOException)
+                            .connectionStatusCode
+                    )
+                }
+                is UserRecoverableAuthIOException -> {
+                    this.mContext.startActivityForResult(
+                        (mLastError as UserRecoverableAuthIOException).intent,
+                        VideoListActivity.REQUEST_AUTHORIZATION
+                    )
+                }
+                else -> {
+                    val errorStr = (
+                            "The following error occurred: "
+                                    + mLastError!!.message
+                            )
+                        .trimIndent()
+                    Log.e(TAG, "The following error occurred: $errorStr")
+                    this.mContext.makeSnackBar(this.mContext.VideoList_Background, errorStr)
+                }
             }
         }
         else {

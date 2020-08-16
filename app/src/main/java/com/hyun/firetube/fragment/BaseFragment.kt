@@ -1,6 +1,5 @@
 package com.hyun.firetube.fragment
 
-import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.view.View
@@ -10,10 +9,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.material.snackbar.Snackbar
-import com.hyun.firetube.model.Playlist
 import pub.devrel.easypermissions.EasyPermissions
-import java.util.*
-import kotlin.collections.ArrayList
 
 abstract class BaseFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 

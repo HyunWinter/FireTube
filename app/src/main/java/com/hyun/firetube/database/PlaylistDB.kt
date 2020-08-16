@@ -4,8 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import androidx.preference.PreferenceManager
-import com.hyun.firetube.R
 import com.hyun.firetube.model.Playlist
 
 

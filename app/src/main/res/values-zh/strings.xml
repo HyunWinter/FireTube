@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Default Language: English -->
-    <string name="app_name">Firetube</string>
+    <string name="app_name">FireTube</string>
 
     <!-- Authentication -->
     <string name="Auth_WelcomeText">Welcome To\nFireTube</string>
     <string name="Auth_GoogleLoginText">Continue with Google</string>
-    <string name="Auth_LoginSuccessText">,\nYou are\nLogged In!</string>
-    <string name="Auth_SignOutText">Log Out</string>
-    <string name="Auth_SignedOutText">Logged Out</string>
-    <string name="Auth_GoogleLoginFailed">Google LogIn failed</string>
-    <string name="Auth_FirebaseLoginFailed">Firebase LogIn failed</string>
-    <string name="Auth_GoogleLogoutFailed">Google LogIn failed</string>
-    <string name="Auth_FirebaseLogoutFailed">Firebase LogIn failed</string>
+    <string name="Auth_GoogleLoginFailed">Google Log In failed.</string>
+    <string name="Auth_FirebaseLoginFailed">Firebase Log In failed.</string>
+    <string name="Auth_GoogleLogoutFailed">Google Log In failed.</string>
+    <string name="Auth_FirebaseLogoutFailed">Firebase Log In failed.</string>
 
     <!-- Navigation Drawer -->
-    <string name="Nav_Username">UserName</string>
     <string name="Nav_Playlists">Playlists</string>
-    <string name="Nav_Uploads">Videos</string>
+    <string name="Nav_Uploads">Uploads</string>
     <string name="Nav_Settings">Settings</string>
 
+    <!-- Toolbar Menu Options -->
+    <string name="Nav_Menu_Search">Search</string>
+    <string name="Nav_Menu_Refresh">Refresh</string>
+    <string name="Nav_Menu_Sort">Sort</string>
+    <string name="Nav_Menu_Sort_Ascending">Ascending</string>
+    <string name="Nav_Menu_Sort_Descending">Descending</string>
+
     <!-- Playlist -->
-    <string name="Playlist_Thumbnail">Video Thumbnail</string>
-    <string name="Playlist_Default_Size">1</string>
+    <string name="Playlist_Size">Playlist Size</string>
+    <string name="Playlist_Thumbnail_Desc">Playlist Thumbnail</string>
+    <string name="Video_Thumbnail_Desc">Video Thumbnail</string>
 
     <!-- Settings -->
     <string name="Settings_Account">Account</string>
@@ -35,14 +39,14 @@
         <item>Dark Theme</item>
         <item>System Theme</item>
     </string-array>
-    <string name="Settings_Youtube">Youtube</string>
+    <string name="Settings_Youtube">YouTube</string>
     <string name="Settings_Search_Tag">Playlist Search Tag</string>
-    <string name="Settings_Youtube_Player">Playlist Search Tag</string>
+    <string name="Settings_Youtube_Player">Use YouTube App</string>
+    <string name="Settings_Youtube_Player_Summary">Got Youtube Premium? Avoid ads and watch private videos.</string>
+    <string name="Settings_Youtube_Player_Error">YouTube App Not Found</string>
     <string name="Settings_About">About</string>
     <string name="Settings_Version">Build Version</string>
     <string name="Settings_Version_Default">Unknown</string>
     <string name="Settings_Policy">Privacy Policy</string>
     <string name="Settings_Terms">Terms &amp; Conditions</string>
-    <string name="Settings_Rights">© 2020 DNASC. All Rights Reserved</string>
-
 </resources>

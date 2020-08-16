@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.GoogleAuthProvider
 import com.hyun.firetube.R
-import com.hyun.firetube.database.PlaylistDB
+import com.hyun.firetube.utility.LocaleHelper
 import kotlinx.android.synthetic.main.activity_auth.*
 
 class AuthActivity : BaseActivity() {
@@ -68,6 +68,7 @@ class AuthActivity : BaseActivity() {
 
         // Get Themes
         val langList = resources.getStringArray(R.array.Settings_Language_Alias)
+        var language : String = langList[0]
 
         // Load Shared Preferences
         val savedLang = PreferenceManager
@@ -76,10 +77,10 @@ class AuthActivity : BaseActivity() {
 
         // Change Theme
         when (savedLang) {
-            /*langList[0] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            langList[1] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            langList[2] -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)*/
+            langList[1] -> language = langList[1]
         }
+
+        LocaleHelper.setLocale(this, language)
     }
 
     /************************************************************************

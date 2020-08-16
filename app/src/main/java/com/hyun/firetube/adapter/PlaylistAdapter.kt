@@ -107,10 +107,9 @@ class PlaylistAdapter(context : Context?,
 
                 val charSearch = constraint.toString()
 
-                if (charSearch.isEmpty()) {
-                    mPlayListsAll = mPlayLists
-                }
-                else {
+                mPlayListsAll = if (charSearch.isEmpty()) {
+                    mPlayLists
+                } else {
                     val filteredList = ArrayList<Playlist>()
 
                     for (item in mPlayLists) {
@@ -120,7 +119,7 @@ class PlaylistAdapter(context : Context?,
                         }
                     }
 
-                    mPlayListsAll = filteredList
+                    filteredList
                 }
 
                 val results = FilterResults()
