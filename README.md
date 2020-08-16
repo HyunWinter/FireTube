@@ -1,5 +1,4 @@
-# FireTube
-CST 407 - Android Mobile Development (2020 Summer)
+![Welcome Page](https://raw.githubusercontent.com/HyunWinter/FireTube/master/screenshots/Feature%20Graphic.png)
 
 ## About the App
 
