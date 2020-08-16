@@ -95,3 +95,5 @@ The libraries and tools used include:
 ## Copyright
 
 Copyright 2020 © <a href="https://github.com/HyunWinter" target="_blank">Hyun Winter</a>. All rights reserved.
+- <a href="https://github.com/HyunWinter/FireTube/blob/master/PrivacyPolicy.md" target="_blank">Privacy Policy</a>
+- <a href="https://github.com/HyunWinter/FireTube/blob/master/TermsAndConditions.md" target="_blank">Terms & Conditions</a>
