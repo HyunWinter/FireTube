@@ -144,11 +144,11 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
      * Precondition:    Playlist Selected
      * Postcondition:   .
      ************************************************************************/
-    override fun onPlaylistSelected(position: Int) {
+    override fun onPlaylistSelected(playlist : Playlist) {
 
         val intent = Intent(activity, VideoListActivity::class.java)
-        intent.putExtra(getString(R.string.Playlists_ID_Key), this.mPlaylists[position].id)
-        intent.putExtra(getString(R.string.Playlists_Title_Key), this.mPlaylists[position].title)
+        intent.putExtra(getString(R.string.Playlists_ID_Key), playlist.id)
+        intent.putExtra(getString(R.string.Playlists_Title_Key), playlist.title)
         startActivity(intent)
     }
 

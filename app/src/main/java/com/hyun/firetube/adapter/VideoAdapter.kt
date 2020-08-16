@@ -78,7 +78,7 @@ class VideoAdapter(context : Context?,
         }
 
         override fun onClick(v: View?) {
-            this.videoClickListener.onVideoSelected(adapterPosition)
+            this.videoClickListener.onVideoSelected(mVideoListsAll[adapterPosition])
         }
     }
 
@@ -88,7 +88,7 @@ class VideoAdapter(context : Context?,
      * Postcondition:   Send Position
      ************************************************************************/
     interface VideoClickListener {
-        fun onVideoSelected(position: Int)
+        fun onVideoSelected(video : Video)
     }
 
     /************************************************************************

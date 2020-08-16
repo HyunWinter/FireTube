@@ -51,11 +51,11 @@ class PlaylistAdapter(context : Context?,
 
         val playlist : Playlist = this.mPlayListsAll[position]
 
-        holder.title.text = playlist.title
-        holder.itemCount.text = playlist.itemCount.toString()
+        holder.mTitle.text = playlist.title
+        holder.mItemCount.text = playlist.itemCount.toString()
         Glide.with(mContext!!)
             .load(playlist.thumbnail)
-            .into(holder.thumbnail)
+            .into(holder.mThumbnail)
     }
 
     override fun getItemCount(): Int {
@@ -73,17 +73,17 @@ class PlaylistAdapter(context : Context?,
         RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
 
-        var title : TextView = itemView.ListItem_Playlist_Title
-        var itemCount : TextView = itemView.ListItem_Playlist_ItemCount
-        var thumbnail : ImageView = itemView.ListItem_Playlist_Thumbnail
-        private var playlistClickListener : PlaylistClickListener = clickListener
+        var mTitle : TextView = itemView.ListItem_Playlist_Title
+        var mItemCount : TextView = itemView.ListItem_Playlist_ItemCount
+        var mThumbnail : ImageView = itemView.ListItem_Playlist_Thumbnail
+        private var mPlaylistClickListener : PlaylistClickListener = clickListener
 
         init {
             itemView.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
-            this.playlistClickListener.onPlaylistSelected(adapterPosition)
+            this.mPlaylistClickListener.onPlaylistSelected(mPlayListsAll[adapterPosition])
         }
     }
 
@@ -93,7 +93,7 @@ class PlaylistAdapter(context : Context?,
      * Postcondition:   Send Position
      ************************************************************************/
     interface PlaylistClickListener {
-        fun onPlaylistSelected(position: Int)
+        fun onPlaylistSelected(playlist : Playlist)
     }
 
     /************************************************************************

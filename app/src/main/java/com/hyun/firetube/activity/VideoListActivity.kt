@@ -108,9 +108,9 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener, Video
      * Precondition:    Video Selected
      * Postcondition:   .
      ************************************************************************/
-    override fun onVideoSelected(position: Int) {
+    override fun onVideoSelected(video : Video) {
 
-        if (!videoSelectedResponse(this.mVideoList[position], this))
+        if (!videoSelectedResponse(video, this))
         {
             makeSnackBar(this.VideoList_Background, getString(R.string.Settings_Youtube_Player_Error))
         }
