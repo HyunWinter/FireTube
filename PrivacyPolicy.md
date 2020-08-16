@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <strong>Privacy Policy</strong> <p>
+        <p><strong>Privacy Policy</strong></p> <p>
             Hyun Winter built the Firetube app as
             an Open Source app. This SERVICE is provided by
             Hyun Winter at no cost and is intended for use as
