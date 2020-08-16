@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -69,7 +70,9 @@ class MainActivity : AppCompatActivity() {
             setOf(R.id.nav_videos, R.id.nav_playlists),
             this.main_activity_drawerlayout
         )
-        val navController = findNavController(R.id.main_content_hostfrag)
+        val navFragment = supportFragmentManager
+            .findFragmentById(R.id.main_content_hostfrag) as NavHostFragment
+        val navController = navFragment.navController
         setupActionBarWithNavController(navController, this.mAppBarConfig)
         this.main_activity_navigationview.setupWithNavController(navController)
     }
@@ -103,7 +106,9 @@ class MainActivity : AppCompatActivity() {
      * Postcondition:   Return navigation controller
      ************************************************************************/
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.main_content_hostfrag)
+        val navFragment = supportFragmentManager
+            .findFragmentById(R.id.main_content_hostfrag) as NavHostFragment
+        val navController = navFragment.navController
         return navController.navigateUp(this.mAppBarConfig) || super.onSupportNavigateUp()
     }
 

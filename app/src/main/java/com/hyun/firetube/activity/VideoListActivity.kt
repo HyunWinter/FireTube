@@ -71,7 +71,6 @@ class VideoListActivity : BaseActivity(), VideoAdapter.VideoClickListener, Video
 
         this.mVideoList = arrayListOf()
         this.mVideoListAdapter = VideoAdapter(
-            this,
             this.mVideoList,
             this
         )

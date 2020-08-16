@@ -64,7 +64,6 @@ class UploadsFragment :
 
         this.mUploads = arrayListOf()
         this.mUploadsAdapter = VideoAdapter(
-            activity?.applicationContext,
             this.mUploads,
             this
         )

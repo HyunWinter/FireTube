@@ -9,9 +9,9 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.hyun.firetube.R
 import com.hyun.firetube.model.Video
+import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -21,8 +21,7 @@ import kotlin.collections.ArrayList
  * Postcondition:   Initiate and Assign View Holders to
  *                  XML listitem_videos
  ************************************************************************/
-class VideoAdapter(context : Context?,
-                   videoList : ArrayList<Video>,
+class VideoAdapter(videoList : ArrayList<Video>,
                    clickListener: VideoClickListener) :
     RecyclerView.Adapter<VideoAdapter.ViewHolder>(),
     Filterable {
@@ -33,7 +32,6 @@ class VideoAdapter(context : Context?,
 
     private val mVideoLists : ArrayList<Video> = videoList
     private var mVideoListsAll : ArrayList<Video> = videoList
-    private val mContext : Context? = context
     private val mVideoClickListener = clickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoAdapter.ViewHolder {
@@ -50,7 +48,7 @@ class VideoAdapter(context : Context?,
         val video : Video = this.mVideoListsAll[position]
 
         holder.title.text = video.title
-        Glide.with(mContext!!).load(video.thumbnail).into(holder.thumbnail)
+        Picasso.get().load(video.thumbnail).into(holder.thumbnail)
     }
 
     override fun getItemCount(): Int {

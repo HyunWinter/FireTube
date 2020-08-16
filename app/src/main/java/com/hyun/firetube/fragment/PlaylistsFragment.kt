@@ -66,9 +66,9 @@ class PlaylistsFragment : BaseFragment(), PlaylistAdapter.PlaylistClickListener,
 
         this.mPlaylists = arrayListOf()
         this.mPlaylistsAdapter = PlaylistAdapter(
-            activity?.applicationContext,
             this.mPlaylists,
-            this)
+            this
+        )
 
         val outValue = TypedValue()
         resources.getValue(R.dimen.RecyclerViewItem_ColumnWidth, outValue, true)

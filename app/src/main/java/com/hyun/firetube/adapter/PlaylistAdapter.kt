@@ -1,6 +1,5 @@
 package com.hyun.firetube.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,9 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.hyun.firetube.R
 import com.hyun.firetube.model.Playlist
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.listitem_playlists.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -23,8 +22,7 @@ import kotlin.collections.ArrayList
  * Postcondition:   Initiate and Assign View Holders to
  *                  XML listitem_playlists
  ************************************************************************/
-class PlaylistAdapter(context : Context?,
-                      playlists : ArrayList<Playlist>,
+class PlaylistAdapter(playlists : ArrayList<Playlist>,
                       playlistClickListener : PlaylistClickListener) :
     RecyclerView.Adapter<PlaylistAdapter.ViewHolder>(),
     Filterable {
@@ -35,7 +33,6 @@ class PlaylistAdapter(context : Context?,
 
     private val mPlayLists : ArrayList<Playlist> = playlists
     private var mPlayListsAll : ArrayList<Playlist> = playlists
-    private val mContext : Context? = context
     private val mPlaylistClickListener = playlistClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -53,7 +50,7 @@ class PlaylistAdapter(context : Context?,
 
         holder.mTitle.text = playlist.title
         holder.mItemCount.text = playlist.itemCount.toString()
-        Glide.with(mContext!!)
+        Picasso.get()
             .load(playlist.thumbnail)
             .into(holder.mThumbnail)
     }

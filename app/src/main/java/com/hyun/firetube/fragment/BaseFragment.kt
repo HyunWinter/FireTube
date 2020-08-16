@@ -2,6 +2,8 @@ package com.hyun.firetube.fragment
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.view.View
 import android.widget.ProgressBar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -52,14 +54,40 @@ abstract class BaseFragment : Fragment(), EasyPermissions.PermissionCallbacks {
      * Postcondition:   Checks whether the device currently has a network
      *                  connection.
      ************************************************************************/
+    @SuppressWarnings("DEPRECATION")
     fun isDeviceOnline() : Boolean {
 
+        var result = false
         val connMgr = this
             .requireActivity()
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connMgr.activeNetworkInfo
 
-        return networkInfo != null && networkInfo.isConnected
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            connMgr.run {
+                connMgr.getNetworkCapabilities(connMgr.activeNetwork)?.run {
+                    result = when {
+                        hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                        hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                        else -> false
+                    }
+                }
+            }
+        }
+        else {
+            connMgr.run {
+                connMgr.activeNetworkInfo?.run {
+                    if (type == ConnectivityManager.TYPE_WIFI) {
+                        result = true
+                    }
+                    else if (type == ConnectivityManager.TYPE_MOBILE) {
+                        result = true
+                    }
+                }
+            }
+        }
+
+        return result
     }
 
     /************************************************************************
