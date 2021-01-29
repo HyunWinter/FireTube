@@ -2,6 +2,8 @@
 
 ## About the App
 
+Development Status: Paused
+
 Firetube provides a clean, easier way to organize Youtube Playlists. Log in to your Google account and start searching for your favorite recipes, music, and game videos the way you want.
 
 ## Table of Contents
