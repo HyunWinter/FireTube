@@ -97,7 +97,7 @@
             this page.
         </p> <p>This policy is effective as of 2020-08-13</p> <p><strong>Contact Us</strong></p> <p>
             If you have any questions or suggestions about my
-            Privacy Policy, do not hesitate to contact me at hyun.winter@gmail.com.
+            Privacy Policy, do not hesitate to contact me at [GitHub](https://github.com/HyunWinter).
         </p>
     </body>
 </html>
